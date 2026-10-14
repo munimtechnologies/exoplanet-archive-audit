@@ -4,17 +4,17 @@ By MV2 of Munim, Inc. The code, checks and this write-up were made with AI agent
 
 ## 1. Stellar densities from four references are stored in solar units, while the Archive documents g/cm³
 
-**Status: verified, both across every row and against each source paper's own text or tables. 0.3.0 adds a row-by-row file with ADS bibcodes (`unit_groups.csv`) and the exact count of composite (default) values affected. That run is queued.**
+**Status: verified, both across every row and against each source paper's own text or tables. Bibcodes checked against ADS/arXiv on 2026-10-14. 0.3.0 adds a row-by-row file (`unit_groups.csv`) and the exact count of composite (default) values affected. That run is queued.**
 
 The Archive documents `st_dens` as "Stellar Density [g/cm**3]" ([column definitions](https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html)). For every parameter set it holds, the audit compares `st_dens` with 1.4098 g/cm³ · M★/R★³, using the star mass and radius of the same row. If a reference's densities were really in g/cm³, the median ratio would be close to 1. For four references the median is close to 1/1.4098 = 0.709, which is what you get when the densities are in solar units (ρ/ρ☉). Once they are multiplied by 1.4098, the median comes back to 1:
 
 | reference | table | rows | median ratio | rows within 10% of median | median after ×1.4098 | what the source paper says |
 |---|---|---|---|---|---|---|
-| Fulton & Petigura 2018 (CKS VII, AJ 156, 264) | `ps` | 1,414 | 0.7163 | 92.5% | 1.01 | Table 2 (arXiv:1805.01453) labels ρ_iso "g/cc", but its values equal M/R³ in solar units (K00001: 0.99/1.04³ = 0.88, listed as 0.87) |
-| Torres et al. 2017 (AJ 154, 264) | `ps` | 22 | 0.7025 | 90.9% | 0.990 | Table 6 (arXiv:1711.01267) gives ρ★ in **(ρ☉)**. Its Table 8 gives a transit density in g cm⁻³ |
-| Mann et al. 2017 | `ps` | 19 | 0.7099 | 68.4% | 1.001 | ZEIT IV (Praesepe, arXiv:1609.00726), Table 2: "ρ∗ (ρ⊙)" for seven stars. Which Mann et al. 2017 paper(s) the 19 rows cite is checked by bibcode in 0.3.0 |
+| Fulton & Petigura 2018 (CKS VII, 2018AJ....156..264F) | `ps` | 1,414 | 0.7163 | 92.5% | 1.01 | Table 2 (arXiv:1805.01453) labels ρ_iso "g/cc", but its values equal M/R³ in solar units (K00001: 0.99/1.04³ = 0.88, listed as 0.87) |
+| Torres et al. 2017 (2017AJ....154..264T) | `ps` | 22 | 0.7025 | 90.9% | 0.990 | Table 6 (arXiv:1711.01267) gives ρ★ in **(ρ☉)**. Its Table 8 gives a transit density in g cm⁻³ |
+| Mann et al. 2017 (ZEIT IV, 2017AJ....153...64M) | `ps` | 19 | 0.7099 | 68.4% | 1.001 | Praesepe, arXiv:1609.00726, Table 2: "ρ∗ (ρ⊙)" for seven stars. Whether all 19 rows cite this paper is checked by bibcode in 0.3.0 |
 | Mann et al. 2017 | `pscomppars` | 7 | 0.7184 | 71.4% | 1.013 | (same) |
-| MacDonald et al. 2016 (Kepler-80, AJ 152, 105) | `ps` | 11 | 0.7056 | 100% | 0.995 | Text (arXiv:1607.07540, §III): "ρ = 2.33 ± 0.15 ρ⊙", which equals 0.730/0.678³ in solar units. Table 2 prints the same 2.33 with the unit "g cm-3" |
+| MacDonald et al. 2016 (Kepler-80, 2016AJ....152..105M) | `ps` | 11 | 0.7056 | 100% | 0.995 | Text (arXiv:1607.07540, §III): "ρ = 2.33 ± 0.15 ρ⊙", which equals 0.730/0.678³ in solar units. Table 2 prints the same 2.33 with the unit "g cm-3" |
 | MacDonald et al. 2016 | `pscomppars` | 5 | 0.7056 | 100% | 0.995 | (same) |
 
 **What this means.**
@@ -31,15 +31,19 @@ The Archive documents `st_dens` as "Stellar Density [g/cm**3]" ([column definiti
 - Some Fulton & Petigura rows differ from M/R³ in solar units by up to about 15%, possibly because the Archive pairs ρ_iso with a different radius.
 - The Torres et al. 2017 densities used in the composite table have a median ratio of 0.82, a less coherent mix that 0.3.0 will list row by row.
 
-## 2. Single rows whose own columns disagree
+## 2. Single rows where one column is in the wrong unit
 
-**Status: each is self-evident from other columns of the same row. None has yet been checked against the paper.**
+**Status: each is evident from other columns of the same row. Three were checked against the source paper on 2026-10-14 (arXiv versions); two are not yet.**
 
-- **HAT-P-25 b (Wang et al. 2018):** `pl_trandep` = 0.0161 (%), while the same row's (Rp/R*)² = 1.61%. This is a fraction stored in a percent column.
-- **HD 189733 b (Morello et al. 2014):** `pl_trandep` = 0.02413 (%), against (Rp/R*)² = 2.41%. The same slip.
-- **K2-114 b (Ikwut-Ukwa et al. 2020):** `pl_trandep` = 0.01352 (%), against (Rp/R*)² = 1.35%. The same slip.
-- **TOI-2049 b (Guenther et al. 2026):** `pl_ratror` = 1.49, while the same row's Rp and R* give 0.048. A ratio above 1 is impossible for this star.
-- **TOI-5624 c (Bonfanti et al. 2026):** the depth is 10× (Rp/R*)². That fits a depth in parts per thousand stored as percent; 0.3.0 labels this pattern.
+| planet (reference) | tables | stored | what the paper or row says | likely correct value |
+|---|---|---|---|---|
+| HAT-P-25 b (Wang et al. 2018, PASP 130, 064401) | `ps` | `pl_trandep` = 0.0161 % | **Paper checked:** Table 3 (arXiv:1805.01580) gives δ = 0.01610 ± 0.00027 with no unit, i.e. a fraction; Rp/R★ = 0.1269, and 0.1269² = 0.01610 | 1.610 % |
+| HD 189733 b (Morello et al. 2014, ApJ 786, 22) | `ps` | `pl_trandep` = 0.02413 % | **Paper checked:** Table 3 (arXiv:1403.2874) gives p² = 0.02413 ± 0.00003, dimensionless, with p = 0.15534 | 2.413 % |
+| K2-114 b (Ikwut-Ukwa et al. 2020, AJ 160, 209) | `ps` | `pl_trandep` = 0.01352 % | **Paper checked:** Table 3 (arXiv:2007.00678) labels δ "Transit depth (fraction)" = 0.01352; Rp/R★ = 0.1163 | 1.352 % |
+| TOI-2049 b (Guenther et al. 2026) | `ps` and `pscomppars` | `pl_ratror` = 1.49 | The row's own Rp and R★ give 0.0477, and its stored depth (0.2275 %) equals 0.0477² × 100. The stored 1.49 matches the planet's radius in Jupiter radii (1.485), so the radius looks to have been entered in the ratio column. Paper not yet found | 0.0477 |
+| TOI-5624 c (Bonfanti et al. 2026) | `ps` and `pscomppars` | `pl_trandep` = 0.762 % | Ten times (Rp/R★)² = 0.0762 %. Fits a depth in parts per thousand stored as percent. Paper not yet checked | 0.0762 % (unverified) |
+
+In the three checked cases the papers give the depth as a fraction, and the Archive stored that number unchanged in a column documented in percent. These are ingestion slips, not errors in the papers.
 
 ## 3. What looked like errors but is physics, or a coincidence
 
@@ -50,6 +54,6 @@ The Archive documents `st_dens` as "Stellar Density [g/cm**3]" ([column definiti
 
 ## Next
 
-1. Read 0.3.0's `unit_groups.csv`: the bibcodes behind each reference, the exact count of composite values affected, and the journal column units from the CDS ReadMe files.
-2. Send one batched, polite note to the Archive helpdesk with item 1 and the item 2 rows.
-3. Check the remaining single-row flags against their papers.
+1. Read 0.3.0's `unit_groups.csv`: the rows behind each reference, the exact count of composite values affected, and the journal column units from the CDS ReadMe files.
+2. Items 1 and 2 are being sent to the Archive helpdesk as one batched note (2026-10-14). Record its reply here.
+3. Check TOI-2049 b and TOI-5624 c against their papers once they are public.
