@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "version": "0.2.0",
+    "downloaded_utc": "2026-10-14T14:00Z",
+    "queries": {
+      "ps": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+pl_orbper%2Cpl_orbpererr1%2Cpl_orbpererr2%2Cpl_orbperlim%2Cpl_orbsmax%2Cpl_orbsmaxerr1%2Cpl_orbsmaxerr2%2Cpl_orbsmaxlim%2Cpl_rade%2Cpl_radeerr1%2Cpl_radeerr2%2Cpl_radelim%2Cpl_bmasse%2Cpl_bmasseerr1%2Cpl_bmasseerr2%2Cpl_bmasselim%2Cpl_dens%2Cpl_denserr1%2Cpl_denserr2%2Cpl_denslim%2Cpl_ratdor%2Cpl_ratdorerr1%2Cpl_ratdorerr2%2Cpl_ratdorlim%2Cpl_ratror%2Cpl_ratrorerr1%2Cpl_ratrorerr2%2Cpl_ratrorlim%2Cpl_trandep%2Cpl_trandeperr1%2Cpl_trandeperr2%2Cpl_trandeplim%2Cpl_insol%2Cpl_insolerr1%2Cpl_insolerr2%2Cpl_insollim%2Cst_mass%2Cst_masserr1%2Cst_masserr2%2Cst_masslim%2Cst_rad%2Cst_raderr1%2Cst_raderr2%2Cst_radlim%2Cst_dens%2Cst_denserr1%2Cst_denserr2%2Cst_denslim%2Cst_logg%2Cst_loggerr1%2Cst_loggerr2%2Cst_logglim%2Cst_teff%2Cst_tefferr1%2Cst_tefferr2%2Cst_tefflim%2Cpl_orbeccen%2Cpl_orbeccenlim%2Cpl_bmassprov%2Cdiscoverymethod%2Cpl_controv_flag%2Ccb_flag%2Cpl_name%2Chostname%2Cdefault_flag%2Cpl_refname%2Cst_refname+from+ps&format=csv",
+      "pscomppars": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+pl_orbper%2Cpl_orbpererr1%2Cpl_orbpererr2%2Cpl_orbperlim%2Cpl_orbsmax%2Cpl_orbsmaxerr1%2Cpl_orbsmaxerr2%2Cpl_orbsmaxlim%2Cpl_rade%2Cpl_radeerr1%2Cpl_radeerr2%2Cpl_radelim%2Cpl_bmasse%2Cpl_bmasseerr1%2Cpl_bmasseerr2%2Cpl_bmasselim%2Cpl_dens%2Cpl_denserr1%2Cpl_denserr2%2Cpl_denslim%2Cpl_ratdor%2Cpl_ratdorerr1%2Cpl_ratdorerr2%2Cpl_ratdorlim%2Cpl_ratror%2Cpl_ratrorerr1%2Cpl_ratrorerr2%2Cpl_ratrorlim%2Cpl_trandep%2Cpl_trandeperr1%2Cpl_trandeperr2%2Cpl_trandeplim%2Cpl_insol%2Cpl_insolerr1%2Cpl_insolerr2%2Cpl_insollim%2Cst_mass%2Cst_masserr1%2Cst_masserr2%2Cst_masslim%2Cst_rad%2Cst_raderr1%2Cst_raderr2%2Cst_radlim%2Cst_dens%2Cst_denserr1%2Cst_denserr2%2Cst_denslim%2Cst_logg%2Cst_loggerr1%2Cst_loggerr2%2Cst_logglim%2Cst_teff%2Cst_tefferr1%2Cst_tefferr2%2Cst_tefflim%2Cpl_orbeccen%2Cpl_orbeccenlim%2Cpl_bmassprov%2Cdiscoverymethod%2Cpl_controv_flag%2Ccb_flag%2Cpl_name%2Chostname+from+pscomppars&format=csv",
+      "pscomppars_reflinks": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+pl_name%2Cpl_orbsmax_reflink%2Cpl_ratdor_reflink%2Cpl_ratror_reflink%2Cpl_trandep_reflink%2Cpl_insol_reflink%2Cst_dens_reflink%2Cst_logg_reflink%2Cst_mass_reflink%2Cst_rad_reflink+from+pscomppars&format=csv"
+    },
+    "rows": {
+      "ps": 40336,
+      "pscomppars": 6445
+    },
+    "source": {
+      "ps": "download",
+      "pscomppars": "download"
+    },
+    "reflink_rows_merged": 6445
+  },
+  "stats": {
+    "ps": {
+      "kepler3_a": {
+        "tested": 20500,
+        "flagged": 80,
+        "gross": 3,
+        "unit_slip": 1,
+        "flagged_same_ref": 77,
+        "flagged_default": 40
+      },
+      "bulk_density": {
+        "tested": 2494,
+        "flagged": 15,
+        "gross": 5,
+        "unit_slip": 0,
+        "flagged_same_ref": 14,
+        "flagged_default": 6
+      },
+      "a_over_rstar": {
+        "tested": 14769,
+        "flagged": 9863,
+        "gross": 1565,
+        "unit_slip": 0,
+        "flagged_same_ref": 9863,
+        "flagged_default": 62
+      },
+      "rp_over_rstar": {
+        "tested": 20798,
+        "flagged": 114,
+        "gross": 6,
+        "unit_slip": 0,
+        "flagged_same_ref": 106,
+        "flagged_default": 11
+      },
+      "depth_vs_k2": {
+        "tested": 14340,
+        "flagged": 163,
+        "gross": 136,
+        "unit_slip": 11,
+        "flagged_same_ref": 160,
+        "flagged_default": 15
+      },
+      "rhostar_transit_vs_MR": {
+        "tested": 16329,
+        "flagged": 807,
+        "gross": 692,
+        "unit_slip": 40,
+        "flagged_same_ref": 777,
+        "flagged_default": 40
+      },
+      "st_dens_vs_MR": {
+        "tested": 22589,
+        "flagged": 1729,
+        "gross": 759,
+        "unit_slip": 63,
+        "flagged_same_ref": 1664,
+        "flagged_default": 75
+      },
+      "logg_vs_MR": {
+        "tested": 28314,
+        "flagged": 101,
+        "gross": 40,
+        "unit_slip": 0,
+        "flagged_same_ref": 99,
+        "flagged_default": 46
+      },
+      "insolation": {
+        "tested": 13503,
+        "flagged": 28,
+        "gross": 13,
+        "unit_slip": 0,
+        "flagged_same_ref": 28,
+        "flagged_default": 23
+      }
+    },
+    "pscomppars": {
+      "kepler3_a": {
+        "tested": 5534,
+        "flagged": 93,
+        "gross": 0,
+        "unit_slip": 0,
+        "flagged_same_ref": 0,
+        "flagged_default": 0
+      },
+      "bulk_density": {
+        "tested": 2232,
+        "flagged": 19,
+        "gross": 10,
+        "unit_slip": 0,
+        "flagged_same_ref": 0,
+        "flagged_default": 0
+      },
+      "a_over_rstar": {
+        "tested": 3762,
+        "flagged": 1518,
+        "gross": 303,
+        "unit_slip": 0,
+        "flagged_same_ref": 0,
+        "flagged_default": 0
+      },
+      "rp_over_rstar": {
+        "tested": 4649,
+        "flagged": 326,
+        "gross": 8,
+        "unit_slip": 0,
+        "flagged_same_ref": 0,
+        "flagged_default": 0
+      },
+      "depth_vs_k2": {
+        "tested": 4453,
+        "flagged": 115,
+        "gross": 54,
+        "unit_slip": 5,
+        "flagged_same_ref": 0,
+        "flagged_default": 0
+      },
+      "rhostar_transit_vs_MR": {
+        "tested": 4159,
+        "flagged": 543,
+        "gross": 431,
+        "unit_slip": 23,
+        "flagged_same_ref": 0,
+        "flagged_default": 0
+      },
+      "st_dens_vs_MR": {
+        "tested": 5835,
+        "flagged": 727,
+        "gross": 339,
+        "unit_slip": 14,
+        "flagged_same_ref": 0,
+        "flagged_default": 0
+      },
+      "logg_vs_MR": {
+        "tested": 6091,
+        "flagged": 136,
+        "gross": 41,
+        "unit_slip": 0,
+        "flagged_same_ref": 0,
+        "flagged_default": 0
+      },
+      "insolation": {
+        "tested": 5581,
+        "flagged": 1269,
+        "gross": 325,
+        "unit_slip": 1,
+        "flagged_same_ref": 0,
+        "flagged_default": 0
+      }
+    }
+  },
+  "flags_total": 17646,
+  "systematics": 80,
+  "systematics_with_unit_pattern": 11
+}

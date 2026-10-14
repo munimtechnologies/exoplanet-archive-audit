@@ -21,12 +21,14 @@ EARTH = dict(pl_orbper=365.256363, pl_orbsmax=1.0, st_mass=1.0, pl_bmasse=1.0,
              pl_ratror=1 / 109.076, pl_trandep=100 / 109.076 ** 2, st_teff=5772,
              pl_insol=1.0, st_logg=4.438, st_dens=1.4098)
 
+ADS = "https://ui.adsabs.harvard.edu/abs/2018AJ....156..264F/abstract"
 
-def solar_unit_star(i, ref="Ref S 2018"):
+
+def solar_unit_star(i, ref="Ref S 2018", default="0"):
     """A self-consistent star whose st_dens is written in solar units."""
     m, rad = 0.7 + 0.1 * i, 0.65 + 0.12 * i
-    r = row(st_mass=m, st_rad=rad, st_dens=round(m / rad ** 3, 4), pl_name=f"S-{i} b")
-    r["st_refname"] = r["pl_refname"] = f'<a href="x">{ref}</a>'
+    r = row(st_mass=m, st_rad=rad, st_dens=round(m / rad ** 3, 4), pl_name=f"S-{i} b", default_flag=default)
+    r["st_refname"] = r["pl_refname"] = f'<a refstr=S href={ADS} target=ref>{ref}</a>'
     return r
 
 
@@ -53,12 +55,33 @@ class Physics(unittest.TestCase):
     def test_unit_slip(self):
         self.assertTrue(ea.unit_slip(101.0).startswith("x100"))
         self.assertTrue(ea.unit_slip(1 / 318.0).startswith("Jupiter vs Earth mass"))
-        self.assertTrue(ea.unit_slip(1 / 1.41).startswith("solar vs g/cm3"))
+        self.assertTrue(ea.unit_slip(1 / 1.41, "st_dens_vs_MR").startswith("solar vs g/cm3"))
         self.assertEqual(ea.unit_slip(1.7), "")
+
+    def test_density_factor_only_explains_stellar_densities(self):
+        # a 0.71 offset in log g or insolation is not a density unit slip
+        for check in ("logg_vs_MR", "insolation", "bulk_density", None):
+            self.assertEqual(ea.unit_slip(1 / 1.41, check), "", check)
+        self.assertTrue(ea.unit_slip(1 / 1.41, "rhostar_transit_vs_MR").startswith("solar vs g/cm3"))
+
+    def test_ppt_factor_only_explains_depths(self):
+        self.assertTrue(ea.unit_slip(10.0, "depth_vs_k2").startswith("x10 (ppt"))
+        self.assertFalse(ea.unit_slip(10.0, "st_dens_vs_MR").startswith("x10"))
+
+    def test_unit_fixed(self):
+        self.assertAlmostEqual(ea.unit_fixed(1 / 1.4098, "solar vs g/cm3 density (1.41)"), 1.0, places=9)
+        self.assertAlmostEqual(ea.unit_fixed(100.0, "x100 (percent vs fraction)"), 1.0, places=9)
 
     def test_ref_text(self):
         self.assertEqual(ea.ref_text('<a refstr=X href=y target=ref>Smith et al. 2020</a>'), "Smith et al. 2020")
         self.assertEqual(ea.ref_text('<a href=y>Fulton &amp; Petigura 2018</a>'), "Fulton & Petigura 2018")
+
+    def test_ref_bibcode(self):
+        self.assertEqual(ea.ref_bibcode(f'<a refstr=X href={ADS} target=ref>F&amp;P 2018</a>'), "2018AJ....156..264F")
+        self.assertEqual(ea.ref_bibcode('<a href="https://ui.adsabs.harvard.edu/abs/2016AJ%2E%2E%2E%2E152%2E%2E105M/abstract">M</a>'),
+                         "2016AJ....152..105M")
+        self.assertEqual(ea.ref_bibcode('<a href=https://exoplanetarchive.ipac.caltech.edu/docs/koi.html>KOI</a>'), "")
+        self.assertEqual(ea.ref_bibcode(""), "")
 
     def test_pipeline(self):
         self.assertTrue(ea.is_pipeline("Q1-Q17 DR25 KOI Table"))
@@ -79,6 +102,12 @@ class Audit(unittest.TestCase):
         f = [x for x in flags if x["check"] == "depth_vs_k2"]
         self.assertEqual(len(f), 1)
         self.assertTrue(f[0]["likely_unit_slip"].startswith("x1e4"))
+
+    def test_depth_in_ppt_is_a_unit_slip(self):
+        bad = dict(EARTH, pl_trandep=EARTH["pl_trandep"] * 10)
+        _, flags = ea.audit([row(**bad)], "ps")
+        f = [x for x in flags if x["check"] == "depth_vs_k2"]
+        self.assertTrue(f[0]["likely_unit_slip"].startswith("x10 (ppt"))
 
     def test_mass_in_jupiter_units_flags_density(self):
         bad = dict(EARTH, pl_bmasse=1 / 317.83)
@@ -131,6 +160,18 @@ class Systematics(unittest.TestCase):
         # the consistent reference is not listed
         self.assertFalse([s for s in sys_rows if s["reference"] == "Ref A 2020"])
 
+    def test_logg_offset_gets_no_density_label(self):
+        groups = {}
+        rows = []
+        for i in range(6):
+            r = row(**dict(EARTH, st_logg=4.438 - 0.149, pl_name=f"G-{i} b"))
+            r["st_refname"] = '<a href="x">Ref G 2024</a>'
+            rows.append(r)
+        ea.audit(rows, "ps", groups)
+        hits = [s for s in ea.systematics(groups) if s["check"] == "logg_vs_MR"]
+        self.assertEqual(len(hits), 1)
+        self.assertEqual(hits[0]["unit_pattern"], "")
+
     def test_too_few_rows_is_not_systematic(self):
         groups = {}
         ea.audit([solar_unit_star(i) for i in range(4)], "ps", groups)
@@ -164,11 +205,44 @@ class Systematics(unittest.TestCase):
         self.assertEqual(rows[0]["st_dens_reflink"], "R")
 
 
+class UnitGroups(unittest.TestCase):
+    def test_rows_of_a_unit_pattern_reference_are_listed_in_both_tables(self):
+        groups = {}
+        ps = [solar_unit_star(i, default="1" if i == 0 else "0") for i in range(6)]
+        ea.audit(ps, "ps", groups)
+        # two composite values from the same reference: too few for a group of their own
+        comp = []
+        for i in range(2):
+            r = solar_unit_star(10 + i)
+            for k in ea.REFLINKS:
+                r[k] = '<a href="x">Other 2021</a>'
+            r["st_dens_reflink"] = r["st_refname"]
+            comp.append(r)
+        ea.audit(comp, "pscomppars", groups)
+        sys_rows = ea.systematics(groups)
+        self.assertFalse([s for s in sys_rows if s["table"] == "pscomppars" and s["check"] == "st_dens_vs_MR"])
+        ug = ea.unit_group_rows(groups, sys_rows)
+        dens = [u for u in ug if u["check"] == "st_dens_vs_MR"]
+        self.assertEqual(len(dens), 8)
+        self.assertEqual(sum(1 for u in dens if u["table"] == "pscomppars"), 2)
+        self.assertTrue(all(u["bibcode"] == "2018AJ....156..264F" for u in dens))
+        self.assertTrue(all(u["fix_within_10pct"] == 1 for u in dens))
+        summ = [s for s in ea.unit_group_summary(ug) if s["check"] == "st_dens_vs_MR"][0]
+        self.assertEqual((summ["ps_rows"], summ["ps_default_rows"], summ["composite_rows"]), (6, 1, 2))
+        self.assertEqual(summ["bibcodes"], "2018AJ....156..264F")
+
+    def test_no_pattern_no_rows(self):
+        groups = {}
+        ea.audit([row(**EARTH)], "ps", groups)
+        self.assertEqual(ea.unit_group_rows(groups, ea.systematics(groups)), [])
+
+
 class EndToEnd(unittest.TestCase):
     def test_offline_end_to_end(self):
         with tempfile.TemporaryDirectory() as d:
             src = os.path.join(d, "ps.csv")
             rows = [row(**EARTH), row(**dict(EARTH, pl_trandep=EARTH["pl_trandep"] * 100))]
+            rows += [solar_unit_star(i) for i in range(5)]
             keys = sorted({k for r in rows for k in r})
             with open(src, "w", newline="", encoding="utf-8") as f:
                 w = csv.DictWriter(f, fieldnames=keys)
@@ -178,9 +252,12 @@ class EndToEnd(unittest.TestCase):
             self.assertEqual(ea.main(["--out-dir", out, "--offline", src]), 0)
             with open(os.path.join(out, "summary.json"), encoding="utf-8") as f:
                 s = json.load(f)
-            self.assertEqual(s["flags_total"], 1)
-            for name in ("report.md", "by_reference.csv", "systematics.csv", "flags.csv"):
+            self.assertEqual(s["meta"]["version"], ea.VERSION)
+            self.assertEqual(len(s["unit_groups"]), 1)
+            for name in ("report.md", "by_reference.csv", "systematics.csv", "flags.csv", "unit_groups.csv"):
                 self.assertTrue(os.path.exists(os.path.join(out, name)), name)
+            with open(os.path.join(out, "unit_groups.csv"), encoding="utf-8") as f:
+                self.assertEqual(len(list(csv.DictReader(f))), 5)
 
 
 if __name__ == "__main__":

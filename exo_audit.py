@@ -14,6 +14,12 @@ quoted errors. Mismatches equal to a common unit factor (100, 1e4, 317.8,
 v0.2 adds a per-reference test: when most rows from one reference are off by
 the same factor, that is a catalog-level slip, not scatter (systematics.csv).
 
+v0.3 applies each unit factor only to the checks it can explain (the 1.41
+solar-density factor only to stellar densities, ppt-vs-percent only to
+depths), and writes unit_groups.csv: every row, in both tables, of each
+reference whose shared offset matches a unit factor, with its ADS bibcode and
+the ratio after the fix, so each catalog-level finding can be checked row by row.
+
 Usage: python exo_audit.py --out-dir /out [--data-dir /data] [--offline FILE]
 """
 import argparse
@@ -30,7 +36,7 @@ import sys
 import urllib.parse
 import urllib.request
 
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 TAP = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
 
 # Nominal constants (IAU 2015 nominal values where they exist)
@@ -58,19 +64,24 @@ REFLINKS = ["pl_orbsmax_reflink", "pl_ratdor_reflink", "pl_ratror_reflink",
             "pl_trandep_reflink", "pl_insol_reflink", "st_dens_reflink",
             "st_logg_reflink", "st_mass_reflink", "st_rad_reflink"]
 
+STAR_DENSITY_CHECKS = ("st_dens_vs_MR", "rhostar_transit_vs_MR")
+
+# label, factor, checks it can explain (None: any check)
 UNIT_FACTORS = [
-    ("x100 (percent vs fraction)", 100.0),
-    ("x1e4 (ppm vs percent)", 1e4),
-    ("x1e6 (ppm vs fraction)", 1e6),
-    ("x1000", 1000.0),
-    ("Jupiter vs Earth mass (317.8)", 317.83),
-    ("Jupiter vs Earth radius (11.21)", 11.209),
-    ("Sun vs Earth radius (109.1)", 109.076),
-    ("Sun vs Jupiter radius (9.73)", 9.731),
-    ("au vs solar radius (215.0)", 215.032),
-    ("hours vs days (24)", 24.0),
-    ("solar vs g/cm3 density (1.41)", RHO_SUN),
+    ("x100 (percent vs fraction)", 100.0, None),
+    ("x1e4 (ppm vs percent)", 1e4, None),
+    ("x1e6 (ppm vs fraction)", 1e6, None),
+    ("x1000", 1000.0, None),
+    ("x10 (ppt vs percent)", 10.0, ("depth_vs_k2",)),
+    ("Jupiter vs Earth mass (317.8)", 317.83, None),
+    ("Jupiter vs Earth radius (11.21)", 11.209, None),
+    ("Sun vs Earth radius (109.1)", 109.076, None),
+    ("Sun vs Jupiter radius (9.73)", 9.731, None),
+    ("au vs solar radius (215.0)", 215.032, None),
+    ("hours vs days (24)", 24.0, None),
+    ("solar vs g/cm3 density (1.41)", RHO_SUN, STAR_DENSITY_CHECKS),
 ]
+FACTOR = {label: f for label, f, _ in UNIT_FACTORS}
 
 # the parameter whose value is being tested, so a flag is charged to its source
 OBS_PARAM = {
@@ -173,19 +184,33 @@ def ref_text(html):
     return (m.group(1) if m else html).replace("&amp;", "&").strip()
 
 
+def ref_bibcode(html):
+    """ADS bibcode from the reference link, or '' if the link has none."""
+    m = re.search(r"/abs/([^/\s\"'>]+)", html or "")
+    return urllib.parse.unquote(m.group(1)).replace("&amp;", "&") if m else ""
+
+
 def is_pipeline(ref):
     """Automated survey catalogs (Kepler KOI/TCE tables), not a paper's own fit."""
     return "KOI Table" in ref or "TCE" in ref
 
 
-def unit_slip(ratio):
+def unit_slip(ratio, check=None):
     if ratio is None or ratio <= 0:
         return ""
-    for label, f in UNIT_FACTORS:
+    for label, f, checks in UNIT_FACTORS:
+        if checks is not None and check not in checks:
+            continue
         for r in (ratio, 1.0 / ratio):
             if abs(r / f - 1.0) < 0.03:
                 return label
     return ""
+
+
+def unit_fixed(ratio, label):
+    """The ratio once the unit factor is removed (multiplied or divided, whichever lands nearer 1)."""
+    f = FACTOR[label]
+    return min((ratio * f, ratio / f), key=lambda x: abs(math.log(x)))
 
 
 def circularish(row):
@@ -193,11 +218,15 @@ def circularish(row):
     return e is None or e <= 0.1
 
 
-def source_ref(row, table, check):
+def source_html(row, table, check):
     p = OBS_PARAM[check]
     if table == "ps":
-        return ref_text(row.get("st_refname" if p.startswith("st_") else "pl_refname", ""))
-    return ref_text(row.get(p + "_reflink", ""))
+        return row.get("st_refname" if p.startswith("st_") else "pl_refname", "") or ""
+    return row.get(p + "_reflink", "") or ""
+
+
+def source_ref(row, table, check):
+    return ref_text(source_html(row, table, check))
 
 
 # Physical predictions -------------------------------------------------------
@@ -348,12 +377,13 @@ def evaluate(row, name, fn, tol, zmin):
         flagged = abs(lr) > math.log(1 + tol) and (z is None or abs(z) >= zmin)
     gross = not (0.5 <= ratio <= 2.0)
     return {"check": name, "observed": obs, "predicted": pred, "ratio": ratio,
-            "z": z, "flagged": flagged, "gross": gross, "unit_slip": unit_slip(ratio) if gross else ""}
+            "z": z, "flagged": flagged, "gross": gross, "unit_slip": unit_slip(ratio, name) if gross else ""}
 
 
 def audit(rows, table, groups=None):
-    """Test every row. If groups is a dict, it collects ln(ratio) for every
-    tested row under (table, check, source reference) for systematics()."""
+    """Test every row. If groups is a dict, it collects ln(ratio) and the row
+    itself for every tested row under (table, check, source reference), for
+    systematics() and unit_group_rows()."""
     stats = {name: {"tested": 0, "flagged": 0, "gross": 0, "unit_slip": 0,
                     "flagged_same_ref": 0, "flagged_default": 0} for name, *_ in CHECKS}
     flags = []
@@ -372,9 +402,14 @@ def audit(rows, table, groups=None):
             st["tested"] += 1
             src = source_ref(r, table, name)
             if groups is not None and src:
-                g = groups.setdefault((table, name, src), {"lr": [], "flagged": 0})
+                g = groups.setdefault((table, name, src), {"lr": [], "flagged": 0, "rows": []})
                 g["lr"].append(math.log(ev["ratio"]))
                 g["flagged"] += int(ev["flagged"])
+                g["rows"].append({"pl_name": r.get("pl_name", ""), "hostname": r.get("hostname", ""),
+                                  "default_flag": r.get("default_flag", "") if table == "ps" else "composite",
+                                  "observed": ev["observed"], "predicted": ev["predicted"], "ratio": ev["ratio"],
+                                  "st_mass": r.get("st_mass", ""), "st_rad": r.get("st_rad", ""),
+                                  "bibcode": ref_bibcode(source_html(r, table, name))})
             if not ev["flagged"]:
                 continue
             st["flagged"] += 1
@@ -410,16 +445,67 @@ def systematics(groups):
         if near < SYS_COHERENT:
             continue
         ratio = math.exp(med)
-        label = unit_slip(ratio)
-        corrected = ""
-        if label:
-            f = dict(UNIT_FACTORS)[label]
-            corrected = f"{min((ratio * f, ratio / f), key=lambda x: abs(math.log(x))):.4g}"
+        label = unit_slip(ratio, check)
+        corrected = f"{unit_fixed(ratio, label):.4g}" if label else ""
         out.append({"table": table, "check": check, "reference": ref, "pipeline": int(is_pipeline(ref)),
                     "rows": len(lr), "median_ratio": f"{ratio:.4g}", "within_10pct_of_median": f"{near:.3f}",
                     "flagged_rows": g["flagged"], "unit_pattern": label, "median_after_unit_fix": corrected})
     out.sort(key=lambda d: (not d["unit_pattern"], -d["rows"] * abs(math.log(float(d["median_ratio"])))))
     return out
+
+
+UNIT_GROUP_FIELDS = ["reference", "check", "unit_pattern", "table", "pl_name", "hostname", "default_flag",
+                     "bibcode", "st_mass", "st_rad", "observed", "predicted", "ratio", "ratio_after_fix",
+                     "fix_within_10pct"]
+
+
+def unit_group_rows(groups, sys_rows):
+    """Every row, in both tables, of each (check, reference) whose shared offset
+    matches a unit factor in either table. This also lists composite (default)
+    values from that reference when they are too few to form a group alone."""
+    patterns = {}
+    for s in sys_rows:
+        if s["unit_pattern"] and not s["pipeline"]:
+            patterns.setdefault((s["check"], s["reference"]), s["unit_pattern"])
+    out = []
+    for (table, check, ref), g in groups.items():
+        label = patterns.get((check, ref))
+        if not label:
+            continue
+        for r in g["rows"]:
+            fixed = unit_fixed(r["ratio"], label)
+            out.append({"reference": ref, "check": check, "unit_pattern": label, "table": table,
+                        "pl_name": r["pl_name"], "hostname": r["hostname"], "default_flag": r["default_flag"],
+                        "bibcode": r["bibcode"], "st_mass": r["st_mass"], "st_rad": r["st_rad"],
+                        "observed": f"{r['observed']:.6g}", "predicted": f"{r['predicted']:.6g}",
+                        "ratio": f"{r['ratio']:.4g}", "ratio_after_fix": f"{fixed:.4g}",
+                        "fix_within_10pct": int(abs(math.log(fixed)) <= math.log(1 + SYS_MIN_OFFSET))})
+    out.sort(key=lambda d: (d["reference"], d["check"], d["table"], d["pl_name"]))
+    return out
+
+
+def unit_group_summary(rows):
+    """Per (reference, check): rows in ps, ps default rows, composite rows, share fixed, bibcodes."""
+    out = {}
+    for r in rows:
+        s = out.setdefault((r["reference"], r["check"]), {"reference": r["reference"], "check": r["check"],
+                                                          "unit_pattern": r["unit_pattern"], "ps_rows": 0,
+                                                          "ps_default_rows": 0, "composite_rows": 0,
+                                                          "fixed_within_10pct": 0, "bibcodes": set()})
+        if r["table"] == "ps":
+            s["ps_rows"] += 1
+            s["ps_default_rows"] += int(r["default_flag"] == "1")
+        else:
+            s["composite_rows"] += 1
+        s["fixed_within_10pct"] += r["fix_within_10pct"]
+        if r["bibcode"]:
+            s["bibcodes"].add(r["bibcode"])
+    res = []
+    for s in out.values():
+        s["bibcodes"] = " ".join(sorted(s["bibcodes"]))
+        res.append(s)
+    res.sort(key=lambda d: -(d["ps_rows"] + d["composite_rows"]))
+    return res
 
 
 def by_reference(rows, flags):
@@ -444,7 +530,7 @@ def strength(f):
         return 0.0
 
 
-def write_report(path, meta, stats_all, flags, sys_rows):
+def write_report(path, meta, stats_all, flags, sys_rows, ug_summary=()):
     lines = ["# NASA Exoplanet Archive self-consistency audit (exo_audit " + VERSION + ")", "",
              f"Downloaded {meta['downloaded_utc']} from {TAP}. Munim, Inc. (MV2 of Munim, Inc.). Made with AI. "
              "Each flag is a candidate for checking against the source paper, not a confirmed error.", ""]
@@ -459,6 +545,16 @@ def write_report(path, meta, stats_all, flags, sys_rows):
         lines.append(f"| {s['table']} | {s['check']} | {s['reference']} | {'yes' if s['pipeline'] else ''} | {s['rows']} | "
                      f"{s['median_ratio']} | {s['within_10pct_of_median']} | {s['unit_pattern']} | {s['median_after_unit_fix']} |")
     lines.append("")
+    if ug_summary:
+        lines += ["## References whose shared offset matches a unit factor (all their rows, both tables)", "",
+                  "Row-by-row evidence is in `unit_groups.csv`. `composite rows` are values the composite table "
+                  "(pscomppars) takes from that reference.", "",
+                  "| reference | check | unit pattern | ps rows | ps default rows | composite rows | rows within 10% after fix | bibcodes |",
+                  "|---|---|---|---|---|---|---|---|"]
+        for s in ug_summary:
+            lines.append(f"| {s['reference']} | {s['check']} | {s['unit_pattern']} | {s['ps_rows']} | {s['ps_default_rows']} | "
+                         f"{s['composite_rows']} | {s['fixed_within_10pct']} | {s['bibcodes']} |")
+        lines.append("")
     for table, stats in stats_all.items():
         same = "flagged, same ref for planet and star" if table == "ps" else "same ref (n/a)"
         lines += [f"## Table `{table}` ({meta['rows'][table]} rows)", "",
@@ -556,6 +652,12 @@ def main(argv=None):
                                           "within_10pct_of_median", "flagged_rows", "unit_pattern", "median_after_unit_fix"])
         w.writeheader()
         w.writerows(sys_rows)
+    ug_rows = unit_group_rows(groups, sys_rows)
+    with open(os.path.join(args.out_dir, "unit_groups.csv"), "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=UNIT_GROUP_FIELDS)
+        w.writeheader()
+        w.writerows(ug_rows)
+    ug_summary = unit_group_summary(ug_rows)
     if ps_rows:
         refs = by_reference(ps_rows, all_flags)
         with open(os.path.join(args.out_dir, "by_reference.csv"), "w", newline="", encoding="utf-8") as f:
@@ -563,11 +665,13 @@ def main(argv=None):
             w.writeheader()
             w.writerows(refs)
     summary = {"meta": meta, "stats": stats_all, "flags_total": len(all_flags),
-               "systematics": len(sys_rows), "systematics_with_unit_pattern": sum(1 for s in sys_rows if s["unit_pattern"])}
+               "systematics": len(sys_rows), "systematics_with_unit_pattern": sum(1 for s in sys_rows if s["unit_pattern"]),
+               "unit_groups": ug_summary}
     with open(os.path.join(args.out_dir, "summary.json"), "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
-    write_report(os.path.join(args.out_dir, "report.md"), meta, stats_all, all_flags, sys_rows)
-    print(json.dumps({"rows": meta["rows"], "flags_total": len(all_flags), "systematics_top": sys_rows[:25]}, indent=2))
+    write_report(os.path.join(args.out_dir, "report.md"), meta, stats_all, all_flags, sys_rows, ug_summary)
+    print(json.dumps({"rows": meta["rows"], "flags_total": len(all_flags), "unit_groups": ug_summary,
+                      "systematics_top": sys_rows[:25]}, indent=2))
     return 0
 
 

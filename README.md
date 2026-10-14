@@ -14,13 +14,21 @@ A physical self-consistency audit of the [NASA Exoplanet Archive](https://exopla
 | `logg_vs_MR` | log g = 4.438 + log M★ − 2 log R★ |
 | `insolation` | S = R★²(Teff/5772)⁴/a² |
 
-A row is flagged when the mismatch exceeds a physical tolerance **and** the quoted uncertainties (3σ) when the row gives them. Mismatches equal to a common unit factor (100, 10⁴, 317.8, 11.21, 109.1, 9.73, 215, 24, 1.41) are labelled as likely unit slips.
+A row is flagged when the mismatch exceeds a physical tolerance **and** the quoted uncertainties (3σ) when the row gives them. Mismatches equal to a common unit factor (100, 10⁴, 317.8, 11.21, 109.1, 9.73, 215, 24) are labelled as likely unit slips. Two factors apply only where they make physical sense: 1.41 (solar vs g/cm³) to stellar densities, and 10 (ppt vs %) to transit depths.
 
-**Per-reference systematics (v0.2).** When most rows from one reference share the same offset, that points to the catalog rather than to scatter. `systematics.csv` lists every reference with at least 5 tested rows whose median ratio is more than 10% from 1, with at least half of its rows within 10% of that median. It also gives the unit factor that would explain the offset and the median once that factor is removed. In `pscomppars`, each value is charged to its own source through the `*_reflink` columns.
+**Per-reference systematics.** When most rows from one reference share the same offset, that points to the catalog rather than to scatter. `systematics.csv` lists every reference with at least 5 tested rows whose median ratio is more than 10% from 1, with at least half of its rows within 10% of that median. It also gives the unit factor that would explain the offset and the median once that factor is removed. In `pscomppars`, each value is charged to its own source through the `*_reflink` columns.
+
+**Row-by-row evidence (0.3.0).** For each reference whose shared offset matches a unit factor, `unit_groups.csv` lists every one of its rows in both tables. Each row comes with its ADS bibcode, its ratio before and after the fix, and whether it is a default (`ps`) or composite (`pscomppars`) value.
 
 ## Findings
 
-See [FINDINGS.md](FINDINGS.md). In short, the stellar densities stored for Fulton & Petigura (2018) appear to be in solar units (ρ/ρ☉) although the Archive documents `st_dens` in g/cm³. The paper's own table carries the same "g/cc" label over solar-unit values. Four single-row inconsistencies are also self-evident from other columns of the same row. Every flag is a **candidate** until it is checked against the source paper.
+See [FINDINGS.md](FINDINGS.md). In short, stellar densities from four references are stored in solar units (ρ/ρ☉), although the Archive documents `st_dens` in g/cm³:
+- Fulton & Petigura 2018: 1,414 rows, median ratio 0.716, which becomes 1.01 once multiplied by 1.4098
+- Torres et al. 2017: 22 rows
+- Mann et al. 2017: 19 rows, plus 7 composite values
+- MacDonald et al. 2016 (Kepler-80): 11 rows, plus 5 composite values
+
+Two of the source papers print solar-unit values under a g/cm³ label; the other two label ρ☉ correctly. Five single-row inconsistencies are also self-evident from other columns of the same row. Every other flag is a **candidate** until it is checked against the source paper.
 
 ## Run it
 
@@ -29,13 +37,23 @@ Python 3.9+, standard library only.
 ```
 python -m unittest -v test_exo_audit
 python exo_audit.py --out-dir out --data-dir cache
+python fetch_readmes.py --out-dir out    # optional: CDS ReadMe column units of the source catalogs
 ```
 
-It downloads two TAP queries (a few tens of MB) and writes `out/report.md`, `out/flags.csv`, `out/systematics.csv`, `out/by_reference.csv` and `out/summary.json`. `--offline FILE` audits a local `ps`-format CSV instead.
+It downloads two TAP queries (a few tens of MB) and writes these files to `out/`:
+- `report.md`
+- `flags.csv`
+- `systematics.csv`
+- `unit_groups.csv`
+- `by_reference.csv`
+- `summary.json`
+
+`--offline FILE` audits a local `ps`-format CSV instead.
 
 ## Results
 
-- `results/2026-10-14-v0.1/`: the first full run (v0.1: 40,336 `ps` rows and 6,445 `pscomppars` rows, 17,675 flags). About 11,400 of those flags come from the Kepler KOI pipeline tables, where a/R★ and stellar density are free transit-fit parameters. v0.2 marks those catalogs as `pipeline`.
+- `results/2026-10-14-v0.1/`: the first full run (0.1: 40,336 `ps` rows and 6,445 `pscomppars` rows, 17,675 flags).
+- `results/2026-10-14-v0.2/`: 0.2.0 on the 2026-10-14T14:00Z download. It adds per-reference systematics, a circumbinary skip and pipeline marking. In this run, the "solar vs g/cm3" label on log g and insolation rows is a coincidence; 0.3.0 removes it.
 
 ## Limits
 
@@ -45,7 +63,11 @@ It downloads two TAP queries (a few tens of MB) and writes `out/report.md`, `out
 
 ## Prior art
 
-arXiv:2605.10427 (2026) tested Kepler's third law on the Archive's default parameters and found five outliers. This audit differs in four ways. It covers every solution row rather than only the defaults. It tests nine relations, not one. It separates rows whose planet and star values come from one reference, which cannot be blamed on mixing sources. And it looks for offsets shared across a whole reference, which is how the Fulton & Petigura density units showed up.
+arXiv:2605.10427 (2026) tested Kepler's third law on the Archive's default parameters and found five outliers. This audit differs in four ways:
+- It covers every solution row rather than only the defaults.
+- It tests nine relations, not one.
+- It separates rows whose planet and star values come from one reference, which cannot be blamed on mixing sources.
+- It looks for offsets shared across a whole reference, which is how the solar-unit stellar densities showed up.
 
 ## About
 
