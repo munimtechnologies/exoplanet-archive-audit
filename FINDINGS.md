@@ -33,27 +33,44 @@ The Archive documents `st_dens` as "Stellar Density [g/cm**3]" ([column definiti
 
 ## 2. Single rows where one column is in the wrong unit
 
-**Status: each is evident from other columns of the same row. Three were checked against the source paper on 2026-10-14 (arXiv versions); two are not yet.**
+**Status: each is evident from other columns of the same row. Four were checked against the source paper on 2026-10-14; the fifth (TOI-2049 b) has no public paper yet.**
 
 | planet (reference) | tables | stored | what the paper or row says | likely correct value |
 |---|---|---|---|---|
 | HAT-P-25 b (Wang et al. 2018, PASP 130, 064401) | `ps` | `pl_trandep` = 0.0161 % | **Paper checked:** Table 3 (arXiv:1805.01580) gives δ = 0.01610 ± 0.00027 with no unit, i.e. a fraction; Rp/R★ = 0.1269, and 0.1269² = 0.01610 | 1.610 % |
 | HD 189733 b (Morello et al. 2014, ApJ 786, 22) | `ps` | `pl_trandep` = 0.02413 % | **Paper checked:** Table 3 (arXiv:1403.2874) gives p² = 0.02413 ± 0.00003, dimensionless, with p = 0.15534 | 2.413 % |
 | K2-114 b (Ikwut-Ukwa et al. 2020, AJ 160, 209) | `ps` | `pl_trandep` = 0.01352 % | **Paper checked:** Table 3 (arXiv:2007.00678) labels δ "Transit depth (fraction)" = 0.01352; Rp/R★ = 0.1163 | 1.352 % |
-| TOI-2049 b (Guenther et al. 2026) | `ps` and `pscomppars` | `pl_ratror` = 1.49 | The row's own Rp and R★ give 0.0477, and its stored depth (0.2275 %) equals 0.0477² × 100. The stored 1.49 matches the planet's radius in Jupiter radii (1.485), so the radius looks to have been entered in the ratio column. Paper not yet found | 0.0477 |
-| TOI-5624 c (Bonfanti et al. 2026) | `ps` and `pscomppars` | `pl_trandep` = 0.762 % | Ten times (Rp/R★)² = 0.0762 %. Fits a depth in parts per thousand stored as percent. Paper not yet checked | 0.0762 % (unverified) |
+| TOI-5624 c (Bonfanti et al. 2026, A&A 709, A265) | `ps` and `pscomppars` | `pl_trandep` = 0.762 % | **Paper checked:** Table 2 (arXiv:2604.15035) gives dF = 762 ppm, defined as (Rp/R★)², with Rp/R★ = 0.02760 (0.02760² = 7.62 × 10⁻⁴). 762 ppm is 0.0762 %. Planets b, d and e of the same paper (667, 1599 and 1312 ppm) are stored correctly, so this is a one-row decimal slip | 0.0762 % |
+| TOI-2049 b (Guenther et al. 2026) | `ps` and `pscomppars` | `pl_ratror` = 1.49 | The row's own Rp and R★ give 0.0477, and its stored depth (0.2275 %) equals 0.0477² × 100. The stored 1.49 matches the planet's radius in Jupiter radii (1.485), so the radius looks to have been entered in the ratio column. The paper is not on arXiv (arXiv API search for "TOI-2049", 2026-10-14) | 0.0477 (paper not yet public) |
 
-In the three checked cases the papers give the depth as a fraction, and the Archive stored that number unchanged in a column documented in percent. These are ingestion slips, not errors in the papers.
+In the three fraction cases the papers give the depth as a fraction, and the Archive stored that number unchanged in a column documented in percent. TOI-5624 c is a single decimal slip. These are ingestion slips, not errors in the papers.
 
-## 3. What looked like errors but is physics, or a coincidence
+## 3. Stellar densities that are wrong in the source paper itself: Soto et al. 2018 (K2-237, K2-238)
+
+**Status: checked against both the arXiv version (arXiv:1801.07959) and the published MNRAS version (478, 5356; doi:10.1093/mnras/sty1334) on 2026-10-14. No erratum found.**
+
+The audit flagged every `st_dens` value from Soto et al. 2018 (median ratio to M/R³: 0.23). Unlike finding 1, the Archive did nothing wrong. Table 1 of the paper gives "Density (ρ⊙)" = 0.102 for K2-237 and 0.0550 for K2-238. The Archive converted those correctly to g/cm³ (× 1.41 = 0.144 and 0.0775). The printed densities themselves disagree with the same paper's other numbers:
+
+| star | Table 1 ρ★ (ρ☉) | M/R³ from Table 1 (ρ☉) | from the paper's fitted a/R★ and period (ρ☉) | factor |
+|---|---|---|---|---|
+| K2-237 (EPIC 229426032) | 0.102 | 1.28/1.43³ = 0.438 | a/R★ = 5.50, P = 2.18 d → 0.47 | 4.3–4.6 |
+| K2-238 (EPIC 246067459) | 0.0550 (+0.0003/−0.0002) | 1.19/1.59³ = 0.296 | a/R★ = 6.27, P = 3.20 d → 0.32 | 5.4–5.9 |
+
+The transit-based density is ρ★ = 3π (a/R★)³ / (G P²). Two independent routes from the paper's own numbers agree with each other and disagree with the printed density. The quoted ±0.0003 uncertainty on K2-238's density is also implausibly small next to a ±10% radius. The cause is not a single unit factor: for K2-237, M/(4/3 π R³) = 0.104 is close to the printed 0.102, but the same formula gives 0.071 for K2-238, not 0.055.
+
+**Affected Archive rows:** five `ps` rows (K2-237 b: the Soto et al. 2018 set and two Kokori et al. 2022/2023 sets that reuse its stellar density; K2-238 b: the Soto set and one Kokori 2023 set) and the K2-238 b composite value (0.0775 g/cm³, about 0.42 expected).
+
+**Why it is worth knowing.** A user comparing these densities with a transit fit would infer a large eccentricity for orbits the paper itself fits as near-circular.
+
+## 4. What looked like errors but is physics, or a coincidence
 
 - **Circumbinary planets** (Kepler-34, -35, -47, -413, -1647, TIC 172900988) fail Kepler's third law against the primary's mass alone. The correct mass is the binary's, so they are skipped (`cb_flag` = 1).
 - **The Kepler KOI pipeline tables** account for most flags on a/R★ and depth. There a/R★ is a free transit-fit parameter, and limb darkening makes depths about 1.18 × (Rp/R★)². They are labelled `pipeline` and kept out of the "strongest flags" lists.
 - **White-dwarf hosts** (WD 1856+534 b, ZTF J1828+2308 b and others): the planet is larger than the star, so neither depth = (Rp/R*)² nor the transit-density formula applies.
-- **0.2.0 also gave its 1.41 label** to four log g and insolation offsets (Leleu et al. 2024, Moutou et al. 2015, Tuomi et al. 2013, and Torres et al. 2017 insolation). A density unit cannot explain a log g or insolation offset, so those labels were coincidences. In 0.3.0 each unit factor applies only to the checks it can explain. The offsets themselves stay listed in `systematics.csv` as leads.
+- **0.2.0 also gave its 1.41 label** to four log g and insolation offsets (Leleu et al. 2024, Moutou et al. 2015, Tuomi et al. 2013, and Torres et al. 2017 insolation). A density unit cannot explain a log g or insolation offset, so those labels were coincidences. In 0.3.0 each unit factor applies only to the checks it can explain. The log g offsets (Leleu et al. 2024: −0.16 dex over 6 rows; Leleu et al. 2021: −0.17 dex over 8 rows) are the size of the usual gap between spectroscopic and mass-radius log g, so they are not treated as errors. The offsets stay listed in `systematics.csv`.
 
 ## Next
 
 1. Read 0.3.0's `unit_groups.csv`: the rows behind each reference, the exact count of composite values affected, and the journal column units from the CDS ReadMe files.
-2. Items 1 and 2 are being sent to the Archive helpdesk as one batched note (2026-10-14). Record its reply here.
-3. Check TOI-2049 b and TOI-5624 c against their papers once they are public.
+2. Items 1 and 2 were sent to the Archive helpdesk as one batched note (2026-10-14). Record its reply here. Items 2 (TOI-5624 c, now checked) and 3 will go in a short follow-up only if the Archive replies.
+3. Check TOI-2049 b against its paper once it is public.
