@@ -1,8 +1,8 @@
 # Findings so far (2026-10-15)
 
-By MV2 of Munim, Inc. The code, checks and this write-up were made with AI agents working in his name. Each claim below is labelled with how far it has been verified. Counts in sections 1–6 come from the 0.2.0 run on the 2026-10-14T14:00Z download (`results/2026-10-14-v0.2/`) and the 0.3.0 run on the 2026-10-14T23:33Z download. Sections 3c and 7–9 come from direct queries of the Archive's TAP service on 2026-10-15. Text: CC BY 4.0. Code: Apache-2.0.
+By MV2 of Munim, Inc. The code, checks and this write-up were made with AI agents working in his name. Each claim below is labelled with how far it has been verified. Counts in sections 1–6 come from the 0.2.0 run on the 2026-10-14T14:00Z download (`results/2026-10-14-v0.2/`) and the 0.3.0 run on the 2026-10-14T23:33Z download. Sections 3c and 7–10 come from direct queries of the Archive's TAP service on 2026-10-15. Text: CC BY 4.0. Code: Apache-2.0.
 
-**Summary.** Nine kinds of problem, each checked against the source paper (and, where one exists, its erratum):
+**Summary.** Ten kinds of problem. Each was checked against its source: the paper (and, where one exists, its erratum), or for kind 10 ExoFOP's own table.
 
 | # | kind | where the error is | cases checked |
 |---|---|---|---|
@@ -15,6 +15,7 @@ By MV2 of Munim, Inc. The code, checks and this write-up were made with AI agent
 | 7 | a linear luminosity stored in the log₁₀ column, then used by the Archive's own insolation formula | 4 papers at ingestion, 3 in the paper's own label | 7 papers, 9 stars, 12 rows; 5 composite insolations 7–63 times too high |
 | 8 | two stars' parameters exchanged | ingestion | Howard et al. 2011: HD 97658 and HD 192310 (Gl 785) |
 | 9 | a value the cited paper does not contain | ingestion | WASP-11: log L = 0.00 credited to West et al. 2009 (3 `ps` rows and the composite value) |
+| 10 | a composite insolation or Teq taken from ExoFOP's TOI table that the star and the listed period cannot give | ExoFOP's values; the composite table prefers them to its own calculation | 7 planets: TOI-270 b, c, d; TOI-199 b; TOI-4600 c; TOI-4504 c; HD 152843 c (factors 2.5–153) |
 
 Two of these errors have reached a published catalog of habitable-zone planets (sections 3c and 7).
 
@@ -63,7 +64,7 @@ In the three fraction cases the papers give the depth as a fraction, and the Arc
 
 ## 3. Numbers that are wrong in the source paper itself
 
-**Status: each checked against the paper's own other numbers (arXiv HTML versions; Soto et al. 2018 also in the published MNRAS version). No erratum was found for any of the first six (web searches, 2026-10-14); the errata of the others are being checked by the errata watcher (section 11). The Archive copied these values faithfully, so the fix belongs with the authors and the Archive together.**
+**Status: each checked against the paper's own other numbers (arXiv HTML versions; Soto et al. 2018 also in the published MNRAS version). No erratum was found for any of the first six (web searches, 2026-10-14); the errata of the others are being checked by the errata watcher (section 12). The Archive copied these values faithfully, so the fix belongs with the authors and the Archive together.**
 
 In each case two or more independent routes through the same paper's own numbers agree with each other and disagree with the printed value.
 
@@ -152,7 +153,7 @@ For the transiting hosts the paper derives the stellar mass from the transit den
 
 ## 7. Linear luminosities stored in the log₁₀ column, and the insolation the Archive calculates from them (new, 2026-10-15)
 
-**Status: found on 2026-10-15 by querying the Archive's TAP service directly. Every row below was checked against its source paper (arXiv/ar5iv) the same day. An Archive-wide census of the same pattern is queued (`lum_check.py`, section 11).**
+**Status: found on 2026-10-15 by querying the Archive's TAP service directly. Every row below was checked against its source paper (arXiv/ar5iv) the same day. An Archive-wide census of the same pattern is queued (`lum_check.py`, section 12).**
 
 The Archive documents `st_lum` as "Stellar Luminosity [log10(Solar)]". Queries over `ps` looked for luminosities that cannot be logarithms: K and early-G dwarfs (R★ < 1.0 R☉, Teff < 5800 K, so log L < 0) with `st_lum` > 0, and Sun-like stars (R★ < 1.2–1.6 R☉, Teff < 6200–7000 K) with `st_lum` > 0.5–1.0. Every row they returned turned out to hold the luminosity itself, L/L☉, instead of its log. (A fifth query, for rows with no stored radius, returned only giants, which cannot be tested without one.) HD 187085 b was found separately, through its composite insolation. In each case log₁₀ of the stored number agrees with R★²(Teff/5772 K)⁴ to within 0.07 dex, while the stored number itself is 0.8–1.8 dex off:
 
@@ -219,27 +220,54 @@ Affected: three `ps` rows and the composite `st_lum` of WASP-11 b. The composite
 
 A separate point, not counted as an error here: WASP-11 b's default parameter set (Stassun et al. 2017) gives M★ = 1.42 M☉ and R★ = 0.89 R☉ for this 4800 K K dwarf, against 0.77–0.83 M☉ in the other five references, and the default planet mass (0.79 M_J) follows from it. The paper derives masses from a transit density and an SED radius, so this is a property of its method, not an ingestion slip; it has not been checked in the paper.
 
-## 10. What looked like errors but is physics, a limit, or a different source
+## 10. Insolations and temperatures from ExoFOP's TOI table that the star and the listed period cannot give (new, 2026-10-15)
+
+**Status: the composite and `ps` rows were read through the Archive's TAP service on 2026-10-15. ExoFOP's TOI table for TOI-270 was read the same day (download_toi.php). An Archive-wide census of the same test is queued (`insol_census.py`).**
+
+The composite table fills each column from whichever parameter set has a value. When the default set has no insolation, it can take one from ExoFOP's TOI table rather than calculating S = 10^`st_lum`/a² from its own row. Two range queries on `pscomppars` found transiting planets whose ExoFOP value disagrees with the composite row's own luminosity and semi-major axis (both from refereed papers) by a factor of 2.5 to 153. For four of them it also disagrees with the default set's equilibrium temperature. One query asked for `pl_eqt` 150–400 K with `pl_insol` > 8 S⊕, and the other for `pl_eqt` 300–700 K with `pl_insol` < 0.3 S⊕.
+
+| planet | composite `pl_insol` (source) | L/a² from the same composite row | stored / expected | composite `pl_eqt` (source) | ExoFOP's own Teq |
+|---|---|---|---|---|---|
+| TOI-270 b | 131.79 S⊕ (ExoFOP) | 19.0 (log L −1.712, a = 0.03197 au) | 6.9 | 600 K | 943.9 K |
+| TOI-270 c | 47.06 (ExoFOP) | 9.47 (a = 0.04526 au) | 5.0 | 489 K (Kaye et al. 2022) | 729.7 K |
+| TOI-270 d | 9.21 (ExoFOP) | 3.73 (a = 0.0721 au) | 2.5 | 383 K (Kaye et al. 2022) | 485.4 K |
+| TOI-199 b | 8.54 (ExoFOP) | 2.54 (log L −0.338, a = 0.4254 au) | 3.4 | 325 K (Bello-Arufe et al. 2026) | 476.3 K |
+| TOI-4600 c | 48.39 (ExoFOP) | 0.317 (log L −0.377, a = 1.152 au) | 153 | 191 K (Mireles et al. 2023) | 672.7 K |
+| TOI-4504 c | 0.264 (ExoFOP) | 4.80 (log L −0.208, a = 0.3593 au) | 0.055 | 412.5 K (Almenara et al. 2026) | 182.8 K |
+| HD 152843 c | 133.1 (Nicholson et al. 2024) | 128 (log L 0.450, a = 0.1482 au) | 1.04 | **253.08 K (ExoFOP)** | 253.08 K |
+
+**The ExoFOP values cannot belong to the periods ExoFOP itself lists.** ExoFOP's insolation and Teq agree with each other (TOI-270.03 = b: 131.79 S⊕ and 943.9 K, since 278.6 K × 131.79^¼ = 944 K). The problem is the orbit they imply. With ExoFOP's own stellar parameters, TOI-270 b would have to orbit at 0.0123 au. At its 3.36-day period that needs a star of about 0.02 M☉, where TOI-270 is a 0.39 M☉ M dwarf. TOI-4600 c's 48.4 S⊕ would put it at 0.092 au, which at 482.8 days needs about 0.0005 M☉. TOI-4504 c's 0.264 S⊕ puts it at 1.56 au, which at 82.9 days needs about 74 M☉. The refereed papers' temperatures (191 K for TOI-4600 c, 325–352 K for TOI-199 b, 383–387 K for TOI-270 d) agree with L/a², not with ExoFOP. For HD 152843 c, Nicholson et al. 2024's insolation implies a zero-albedo Teq of about 935 K, while the composite table pairs it with ExoFOP's 253 K.
+
+**Why it matters.** TOI-4600 c (Teq 191 K) and TOI-199 b (about 350 K) are among the few known temperate transiting giants, and TOI-270 d is a widely studied temperate sub-Neptune. A selection by insolation from the composite table puts TOI-4600 c at 48 times Earth's insolation, TOI-199 b at 8.5 and TOI-270 d at 9.2, and it puts TOI-4504 c (Teq 412 K, about 4.8 S⊕) at 0.26. The composite rows themselves contain the inputs that show the mismatch.
+
+**Where the error is.** ExoFOP's TOI table is a TESS Project product, and the Archive copies it faithfully. The values look like pipeline numbers computed from a different orbit than the one ExoFOP lists, possibly a transit-fit a/R★ or an earlier period estimate. That cause has not been confirmed. The fix that is in the Archive's hands is the composite table's choice: an ExoFOP insolation or Teq is taken in preference to the Archive's own calculation, even when the two disagree by orders of magnitude. Section 11 lists K2-97 b, whose composite insolation is also ExoFOP's (114.1 S⊕ against about 1,000 S⊕ from the default set), as an example of the same thing.
+
+**Prior art.** Section 11 (K2-97 b) is this audit's own earlier note. No Archive notice or published report of ExoFOP-sourced composite insolations contradicting the composite's own luminosity and orbit was found (web searches, 2026-10-15).
+
+**Limits.** Only two range queries were run, so seven planets is a lower bound. `insol_census.py` tests every composite row, whatever its source, and counts disagreements per source. ExoFOP's pages for TOI-199, TOI-4504 and TOI-4600 were not opened directly; their ExoFOP values come from the Archive's ExoFOP-sourced `ps` rows, which for TOI-270 match ExoFOP's table exactly.
+
+## 11. What looked like errors but is physics, a limit, or a different source
 
 - **Circumbinary planets** (Kepler-34, -35, -47, -413, -1647, TIC 172900988) fail Kepler's third law against the primary's mass alone. The correct mass is the binary's, so they are skipped (`cb_flag` = 1). TIC 172900988's luminosity in the TIC is about twice what one star's R★ and Teff give, as expected for a blended binary.
-- **The Kepler KOI pipeline tables** account for most flags on a/R★ and depth. There a/R★ is a free transit-fit parameter, and limb darkening makes depths about 1.18 × (Rp/R★)². They are labelled `pipeline` and kept out of the "strongest flags" lists.
+- **The Kepler KOI pipeline tables** account for most flags on a/R★ and depth. There a/R★ is a free transit-fit parameter, and limb darkening makes depths about 1.18 × (Rp/R★)². They are labelled `pipeline` and kept out of the "strongest flags" lists. The same applies to Kepler DR25 KOI-table equilibrium temperatures, which the composite table pairs with Berger et al. 2018 insolations from Gaia-based stellar radii.
 - **White-dwarf hosts** (WD 1856+534 b, ZTF J1828+2308 b and others): the planet is larger than the star, so neither depth = (Rp/R*)² nor the transit-density formula applies.
 - **Eccentric orbits the paper itself reports (checked 2026-10-14):** K2-174 b (Livingston et al. 2019, arXiv:1901.05855): a/R★ = 26.6 against 40 from the star; the paper reports its light-curve density as "∼10σ discrepant" with ρ★ = 3.21 g/cm³ and reads it as a sign of eccentricity. Kepler-210 b (Ioannidis et al. 2014, arXiv:1403.3238): the paper finds that the stellar parameters implied by each planet disagree and proposes significant eccentricities.
 - **Grazing transits (checked 2026-10-14):** TOI-1855 b (Schulte et al. 2024, arXiv:2401.05923: b = 1.024, so depth < (Rp/R★)² as expected); TOI-2193 A b and TOI-3540 A b (Yee et al. 2022, arXiv:2205.09728: radii are 95% lower limits, and the printed density is the mode of its own skewed posterior, which need not equal mass/radius³ of the other modes).
 - **Composite insolations that disagree with R★ and Teff but follow the Archive's formula.** 0.3.0 flagged 87 calculated insolations. Of the 25 looked up so far, apart from those in sections 3c and 7, most take their luminosity from a different source (often Gaia DR2 or the TIC) than the radius and temperature in the same composite row. For giants and for faint stars such luminosities can differ from R★²Teff⁴ by 0.3–0.6 dex without any slip. These are not counted as errors. Lupus-TR-3 (TIC log L = −1.46, against −0.42 from R★ and Teff) is still open.
-- **Composite insolations taken from a different solution (checked 2026-10-15).** A query for composite rows with `pl_eqt` > 1500 K and `pl_insol` < 200 S⊕ (31 rows) returned mostly directly imaged companions, whose `pl_eqt` is a measured effective temperature, not an equilibrium temperature. Among the transiting planets, K2-97 b's composite `pl_insol` (114.1 S⊕) is ExoFOP's, which is consistent with ExoFOP's own Teq of 910 K but not with the default set's a = 0.0854 au and log L = 0.867 (about 1,000 S⊕). K2-22 b's (114 S⊕) is Crossfield et al. 2016's, with R★ = 0.382 R☉ and a = 0.01604 au, while Dressing et al. 2017 give 737.9 S⊕. The composite table fills each column independently from whichever parameter set has it, so mixed solutions like these are expected; they are listed as a caution, not as errors.
+- **Composite insolations taken from a different solution (checked 2026-10-15).** A query for composite rows with `pl_eqt` > 1500 K and `pl_insol` < 200 S⊕ (31 rows) returned mostly directly imaged companions, whose `pl_eqt` is a measured effective temperature, not an equilibrium temperature. Among the transiting planets, K2-97 b's composite `pl_insol` (114.1 S⊕) is ExoFOP's, which is consistent with ExoFOP's own Teq of 910 K but not with the default set's a = 0.0854 au and log L = 0.867 (about 1,000 S⊕). K2-22 b's (114 S⊕) is Crossfield et al. 2016's, with R★ = 0.382 R☉ and a = 0.01604 au, while Dressing et al. 2017 give 737.9 S⊕. The composite table fills each column independently from whichever parameter set has it, so mixed solutions are expected. K2-22 b is listed as a caution. K2-97 b belongs with the ExoFOP cases in section 10.
 - **Upper limits (checked 2026-10-15).** Wendelstein-1 b's and Wendelstein-2 b's default `pl_eqt` (2198 K and 2470 K, Obermeier et al. 2020, arXiv:2005.13560) are the paper's 3σ upper limits on the planets' H-band dayside temperatures from secondary eclipses, which were not detected. The Archive flags both as limits (`pl_eqtlim` = 1). They are not wrong, but the quantity is a dayside brightness temperature and the zero-albedo Teq from the same rows is about 950 K; anyone who ignores the limit flag gets planets more than twice as hot. HATS-62 b's density (0.076 g/cm³, Hartman et al. 2019) sits beside a planet mass that is an upper limit (< 0.179 M_J), so M/R³ with that limit overstates it.
 - **0.2.0 also gave its 1.41 label** to four log g and insolation offsets (Leleu et al. 2024, Moutou et al. 2015, Tuomi et al. 2013, and Torres et al. 2017 insolation). A density unit cannot explain a log g or insolation offset, so those labels were coincidences. In 0.3.0 each unit factor applies only to the checks it can explain. The log g offsets (Leleu et al. 2024: −0.16 dex over 6 rows; Leleu et al. 2021: −0.17 dex over 8 rows) are the size of the usual gap between spectroscopic and mass-radius log g, so they are not treated as errors. The offsets stay listed in `systematics.csv`.
 
-## 11. In progress: an errata watcher and a luminosity census
+## 12. In progress: an errata watcher, a luminosity census and an insolation census
 
 - **Errata watcher.** HD 48948 (section 5) shows that a published erratum can leave the Archive unchanged. `errata_watch.py` (queued) harvests every erratum, correction and corrigendum from Crossref for AJ, ApJ, ApJL, ApJS, MNRAS, A&A and PASP. It finds the paper each one corrects (from the citation in AAS erratum titles, otherwise by title lookup) and matches it to the bibcodes behind the Archive's parameter sets. It then lists every Archive reference with a published erratum whose rows were last updated before the erratum appeared. Each candidate will be read by hand before anything is claimed. No earlier list of this kind was found (searches on 2026-10-14).
 - **Luminosity census (`lum_check.py`).** For every `ps` and composite row with R★ and Teff, it classifies `st_lum` as consistent, linear-in-log or otherwise off, and counts the results per reference. It also recomputes each composite "Calculated Value" (insolation, equilibrium temperature, planet density, angular separation) from the same row with the Archive's documented formula, and lists the calculated insolations that rest on a linear luminosity. Offline tests use the rows in section 7.
+- **Insolation census (`insol_census.py`, new).** For every composite row, whatever the source of its `pl_insol` and `pl_eqt`, it computes L/a² and the zero-albedo Teq from the same row. Where `st_lum` disagrees with R★ and Teff it uses those instead, and where `pl_orbsmax` is missing it uses Kepler's law. It flags insolations off by more than a factor of 2 and temperatures outside −20%/+25%, and counts the flags per source, so the ExoFOP pattern in section 10 gets a full count. Offline tests use the rows in sections 7 and 10.
 
 ## Next
 
-1. Items 1 and 2 went to the Archive helpdesk as one batched note. Record its reply here. Items 2 (TOI-5624 c, TOI-1478 b), 3–9 go in one short follow-up once the Archive replies.
-2. Read the luminosity census and hand-check every new linear-in-log reference against its paper. In its calculated-value output, compare each calculated insolation with the calculated equilibrium temperature of the same row (the test that found section 3c).
+1. Items 1 and 2 went to the Archive helpdesk as one batched note. Record its reply here. Items 2 (TOI-5624 c, TOI-1478 b), 3–10 go in one short follow-up once the Archive replies.
+2. Read the luminosity and insolation censuses, and hand-check every new linear-in-log reference and every ExoFOP-sourced value off by more than a factor of 2.
 3. Open leads, each with a luminosity that disagrees with R★ and Teff by a factor of 2–4: DMPP-2 (Haswell et al. 2020: log L 0.104, i.e. 1.27 L☉, beside R★ 1.78 R☉ and Teff 6500 K, which give 5.1 L☉), L 363-38 (Sartori et al. 2023: log L −1.886 against −2.19), GJ 682 (Tuomi et al. 2014 Table 1 prints L = 0.0020 L☉ for an M3.5 dwarf with Teff 3028 K; the TIC radius gives about 0.0067 L☉; Hill et al. list GJ 682 b in the HZ for 100% of its orbit). Their papers are being converted to text for checking.
 4. Check TOI-2049 b against its paper once it is public.
 5. Read the errata-watch and placeholder-census results and hand-check their top candidates.
