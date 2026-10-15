@@ -1,8 +1,8 @@
 # Findings so far (2026-10-15)
 
-By MV2 of Munim, Inc. The code, checks and this write-up were made with AI agents working in his name. Each claim below is labelled with how far it has been verified. Counts in sections 1–6 come from the 0.2.0 run on the 2026-10-14T14:00Z download (`results/2026-10-14-v0.2/`) and the 0.3.0 run on the 2026-10-14T23:33Z download. Sections 3c and 7–10 come from direct queries of the Archive's TAP service on 2026-10-15. Text: CC BY 4.0. Code: Apache-2.0.
+By MV2 of Munim, Inc. The code, checks and this write-up were made with AI agents working in his name. Each claim below is labelled with how far it has been verified. Counts in sections 1–6 come from the 0.2.0 run on the 2026-10-14T14:00Z download (`results/2026-10-14-v0.2/`) and the 0.3.0 run on the 2026-10-14T23:33Z download. Sections 3c and 7–11 come from direct queries of the Archive's TAP service on 2026-10-15. Text: CC BY 4.0. Code: Apache-2.0.
 
-**Summary.** Ten kinds of problem. Each was checked against its source: the paper (and, where one exists, its erratum), or for kind 10 ExoFOP's own table.
+**Summary.** Eleven kinds of problem. Each was checked against its source: the paper (and, where one exists, its erratum), for kind 10 ExoFOP's own table, and for kind 11 the Kepler DR25 KOI table.
 
 | # | kind | where the error is | cases checked |
 |---|---|---|---|
@@ -16,6 +16,7 @@ By MV2 of Munim, Inc. The code, checks and this write-up were made with AI agent
 | 8 | two stars' parameters exchanged | ingestion | Howard et al. 2011: HD 97658 and HD 192310 (Gl 785) |
 | 9 | a value the cited paper does not contain | ingestion | WASP-11: log L = 0.00 credited to West et al. 2009 (3 `ps` rows and the composite value) |
 | 10 | a composite insolation or Teq taken from ExoFOP's TOI table that the star and the listed period cannot give | ExoFOP's values; the composite table prefers them to its own calculation | 7 planets: TOI-270 b, c, d; TOI-199 b; TOI-4600 c; TOI-4504 c; HD 152843 c (factors 2.5–153) |
+| 11 | composite a/R★ and inclination from Kepler pipeline fits that, with the row's own a and R★, rule out a transit | the composite table's "most precise value" rule | 13 of the 14 transiting planets at composite i < 70° (b = 1.3–7.4), plus 2 more with a/R★ 2–3 times too small; Kepler-1604 b's fit is at half its period |
 
 Two of these errors have reached a published catalog of habitable-zone planets (sections 3c and 7).
 
@@ -64,7 +65,7 @@ In the three fraction cases the papers give the depth as a fraction, and the Arc
 
 ## 3. Numbers that are wrong in the source paper itself
 
-**Status: each checked against the paper's own other numbers (arXiv HTML versions; Soto et al. 2018 also in the published MNRAS version). No erratum was found for any of the first six (web searches, 2026-10-14); the errata of the others are being checked by the errata watcher (section 12). The Archive copied these values faithfully, so the fix belongs with the authors and the Archive together.**
+**Status: each checked against the paper's own other numbers (arXiv HTML versions; Soto et al. 2018 also in the published MNRAS version). No erratum was found for any of the first six (web searches, 2026-10-14); the errata of the others are being checked by the errata watcher (section 13). The Archive copied these values faithfully, so the fix belongs with the authors and the Archive together.**
 
 In each case two or more independent routes through the same paper's own numbers agree with each other and disagree with the printed value.
 
@@ -153,7 +154,7 @@ For the transiting hosts the paper derives the stellar mass from the transit den
 
 ## 7. Linear luminosities stored in the log₁₀ column, and the insolation the Archive calculates from them (new, 2026-10-15)
 
-**Status: found on 2026-10-15 by querying the Archive's TAP service directly. Every row below was checked against its source paper (arXiv/ar5iv) the same day. An Archive-wide census of the same pattern is queued (`lum_check.py`, section 12).**
+**Status: found on 2026-10-15 by querying the Archive's TAP service directly. Every row below was checked against its source paper (arXiv/ar5iv) the same day. An Archive-wide census of the same pattern is queued (`lum_check.py`, section 13).**
 
 The Archive documents `st_lum` as "Stellar Luminosity [log10(Solar)]". Queries over `ps` looked for luminosities that cannot be logarithms: K and early-G dwarfs (R★ < 1.0 R☉, Teff < 5800 K, so log L < 0) with `st_lum` > 0, and Sun-like stars (R★ < 1.2–1.6 R☉, Teff < 6200–7000 K) with `st_lum` > 0.5–1.0. Every row they returned turned out to hold the luminosity itself, L/L☉, instead of its log. (A fifth query, for rows with no stored radius, returned only giants, which cannot be tested without one.) HD 187085 b was found separately, through its composite insolation. In each case log₁₀ of the stored number agrees with R★²(Teff/5772 K)⁴ to within 0.07 dex, while the stored number itself is 0.8–1.8 dex off:
 
@@ -240,35 +241,87 @@ The composite table fills each column from whichever parameter set has a value. 
 
 **Why it matters.** TOI-4600 c (Teq 191 K) and TOI-199 b (about 350 K) are among the few known temperate transiting giants, and TOI-270 d is a widely studied temperate sub-Neptune. A selection by insolation from the composite table puts TOI-4600 c at 48 times Earth's insolation, TOI-199 b at 8.5 and TOI-270 d at 9.2, and it puts TOI-4504 c (Teq 412 K, about 4.8 S⊕) at 0.26. The composite rows themselves contain the inputs that show the mismatch.
 
-**Where the error is.** ExoFOP's TOI table is a TESS Project product, and the Archive copies it faithfully. The values look like pipeline numbers computed from a different orbit than the one ExoFOP lists, possibly a transit-fit a/R★ or an earlier period estimate. That cause has not been confirmed. The fix that is in the Archive's hands is the composite table's choice: an ExoFOP insolation or Teq is taken in preference to the Archive's own calculation, even when the two disagree by orders of magnitude. Section 11 lists K2-97 b, whose composite insolation is also ExoFOP's (114.1 S⊕ against about 1,000 S⊕ from the default set), as an example of the same thing.
+**Where the error is.** ExoFOP's TOI table is a TESS Project product, and the Archive copies it faithfully. The values look like pipeline numbers computed from a different orbit than the one ExoFOP lists, possibly a transit-fit a/R★ (section 11 shows how far such fits can run for Kepler) or an earlier period estimate. That cause has not been confirmed. The fix that is in the Archive's hands is the composite table's choice: an ExoFOP insolation or Teq is taken in preference to the Archive's own calculation, even when the two disagree by orders of magnitude. Section 12 lists K2-97 b, whose composite insolation is also ExoFOP's (114.1 S⊕ against about 1,000 S⊕ from the default set), as an example of the same thing.
 
-**Prior art.** Section 11 (K2-97 b) is this audit's own earlier note. No Archive notice or published report of ExoFOP-sourced composite insolations contradicting the composite's own luminosity and orbit was found (web searches, 2026-10-15).
+**Prior art.** Section 12 (K2-97 b) is this audit's own earlier note. No Archive notice or published report of ExoFOP-sourced composite insolations contradicting the composite's own luminosity and orbit was found (web searches, 2026-10-15).
 
 **Limits.** Only two range queries were run, so seven planets is a lower bound. `insol_census.py` tests every composite row, whatever its source, and counts disagreements per source. ExoFOP's pages for TOI-199, TOI-4504 and TOI-4600 were not opened directly; their ExoFOP values come from the Archive's ExoFOP-sourced `ps` rows, which for TOI-270 match ExoFOP's table exactly.
 
-## 11. What looked like errors but is physics, a limit, or a different source
+## 11. Transit geometry from Kepler pipeline fits that makes the planet unable to transit (new, 2026-10-15)
+
+**Status: the composite rows, their reference links and the Kepler DR25 KOI table were read through the Archive's TAP service on 2026-10-15. No paper is involved: the values come from the Kepler KOI pipeline tables.**
+
+The composite table documents its rule for filling a column that the default parameter set leaves empty: "The secondary values are chosen from the most precise value" ([pscp_about](https://exoplanetarchive.ipac.caltech.edu/docs/pscp_about.html)). For many Kepler planets the default set (often Morton et al. 2016) has no a/R★ or inclination, so the composite takes them from a Kepler KOI pipeline table (Q1–Q8, DR24 or DR25). In those fits a/R★ is a free parameter. For low signal-to-noise or V-shaped transits it can run to very small values and implausibly low stellar densities, with an impact parameter near 1. The composite then pairs those transit-shape values with a semi-major axis and a stellar radius from other references.
+
+A query for transiting planets (`tran_flag` = 1) with composite `pl_orbincl` < 70° returned 14 planets. For each one the composite row's own a and R★ were used to compute the impact parameter, b = (a/R★)·cos i. Only Kepler-91 b, a planet around a 6.3 R☉ giant, can transit. **For the other 13, b = 1.3–7.4: with the composite's own orbit, star and inclination, the planet would never cross the star.** A second query, for composite `pl_ratdor` < 2.5, added Kepler-1613 b and Kepler-32 f, whose stored a/R★ is 3.4 and 2.2 times smaller than the a/R★ their own a and R★ give.
+
+| planet | composite `pl_ratdor` (source) | `pl_orbincl` | a (au) / R★ (R☉) from the same row | a/R★ from them | stored ÷ calculated | b from a/R★ and i |
+|---|---|---|---|---|---|---|
+| Kepler-1943 b | 1.769 (DR25) | 56.15° | 0.05975 (Fulton & Petigura 2018) / 0.973 (DR25) | 13.20 | 0.13 | 7.36 |
+| Kepler-1984 b | 1.971 (DR25) | 55.11° | 0.0238 / 0.420 (both DR25) | 12.19 | 0.16 | 6.97 |
+| Kepler-1772 b | 6.382 | 63.99° | 0.04391 / 0.934 | 10.11 | 0.63 | 4.43 |
+| Kepler-1885 b | 2.85 (DR24) | 63.80° | 0.0360 / 0.86 (both DR25) | 9.00 | 0.32 | 3.97 |
+| Kepler-1416 b | 3.743 (DR24) | 42.38° (DR25) | 0.0257 (DR25) / 1.15 (Morton 2016) | 4.81 | 0.78 | 3.55 |
+| Kepler-1604 b | 1.268 (DR25) | 40.98° (DR25) | 0.01406 (Fulton & Petigura) / 0.760 (Morton) | 3.98 | 0.32 | 3.00 |
+| Kepler-1084 b | 2.03 (DR25) | 61.5° (DR25) | 0.0324 (DR25) / 1.28 (Morton) | 5.44 | 0.37 | 2.60 |
+| Kepler-1520 b | 2.199 (DR24) | 50.98° | 0.0129 (DR25) / 0.71 (Morton) | 3.91 | 0.56 | 2.46 |
+| Kepler-342 e | 1.825 (DR25) | 58.94° (DR25) | 0.02909 (Fulton & Petigura) / 1.34 (Morton) | 4.67 | 0.39 | 2.41 |
+| Kepler-912 b | 3.48 (Q1–Q8) | 68.67° | 0.0339 (DR25) / 1.11 (Morton) | 6.57 | 0.53 | 2.39 |
+| Kepler-1264 b | 2.24 (DR25) | 65.17° | 0.01839 (Fulton & Petigura) / 0.98 (Morton) | 4.04 | 0.56 | 1.69 |
+| Kepler-1547 b | 4.803 (DR24) | 61.66° | 0.01556 (Fulton & Petigura) / 1.18 (Morton) | 2.84 | 1.69 | 1.35 |
+| Kepler-1107 b | 4.2845 | 66.6° | 0.01285 / 0.82 | 3.37 | 1.27 | 1.34 |
+| Kepler-1613 b | 1.55 (DR24) | ≥ 70° | 0.02755 (Fulton & Petigura) / 1.12 (Morton) | 5.29 | 0.29 | — |
+| Kepler-32 f | 2.37 (DR24) | ≥ 70° | 0.013 / 0.53 (both Fabrycky et al. 2012) | 5.27 | 0.45 | — |
+| *Kepler-91 b (consistent)* | 2.496 | 69.68° | 0.0731 / 6.30 | 2.50 | 1.00 | 0.87 |
+
+(a/R★ = a / (R★ × 0.0046505 au/R☉). Sources are each column's reference link in `pscomppars`. The a/R★ source was read for 13 planets and the inclination source for 5. Kepler-1772 b's and Kepler-1107 b's sources were not read.)
+
+**The pipeline fits behind them.** The DR25 KOI table's own fitted stellar densities (`koi_srho`) show how far these fits sit from the stars:
+
+| planet (KOI) | DR25 a/R★, i, b | DR25 `koi_srho` (g/cm³) | 1.4098·M★/R★³ from the composite row (g/cm³) |
+|---|---|---|---|
+| Kepler-1943 b (K04156.01) | 1.769, 56.15°, 0.985 | 0.00445 | 1.61 (360×) |
+| Kepler-1984 b (K01681.02) | 1.971, 55.11°, 1.127 | 0.0365 | 8.56 (235×) |
+| Kepler-342 e (K01955.03) | 1.825, 58.94°, 0.942 | 0.0425 | 0.74 (17×) |
+| Kepler-1084 b (K02075.01) | 2.03, 61.5°, 0.966 | 0.0373 | 0.75 (20×) |
+| Kepler-1264 b (K02517.01) | 2.24, 65.17°, 0.941 | 0.227 | 1.48 (6.5×) |
+| Kepler-1604 b (K04441.01) | 1.268, 40.98°, 0.957 | 0.330, **at P = 0.3418 d** | 2.60 |
+
+Within each DR25 fit, a/R★, i and b agree with each other (b = a/R★·cos i). The error comes from moving them into a row whose a and R★ come from elsewhere. **Kepler-1604 b's DR25 fit was made at half the planet's period** (0.341842 d, against the composite's 0.683684 d from later work), so its composite a/R★ and inclination describe a different orbit. Kepler-1520 b is the disintegrating planet KIC 12557548 b, whose transits are shaped by a dust tail, so no planet-model a/R★ describes it.
+
+**Why it matters.** Users who take a/R★, inclination or impact parameter from the composite table (to predict transit durations, plan follow-up, or derive stellar densities) get geometry that cannot produce the observed transit. For Kepler-1943 b, stellar densities derived from the composite a/R★ and period are 360 times too low. The composite `pl_imppar` often comes from yet another table (Kepler-1604 b: 0.633 from DR24; Kepler-1943 b: 0.228), so the three columns also disagree with each other.
+
+**Where the error is.** The pipeline values are flagged as such in `ps`, and section 12 already treats KOI-table a/R★ as `pipeline` rather than as errors. What this section adds is that the composite table's "most precise value" rule promotes them to the composite parameters, and that the result is physically impossible for a transiting planet in 13 of 14 cases at i < 70°. The Archive says the composite table is "not necessarily self-consistent". This check measures where that inconsistency becomes an impossibility. A simple guard: for transiting planets, skip a pipeline a/R★ or inclination when (a/R★)·cos i, using the row's own a and R★, exceeds 1 + Rp/R★.
+
+**Prior art.** The KOI documentation describes the fit parameters, and the composite documentation warns about mixed sources. No report of composite transit geometry that rules out a transit was found (web searches, 2026-10-15).
+
+**Limits.** Only two range queries were run (i < 70°, and a/R★ < 2.5). Milder cases, with i of 70–85° or a/R★ off by a factor of 1.5–3 at larger values, are not counted yet. A census over every composite transiting planet needs one script (planned: `geometry_census.py`).
+
+## 12. What looked like errors but is physics, a limit, or a different source
 
 - **Circumbinary planets** (Kepler-34, -35, -47, -413, -1647, TIC 172900988) fail Kepler's third law against the primary's mass alone. The correct mass is the binary's, so they are skipped (`cb_flag` = 1). TIC 172900988's luminosity in the TIC is about twice what one star's R★ and Teff give, as expected for a blended binary.
-- **The Kepler KOI pipeline tables** account for most flags on a/R★ and depth. There a/R★ is a free transit-fit parameter, and limb darkening makes depths about 1.18 × (Rp/R★)². They are labelled `pipeline` and kept out of the "strongest flags" lists. The same applies to Kepler DR25 KOI-table equilibrium temperatures, which the composite table pairs with Berger et al. 2018 insolations from Gaia-based stellar radii.
+- **The Kepler KOI pipeline tables** account for most flags on a/R★ and depth. There a/R★ is a free transit-fit parameter, and limb darkening makes depths about 1.18 × (Rp/R★)². They are labelled `pipeline` and kept out of the "strongest flags" lists. The same applies to Kepler DR25 KOI-table equilibrium temperatures, which the composite table pairs with Berger et al. 2018 insolations from Gaia-based stellar radii. (Section 11 covers the cases where the composite table promotes such pipeline values to its own parameters.)
 - **White-dwarf hosts** (WD 1856+534 b, ZTF J1828+2308 b and others): the planet is larger than the star, so neither depth = (Rp/R*)² nor the transit-density formula applies.
 - **Eccentric orbits the paper itself reports (checked 2026-10-14):** K2-174 b (Livingston et al. 2019, arXiv:1901.05855): a/R★ = 26.6 against 40 from the star; the paper reports its light-curve density as "∼10σ discrepant" with ρ★ = 3.21 g/cm³ and reads it as a sign of eccentricity. Kepler-210 b (Ioannidis et al. 2014, arXiv:1403.3238): the paper finds that the stellar parameters implied by each planet disagree and proposes significant eccentricities.
 - **Grazing transits (checked 2026-10-14):** TOI-1855 b (Schulte et al. 2024, arXiv:2401.05923: b = 1.024, so depth < (Rp/R★)² as expected); TOI-2193 A b and TOI-3540 A b (Yee et al. 2022, arXiv:2205.09728: radii are 95% lower limits, and the printed density is the mode of its own skewed posterior, which need not equal mass/radius³ of the other modes).
 - **Composite insolations that disagree with R★ and Teff but follow the Archive's formula.** 0.3.0 flagged 87 calculated insolations. Of the 25 looked up so far, apart from those in sections 3c and 7, most take their luminosity from a different source (often Gaia DR2 or the TIC) than the radius and temperature in the same composite row. For giants and for faint stars such luminosities can differ from R★²Teff⁴ by 0.3–0.6 dex without any slip. These are not counted as errors. Lupus-TR-3 (TIC log L = −1.46, against −0.42 from R★ and Teff) is still open.
 - **Composite insolations taken from a different solution (checked 2026-10-15).** A query for composite rows with `pl_eqt` > 1500 K and `pl_insol` < 200 S⊕ (31 rows) returned mostly directly imaged companions, whose `pl_eqt` is a measured effective temperature, not an equilibrium temperature. Among the transiting planets, K2-97 b's composite `pl_insol` (114.1 S⊕) is ExoFOP's, which is consistent with ExoFOP's own Teq of 910 K but not with the default set's a = 0.0854 au and log L = 0.867 (about 1,000 S⊕). K2-22 b's (114 S⊕) is Crossfield et al. 2016's, with R★ = 0.382 R☉ and a = 0.01604 au, while Dressing et al. 2017 give 737.9 S⊕. The composite table fills each column independently from whichever parameter set has it, so mixed solutions are expected. K2-22 b is listed as a caution. K2-97 b belongs with the ExoFOP cases in section 10.
 - **Upper limits (checked 2026-10-15).** Wendelstein-1 b's and Wendelstein-2 b's default `pl_eqt` (2198 K and 2470 K, Obermeier et al. 2020, arXiv:2005.13560) are the paper's 3σ upper limits on the planets' H-band dayside temperatures from secondary eclipses, which were not detected. The Archive flags both as limits (`pl_eqtlim` = 1). They are not wrong, but the quantity is a dayside brightness temperature and the zero-albedo Teq from the same rows is about 950 K; anyone who ignores the limit flag gets planets more than twice as hot. HATS-62 b's density (0.076 g/cm³, Hartman et al. 2019) sits beside a planet mass that is an upper limit (< 0.179 M_J), so M/R³ with that limit overstates it.
+- **Impact parameters above 1 in `ps` (checked 2026-10-15).** A query for transiting planets with `pl_imppar` > 1.4 returned 44 `ps` rows. Apart from WD 1856+534 b (a planet larger than its white-dwarf host), all come from the Kepler KOI tables. Several are pipeline fits that failed, e.g. Kepler-29 b at Rp/R★ = 29 (DR24) and Kepler-1999 b at 62.6. Whether any of them is a default set was not checked. Four carry their KOI impact parameter into the composite table (`pl_imppar` 1.64–1.89 for Kepler-1862 b, KOI-2513.01, Kepler-1819 b and Kepler-1935 b), where it disagrees with the composite's own a/R★ and inclination (which give 0.38, 0.52, 1.21 and 1.22). Kepler-1935 b's composite `pl_ratror` is 0.661 beside a stored depth of 0.0406 % (√ = 0.020). These belong with section 11 and will be counted by the geometry census.
 - **0.2.0 also gave its 1.41 label** to four log g and insolation offsets (Leleu et al. 2024, Moutou et al. 2015, Tuomi et al. 2013, and Torres et al. 2017 insolation). A density unit cannot explain a log g or insolation offset, so those labels were coincidences. In 0.3.0 each unit factor applies only to the checks it can explain. The log g offsets (Leleu et al. 2024: −0.16 dex over 6 rows; Leleu et al. 2021: −0.17 dex over 8 rows) are the size of the usual gap between spectroscopic and mass-radius log g, so they are not treated as errors. The offsets stay listed in `systematics.csv`.
 
-## 12. In progress: an errata watcher, a luminosity census and an insolation census
+## 13. In progress: an errata watcher, a luminosity census and an insolation census
 
 - **Errata watcher.** HD 48948 (section 5) shows that a published erratum can leave the Archive unchanged. `errata_watch.py` (queued) harvests every erratum, correction and corrigendum from Crossref for AJ, ApJ, ApJL, ApJS, MNRAS, A&A and PASP. It finds the paper each one corrects (from the citation in AAS erratum titles, otherwise by title lookup) and matches it to the bibcodes behind the Archive's parameter sets. It then lists every Archive reference with a published erratum whose rows were last updated before the erratum appeared. Each candidate will be read by hand before anything is claimed. No earlier list of this kind was found (searches on 2026-10-14).
 - **Luminosity census (`lum_check.py`).** For every `ps` and composite row with R★ and Teff, it classifies `st_lum` as consistent, linear-in-log or otherwise off, and counts the results per reference. It also recomputes each composite "Calculated Value" (insolation, equilibrium temperature, planet density, angular separation) from the same row with the Archive's documented formula, and lists the calculated insolations that rest on a linear luminosity. Offline tests use the rows in section 7.
-- **Insolation census (`insol_census.py`, new).** For every composite row, whatever the source of its `pl_insol` and `pl_eqt`, it computes L/a² and the zero-albedo Teq from the same row. Where `st_lum` disagrees with R★ and Teff it uses those instead, and where `pl_orbsmax` is missing it uses Kepler's law. It flags insolations off by more than a factor of 2 and temperatures outside −20%/+25%, and counts the flags per source, so the ExoFOP pattern in section 10 gets a full count. Offline tests use the rows in sections 7 and 10.
+- **Insolation census (`insol_census.py`).** For every composite row, whatever the source of its `pl_insol` and `pl_eqt`, it computes L/a² and the zero-albedo Teq from the same row. Where `st_lum` disagrees with R★ and Teff it uses those instead, and where `pl_orbsmax` is missing it uses Kepler's law. It flags insolations off by more than a factor of 2 and temperatures outside −20%/+25%, and counts the flags per source, so the ExoFOP pattern in section 10 gets a full count. Offline tests use the rows in sections 7 and 10.
+- **Geometry census (`geometry_census.py`, planned).** For every transiting composite planet, it will compute (a/R★)·cos i from the row's own a and R★ and compare it with 1 + Rp/R★, recompute a/R★, and count the failures per source of `pl_ratdor` and `pl_orbincl` (section 11).
 
 ## Next
 
-1. Items 1 and 2 went to the Archive helpdesk as one batched note. Record its reply here. Items 2 (TOI-5624 c, TOI-1478 b), 3–10 go in one short follow-up once the Archive replies.
-2. Read the luminosity and insolation censuses, and hand-check every new linear-in-log reference and every ExoFOP-sourced value off by more than a factor of 2.
-3. Open leads, each with a luminosity that disagrees with R★ and Teff by a factor of 2–4: DMPP-2 (Haswell et al. 2020: log L 0.104, i.e. 1.27 L☉, beside R★ 1.78 R☉ and Teff 6500 K, which give 5.1 L☉), L 363-38 (Sartori et al. 2023: log L −1.886 against −2.19), GJ 682 (Tuomi et al. 2014 Table 1 prints L = 0.0020 L☉ for an M3.5 dwarf with Teff 3028 K; the TIC radius gives about 0.0067 L☉; Hill et al. list GJ 682 b in the HZ for 100% of its orbit). Their papers are being converted to text for checking.
+1. The first helpdesk note was not sent: the support form's Subject field takes only 64 characters. It is being sent again as two tickets, A (sections 1–2) and B (sections 3–11). Record the reply here.
+2. Read the luminosity, insolation and geometry censuses, and hand-check every new linear-in-log reference, every ExoFOP-sourced value off by more than a factor of 2, and every non-transiting geometry.
+3. Open leads, each with a luminosity that disagrees with R★ and Teff by a factor of 2–4: DMPP-2 (Haswell et al. 2020: log L 0.104, i.e. 1.27 L☉, beside R★ 1.78 R☉ and Teff 6500 K, which give 5.1 L☉), L 363-38 (Sartori et al. 2023: log L −1.886 against −2.19), GJ 682 (Tuomi et al. 2014 Table 1 prints L = 0.0020 L☉ for an M3.5 dwarf with Teff 3028 K; the TIC radius gives about 0.0067 L☉; Hill et al. list GJ 682 b in the HZ for 100% of its orbit). Their papers are being converted to text for checking. K2-137 b: the composite pairs Adams et al. 2021's R★ = 0.29 R☉ with M★ = 0.463 M☉ (ρ★ ≈ 27 g/cm³), still to be checked.
 4. Check TOI-2049 b against its paper once it is public.
 5. Read the errata-watch and placeholder-census results and hand-check their top candidates.
 6. Keep working down the "strongest flags" list (`report.md`): K2-43 b and c (Hedges et al. 2019), Kepler-53 c, OGLE2-TR-L9 b, TOI-128.01, TOI-4602.01, Kepler-1704 b.
