@@ -1,29 +1,31 @@
-# Findings so far (2026-10-14)
+# Findings so far (2026-10-15)
 
-By MV2 of Munim, Inc. The code, checks and this write-up were made with AI agents working in his name. Each claim below is labelled with how far it has been verified. Every count comes from the 0.2.0 run on the 2026-10-14T14:00Z download (`results/2026-10-14-v0.2/`). Text: CC BY 4.0. Code: Apache-2.0.
+By MV2 of Munim, Inc. The code, checks and this write-up were made with AI agents working in his name. Each claim below is labelled with how far it has been verified. Counts in sections 1–6 come from the 0.2.0 run on the 2026-10-14T14:00Z download (`results/2026-10-14-v0.2/`) and the 0.3.0 run on the 2026-10-14T23:33Z download. Sections 7 and 8 come from direct queries of the Archive's TAP service on 2026-10-15. Text: CC BY 4.0. Code: Apache-2.0.
 
-**Summary.** Six kinds of problem, each checked against the source paper (and, where one exists, its erratum):
+**Summary.** Eight kinds of problem, each checked against the source paper (and, where one exists, its erratum):
 
 | # | kind | where the error is | cases checked |
 |---|---|---|---|
-| 1 | a whole reference's stellar densities in solar units under a g/cm³ label | 2 in the journal tables, 2 at ingestion | 4 references, about 1,470 rows |
+| 1 | a whole reference's stellar densities in solar units under a g/cm³ label | 2 in the journal tables, 2 at ingestion | 4 references, about 1,470 `ps` rows and 1,069 composite values |
 | 2 | one value stored in the wrong unit | ingestion | 5 rows (plus 1 whose paper is not public) |
 | 3 | a printed value that disagrees with the same paper's other numbers | the paper | 10 papers, 17 planets (section 3) |
 | 4 | a different quantity stored in the column | ingestion | Kepler-419 b and c |
 | 5 | a published erratum not applied | Archive not updated | HD 48948 b, c and d |
 | 6 | a placeholder stored as a measurement | the paper's input table | Stassun et al. 2017: log g = 4.50 for KELT-2 A, KELT-7, WASP-33 |
+| 7 | a linear luminosity stored in the log₁₀ column, then used by the Archive's own insolation formula | 4 papers at ingestion, 3 in the paper's own label | 7 papers, 9 stars, 12 rows; 5 composite insolations 7–63 times too high |
+| 8 | two stars' parameters exchanged | ingestion | Howard et al. 2011: HD 97658 and HD 192310 (Gl 785) |
 
 ## 1. Stellar densities from four references are stored in solar units, while the Archive documents g/cm³
 
-**Status: verified, both across every row and against each source paper's own text or tables. Bibcodes checked against ADS/arXiv on 2026-10-14. 0.3.0 adds a row-by-row file (`unit_groups.csv`) and the exact count of composite (default) values affected. That run is queued.**
+**Status: verified, both across every row and against each source paper's own text or tables. Bibcodes checked against ADS/arXiv on 2026-10-14. The 0.3.0 run (2026-10-14T23:33Z download) reproduces every median below and adds a row-by-row file (`unit_groups.csv`) and the composite values affected.**
 
 The Archive documents `st_dens` as "Stellar Density [g/cm**3]" ([column definitions](https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html)). For every parameter set it holds, the audit compares `st_dens` with 1.4098 g/cm³ · M★/R★³, using the star mass and radius of the same row. If a reference's densities were really in g/cm³, the median ratio would be close to 1. For four references the median is close to 1/1.4098 = 0.709, which is what you get when the densities are in solar units (ρ/ρ☉). Once they are multiplied by 1.4098, the median comes back to 1:
 
 | reference | table | rows | median ratio | rows within 10% of median | median after ×1.4098 | what the source paper says |
 |---|---|---|---|---|---|---|
-| Fulton & Petigura 2018 (CKS VII, 2018AJ....156..264F) | `ps` | 1,414 | 0.7163 | 92.5% | 1.01 | Table 2 (arXiv:1805.01453) labels ρ_iso "g/cc", but its values equal M/R³ in solar units (K00001: 0.99/1.04³ = 0.88, listed as 0.87) |
+| Fulton & Petigura 2018 (CKS VII, 2018AJ....156..264F) | `ps` | 1,414 | 0.7163 | 92.5% | 1.01 | Table 2 (arXiv:1805.01453) labels ρ_iso "g/cc", but its values equal M/R³ in solar units (K00001: 0.99/1.04³ = 0.88, listed as 0.87). The journal's CDS catalog (J/AJ/156/264, ReadMe saved by 0.3.0) also labels `rhoiso` "g/cm3", with range [0/2.57] |
 | Torres et al. 2017 (2017AJ....154..264T) | `ps` | 22 | 0.7025 | 90.9% | 0.990 | Table 6 (arXiv:1711.01267) gives ρ★ in **(ρ☉)**. Its Table 8 gives a transit density in g cm⁻³ |
-| Mann et al. 2017 (ZEIT IV, 2017AJ....153...64M) | `ps` | 19 | 0.7099 | 68.4% | 1.001 | Praesepe, arXiv:1609.00726, Table 2: "ρ∗ (ρ⊙)" for seven stars. Whether all 19 rows cite this paper is checked by bibcode in 0.3.0 |
+| Mann et al. 2017 (ZEIT IV, 2017AJ....153...64M) | `ps` | 19 | 0.7099 | 68.4% | 1.001 | Praesepe, arXiv:1609.00726, Table 2: "ρ∗ (ρ⊙)" for seven stars. The 0.3.0 bibcode match finds rows under 2017AJ....153...64M and 2017AJ....153..267M |
 | Mann et al. 2017 | `pscomppars` | 7 | 0.7184 | 71.4% | 1.013 | (same) |
 | MacDonald et al. 2016 (Kepler-80, 2016AJ....152..105M) | `ps` | 11 | 0.7056 | 100% | 0.995 | Text (arXiv:1607.07540, §III): "ρ = 2.33 ± 0.15 ρ⊙", which equals 0.730/0.678³ in solar units. Table 2 prints the same 2.33 with the unit "g cm-3" |
 | MacDonald et al. 2016 | `pscomppars` | 5 | 0.7056 | 100% | 0.995 | (same) |
@@ -31,16 +33,15 @@ The Archive documents `st_dens` as "Stellar Density [g/cm**3]" ([column definiti
 **What this means.**
 - **Fulton & Petigura 2018 and MacDonald et al. 2016:** the journal tables themselves print solar-unit values under a g/cm³ label, so the Archive copied the label faithfully.
 - **Torres et al. 2017 and Mann et al. 2017:** the papers label ρ☉ correctly, so these look like slips at ingestion.
-- **Impact.** For Kepler-80, the composite table, which most users take as "the" parameters, gives a stellar density of 2.33 "g/cm³". The value implied by the paper's own mass and radius is 1.4098 × 2.34 = 3.30 g/cm³. At least 12 composite values (7 from Mann et al. 2017, 5 from MacDonald et al. 2016) are affected. Of the Fulton & Petigura densities, 901 rows fail the audit's per-row test (10% and 3σ). At least three default parameter sets (Kepler-105 b and c, Kepler-139 f) carry those densities because later papers reused the CKS stellar parameters.
+- **Impact (0.3.0).** The composite table, which most users take as "the" parameters, takes **1,049** of its `st_dens` values from Fulton & Petigura 2018, plus 8 from Torres et al. 2017, 7 from Mann et al. 2017 and 5 from MacDonald et al. 2016. The composite table pairs each density with a mass and radius that often come from other papers, so the per-row test is noisier there. Of the 1,049, 293 come back to within 10% of 1.4098 M★/R★³ after the ×1.4098 fix, against 93 that are within 10% without it, and 386 sit at ratios of 0.6–0.8. Seven default `ps` parameter sets carry Fulton & Petigura densities (Kepler-105 b and c, Kepler-139 f, Kepler-79 b–e), because later papers reused the CKS stellar parameters. For Kepler-80 the composite density is 2.33 "g/cm³"; the paper's own mass and radius give 1.4098 × 2.34 = 3.30 g/cm³.
 
 **Why it matters.** Comparing the stellar density from a transit fit with an independent stellar density is a standard way to measure orbital eccentricity (the "photo-eccentric" effect). A density that is 1.41 times too low mimics ((1 + e sin ω)/√(1 − e²))³ = 1.41, which means e ≈ 0.11 at ω = 90°, for an orbit that may be circular. Demographic work that pulls `st_dens` from the Archive would also inherit a 41% bias for these stars.
 
 **Prior art.** Searches found no erratum for these papers, no Archive notice and no published report of the mismatch (searched 2026-10-14). An Archive-wide check of Kepler's third law on default parameters (arXiv:2605.10427) did not test stellar densities.
 
 **Limits.**
-- Only the arXiv versions of the papers were read. 0.3.0 also tries to save the published catalogs' CDS ReadMe files, which carry the journal's column units.
+- Only the arXiv versions of the papers were read, plus the CDS ReadMe files that 0.3.0 could reach (Fulton & Petigura 2018 and MacDonald et al. 2016; the CDS mirrors refused the other two).
 - Some Fulton & Petigura rows differ from M/R³ in solar units by up to about 15%, possibly because the Archive pairs ρ_iso with a different radius.
-- The Torres et al. 2017 densities used in the composite table have a median ratio of 0.82, a less coherent mix that 0.3.0 will list row by row.
 
 ## 2. Single rows where one column is in the wrong unit
 
@@ -59,7 +60,7 @@ In the three fraction cases the papers give the depth as a fraction, and the Arc
 
 ## 3. Numbers that are wrong in the source paper itself
 
-**Status: each checked against the paper's own other numbers on 2026-10-14 (arXiv HTML versions; Soto et al. 2018 also in the published MNRAS version). No erratum was found for any of the first six (web searches, 2026-10-14); the errata of the second group are being checked by the errata watcher (section 8). The Archive copied these values faithfully, so the fix belongs with the authors and the Archive together.**
+**Status: each checked against the paper's own other numbers on 2026-10-14 (arXiv HTML versions; Soto et al. 2018 also in the published MNRAS version). No erratum was found for any of the first six (web searches, 2026-10-14); the errata of the second group are being checked by the errata watcher (section 10). The Archive copied these values faithfully, so the fix belongs with the authors and the Archive together.**
 
 In each case two or more independent routes through the same paper's own numbers agree with each other and disagree with the printed value.
 
@@ -81,7 +82,7 @@ In each case two or more independent routes through the same paper's own numbers
 - **TOI-908 b:** the ±0.006 uncertainty (0.007%) is also implausibly small. Affected: the `ps` row and the composite `pl_insol`.
 - **TOI-1694 c:** one significant figure where a ≈ 1.0 au is needed, most likely a dropped digit. Affected: one `ps` row (not the default set).
 
-### 3b. Orbits and stars whose printed parameters do not fit together (new, 2026-10-14)
+### 3b. Orbits and stars whose printed parameters do not fit together (2026-10-14)
 
 The audit flagged these as Kepler's-law, transit-density, insolation or log g mismatches in **default** parameter sets whose planet and star values come from one paper. Each was read in the paper.
 
@@ -116,7 +117,7 @@ So the Archive stored the light-curve quantity, converted to g/cm³, in the colu
 
 The audit flagged the insolation of all three planets at the same factor, 3.19. The Archive holds `pl_insol` = 138.85, 15.50 and 2.46 S⊕, the values of the original paper's Table 3. The authors' erratum states that the incident flux and equilibrium temperatures "were incorrectly calculated due to a mathematical error" and gives **43.33 ± 2.41, 4.84 ± 0.27 and 0.77 ± 0.04** S⊕ (and Teq = 715, 413 and 261 K instead of 957, 553 and 349 K). The audit's prediction from the row's own stellar parameters and semi-major axes is 43.48, 4.86 and 0.772 S⊕, matching the erratum. Affected: three `ps` rows and three composite values of `pl_insol`, and very likely `pl_eqt` as well (not tested by the audit). HD 48948 d is described as a habitable-zone candidate, so its insolation (0.77, not 2.46 S⊕) matters.
 
-## 6. Placeholders stored as measurements: log g = 4.50 in Stassun et al. 2017 (new, 2026-10-14)
+## 6. Placeholders stored as measurements: log g = 4.50 in Stassun et al. 2017 (2026-10-14)
 
 **Status: checked against the paper (Stassun, Collins & Gaudi 2017, AJ 153, 136; arXiv:1609.04389, Tables 5 and 6) on 2026-10-14. An Archive-wide census of the same pattern is queued (`placeholder_census.py`).**
 
@@ -131,23 +132,78 @@ The paper's input tables take Teff, log g and [Fe/H] from the PASTEL catalog. Fo
 
 For the transiting hosts the paper derives the stellar mass from the transit density, not from log g, so its masses are unaffected. For radial-velocity hosts the paper computes the mass "from our R★ and the spectroscopic log g", so wherever one of these placeholders was used, the derived mass would be off as well. Whether the Archive holds such masses is what the census checks.
 
-## 7. What looked like errors but is physics, or a coincidence
+## 7. Linear luminosities stored in the log₁₀ column, and the insolation the Archive calculates from them (new, 2026-10-15)
 
-- **Circumbinary planets** (Kepler-34, -35, -47, -413, -1647, TIC 172900988) fail Kepler's third law against the primary's mass alone. The correct mass is the binary's, so they are skipped (`cb_flag` = 1).
+**Status: found on 2026-10-15 by querying the Archive's TAP service directly. Every row below was checked against its source paper (arXiv/ar5iv) the same day. An Archive-wide census of the same pattern is queued (`lum_check.py`, section 10).**
+
+The Archive documents `st_lum` as "Stellar Luminosity [log10(Solar)]". Queries over `ps` looked for luminosities that cannot be logarithms: K and early-G dwarfs (R★ < 1.0 R☉, Teff < 5800 K, so log L < 0) with `st_lum` > 0, and Sun-like stars (R★ < 1.2–1.6 R☉, Teff < 6200–7000 K) with `st_lum` > 0.5–1.0. Every row they returned turned out to hold the luminosity itself, L/L☉, instead of its log. (A fifth query, for rows with no stored radius, returned only giants, which cannot be tested without one.) HD 187085 b was found separately, through its composite insolation. In each case log₁₀ of the stored number agrees with R★²(Teff/5772 K)⁴ to within 0.07 dex, while the stored number itself is 0.8–1.8 dex off:
+
+| star(s) (reference) | stored `st_lum` | what the paper prints | L from the row's R★ and Teff | where the slip is |
+|---|---|---|---|---|
+| HIP 57274 b, c, d (Fischer et al. 2012, ApJ 745, 21; arXiv:1109.2926) | 0.19 | Table 1: "L∗ [L⊙] 0.19 (0.01)" | R★ 0.68, Teff 4640 K → 0.193 L☉ (log −0.71) | ingestion |
+| HD 156668 b (Howard et al. 2011, ApJ 726, 73; arXiv:1003.3444) | 0.23 | Table 1: "L⋆ (L☉) 0.230 ± 0.018" | R★ 0.72, Teff 4850 K → 0.258 L☉ (log −0.59) | ingestion |
+| HD 97658 b (two rows) and HD 192310 b (Howard et al. 2011, ApJ 730, 10; arXiv:1011.0414) | 0.30 and 0.34 | Table 1: "L⋆ (L☉)" 0.34 (HD 97658) and 0.30 (Gl 785 = HD 192310) | R★ 0.68–0.73, Teff 5144–5170 K → 0.30–0.34 L☉ (log −0.5) | ingestion (and swapped between the two stars: section 8) |
+| TOI-5542 b (Grieves et al. 2022, A&A; arXiv:2209.14830) | 1.057 | Table 1: "Luminosity (L⊙) 1.057 ± 0.093". The paper's own insolation, S = L/a² = 9.6 S⊕, uses it as a linear value | R★ 1.058, Teff 5700 K → 1.065 L☉ (log 0.027) | ingestion |
+| HD 187085 b, HD 20782 b (Jones et al. 2006, MNRAS 369, 249; arXiv:astro-ph/0603335) | 2.13 and 1.25 | Table 1: the row is labelled "log (Lstar/L⊙)", with values 2.13 (+0.55/−0.44) and 1.25 | HD 187085 (G0V): R★ 1.27 (Barbato et al. 2018), Teff 6075 K → 1.98 L☉ (log 0.30). log L = 2.13 would be 135 L☉ for a G0 dwarf | the paper's label |
+| BD+60 1417 b (Faherty et al. 2021, ApJ 923, 48; arXiv:2112.04678) | 0.35595 | Table 1: "log(Lbol/L⊙)" = 0.35595 ± 0.01021, cited to the TESS Input Catalog | R★ 0.797, Teff 4993 K → 0.352 L☉ (log −0.45) | the paper's label (the TIC lists L in L☉, not its log) |
+| TOI-3568 b (Martioli et al. 2024, A&A; arXiv:2409.03704) | 0.33 | Table 5: "luminosity, log L⋆/L⊙ 0.33 ± 0.02" | R★ 0.719, Teff 4969 K → 0.284 L☉ (log −0.55) | the paper's label |
+
+**The Archive's own calculation then multiplies the error.** When a paper gives no insolation, the composite table calculates one as S = 10^`st_lum` / a² ([pscp_calc](https://exoplanetarchive.ipac.caltech.edu/docs/pscp_calc.html)), marked "Calculated Value". Its arithmetic is right in every row below (the stored value equals 10^`st_lum`/a² to four digits), but the input is a linear luminosity, so the result is 10^L/L times too high:
+
+| planet | composite `st_lum` (from) | a (au) | composite `pl_insol` (Calculated Value) | with L read as L/L☉ | factor |
+|---|---|---|---|---|---|
+| HD 187085 b | 2.13 (Jones et al. 2006) | 2.1 | **30.59 S⊕** | 0.483 S⊕ | 63 |
+| HD 156668 b | 0.23 (Howard et al. 2011) | 0.05 | 679.3 S⊕ | 92.0 S⊕ | 7.4 |
+| HIP 57274 b | 0.19 (Fischer et al. 2012) | 0.07 | 316.1 S⊕ | 38.8 S⊕ | 8.2 |
+| HIP 57274 c | 0.19 | 0.178 | 48.88 S⊕ | 6.00 S⊕ | 8.2 |
+| HIP 57274 d | 0.19 | 1.01 | 1.518 S⊕ | 0.186 S⊕ | 8.2 |
+
+The composite `st_lum` of TOI-5542 (1.057, read as 11.4 L☉), TOI-3568 (0.33, read as 2.1 L☉) and BD+60 1417 (0.356) is also wrong. Their composite insolations come from the paper or ExoFOP (TOI-5542 b: 9.6, TOI-3568 b: 130.1) or are negligible (BD+60 1417 b at 1,662 au), so only `st_lum` itself is affected there. In the same system, HD 156668 c takes its luminosity from another source (log −0.540), so the composite table gives planets b and c of one star luminosities 0.77 dex apart.
+
+**Why it matters.** HD 187085 b is a giant planet on a 2.1 au orbit around a Sun-like star, receiving about half of Earth's insolation. The Archive's default parameters say 30.6 times Earth's, more than Mercury receives (about 6.7). HIP 57274 d at 1.01 au around a K dwarf receives about 0.19 S⊕, not 1.5. Any habitable-zone or insolation-based selection made from the composite table moves these planets to the wrong place, and anyone who reads `st_lum` as documented gets luminosities 2–135 times too high for these stars.
+
+**It has already reached a published catalog.** *A Catalog of Habitable Zone Exoplanets* (Hill et al.; arXiv:2210.02484v2, Tables 1 and 2) downloaded the Archive's default parameters. It lists HIP 57274 with L★ = **1.55 L☉**, which is 10^0.19, next to R★ = 0.68 R☉ and Teff = 4640 K. From that it gives HIP 57274 d a flux of 2072.5 W/m² (1.52 S⊕) and HZ edges of 0.990 / 1.254 / 2.304 / 2.431 au (Recent Venus / Runaway Greenhouse / Maximum Greenhouse / Early Mars), so the planet spends 19% of its orbit in the conservative HZ and 61% in the optimistic HZ. With the paper's own L★ = 0.19 L☉, every edge shrinks by √(0.19/1.55) = 0.35, to about 0.35 / 0.44 / 0.81 / 0.85 au. The planet's 1.01 au orbit (e = 0.27) then lies beyond the outer edge, and it enters the HZ only near periastron (0.74 au). The same catalog gives HD 187085 b a correct 2.03 L☉, because the default parameter set for that star has no luminosity and the catalog computed one from R★ and Teff.
+
+**Prior art.** No erratum, Archive notice or published report of linear values in `st_lum` was found (web and arXiv searches, 2026-10-15). Hill et al. (above) carry the HIP 57274 value without comment. A search summary also pointed to one paper noting that `pl_insol` for HATS-18 b had been ingested without a unit conversion. That is a single insolation value, not this pattern, and the paper could not be opened to confirm it.
+
+**Limits.** The queries only reach stars where a linear value cannot pass as a log (K dwarfs, and Sun-like stars with large values), and rows with a stored R★ and Teff. A linear value for a star with L ≈ 1.5–3 L☉ and no stored radius (HD 187085 b's Jones et al. row has none; it was found through the composite insolation) would be missed. The census in `lum_check.py` tests every row with R★ and Teff, both tables, and recomputes every calculated insolation, equilibrium temperature, density and angular separation from the same row.
+
+## 8. Two stars' parameters exchanged: Howard et al. 2011 (HD 97658 and Gl 785) (new, 2026-10-15)
+
+**Status: checked against the paper's Table 1 (ApJ 730, 10; arXiv:1011.0414) on 2026-10-15.**
+
+The paper reports two planets in one table, with one column per star. In the Archive's rows for this paper, the first three stellar parameters belong to the right star, and the last three belong to the other one:
+
+| parameter | paper, HD 97658 | Archive, HD 97658 b (Howard et al. 2011) | paper, Gl 785 (= HD 192310) | Archive, HD 192310 b (Howard et al. 2011) |
+|---|---|---|---|---|
+| Teff (K) | 5170 | 5170 | 5144 | 5144 |
+| log g | 4.63 | 4.63 | 4.60 | 4.60 |
+| [Fe/H] | −0.23 | −0.23 | +0.08 | +0.08 |
+| L★ (L☉) | 0.34 | **0.30** | 0.30 | **0.34** |
+| M★ (M☉) | 0.85 | **0.78** | 0.78 | **0.85** |
+| R★ (R☉) | 0.73 | **0.68** | 0.68 | **0.73** |
+
+The luminosities are also stored as linear values in the log column (section 7). These parameter sets are not the defaults (`default_flag` = 0), so the composite table is not affected. But studies that use every parameter set in `ps`, for example stellar mass–radius comparisons or per-reference catalogs, get HD 97658 as a 0.78 M☉, 0.68 R☉ star (the paper's own values are 0.85 M☉ and 0.73 R☉). HD 97658 b also has two Howard et al. 2011 rows that are identical except that one has no planet mass.
+
+## 9. What looked like errors but is physics, or a coincidence
+
+- **Circumbinary planets** (Kepler-34, -35, -47, -413, -1647, TIC 172900988) fail Kepler's third law against the primary's mass alone. The correct mass is the binary's, so they are skipped (`cb_flag` = 1). TIC 172900988's luminosity in the TIC is about twice what one star's R★ and Teff give, as expected for a blended binary.
 - **The Kepler KOI pipeline tables** account for most flags on a/R★ and depth. There a/R★ is a free transit-fit parameter, and limb darkening makes depths about 1.18 × (Rp/R★)². They are labelled `pipeline` and kept out of the "strongest flags" lists.
 - **White-dwarf hosts** (WD 1856+534 b, ZTF J1828+2308 b and others): the planet is larger than the star, so neither depth = (Rp/R*)² nor the transit-density formula applies.
 - **Eccentric orbits the paper itself reports (checked 2026-10-14):** K2-174 b (Livingston et al. 2019, arXiv:1901.05855): a/R★ = 26.6 against 40 from the star; the paper reports its light-curve density as "∼10σ discrepant" with ρ★ = 3.21 g/cm³ and reads it as a sign of eccentricity. Kepler-210 b (Ioannidis et al. 2014, arXiv:1403.3238): the paper finds that the stellar parameters implied by each planet disagree and proposes significant eccentricities.
 - **Grazing transits (checked 2026-10-14):** TOI-1855 b (Schulte et al. 2024, arXiv:2401.05923: b = 1.024, so depth < (Rp/R★)² as expected); TOI-2193 A b and TOI-3540 A b (Yee et al. 2022, arXiv:2205.09728: radii are 95% lower limits, and the printed density is the mode of its own skewed posterior, which need not equal mass/radius³ of the other modes).
+- **Composite insolations that disagree with R★ and Teff but follow the Archive's formula.** 0.3.0 flagged 87 calculated insolations. Of the 25 looked up so far, apart from those in section 7, most take their luminosity from a different source (often Gaia DR2 or the TIC) than the radius and temperature in the same composite row. For giants and for faint stars such luminosities can differ from R★²Teff⁴ by 0.3–0.6 dex without any slip. These are not counted as errors; only the linear values in section 7 are. Lupus-TR-3 (TIC log L = −1.46, against −0.42 from R★ and Teff) is still open.
 - **0.2.0 also gave its 1.41 label** to four log g and insolation offsets (Leleu et al. 2024, Moutou et al. 2015, Tuomi et al. 2013, and Torres et al. 2017 insolation). A density unit cannot explain a log g or insolation offset, so those labels were coincidences. In 0.3.0 each unit factor applies only to the checks it can explain. The log g offsets (Leleu et al. 2024: −0.16 dex over 6 rows; Leleu et al. 2021: −0.17 dex over 8 rows) are the size of the usual gap between spectroscopic and mass-radius log g, so they are not treated as errors. The offsets stay listed in `systematics.csv`.
 
-## 8. In progress: an errata watcher
+## 10. In progress: an errata watcher and a luminosity census
 
-HD 48948 (section 5) shows that a published erratum can leave the Archive unchanged. `errata_watch.py` (queued) harvests every erratum, correction and corrigendum from Crossref for AJ, ApJ, ApJL, ApJS, MNRAS, A&A and PASP. It finds the paper each one corrects (from the citation in AAS erratum titles, otherwise by title lookup) and matches it to the bibcodes behind the Archive's parameter sets. It then lists every Archive reference with a published erratum whose rows were last updated before the erratum appeared. Each candidate will be read by hand before anything is claimed. No earlier list of this kind was found (searches on 2026-10-14).
+- **Errata watcher.** HD 48948 (section 5) shows that a published erratum can leave the Archive unchanged. `errata_watch.py` (queued) harvests every erratum, correction and corrigendum from Crossref for AJ, ApJ, ApJL, ApJS, MNRAS, A&A and PASP. It finds the paper each one corrects (from the citation in AAS erratum titles, otherwise by title lookup) and matches it to the bibcodes behind the Archive's parameter sets. It then lists every Archive reference with a published erratum whose rows were last updated before the erratum appeared. Each candidate will be read by hand before anything is claimed. No earlier list of this kind was found (searches on 2026-10-14).
+- **Luminosity census (`lum_check.py`, new).** For every `ps` and composite row with R★ and Teff, it classifies `st_lum` as consistent, linear-in-log or otherwise off, and counts the results per reference. It also recomputes each composite "Calculated Value" (insolation, equilibrium temperature, planet density, angular separation) from the same row with the Archive's documented formula, and lists the calculated insolations that rest on a linear luminosity. Offline tests use the rows in section 7.
 
 ## Next
 
-1. Read 0.3.0's `unit_groups.csv`: the rows behind each reference, the exact count of composite values affected, and the journal column units from the CDS ReadMe files.
-2. Items 1 and 2 are going to the Archive helpdesk as one batched note. Record its reply here. Items 2 (TOI-5624 c, TOI-1478 b), 3, 4, 5 and 6 go in one short follow-up once the Archive replies.
+1. Items 1 and 2 went to the Archive helpdesk as one batched note. Record its reply here. Items 2 (TOI-5624 c, TOI-1478 b), 3–8 go in one short follow-up once the Archive replies.
+2. Read the luminosity census and hand-check every new linear-in-log reference against its paper.
 3. Check TOI-2049 b against its paper once it is public.
 4. Read the errata-watch and placeholder-census results and hand-check their top candidates.
-5. Keep working down the "strongest flags" list (`report.md`): K2-43 b and c (Hedges et al. 2019), Kepler-53 c, OGLE2-TR-L9 b, TOI-128.01, TOI-4602.01, HATS-62 b, Kepler-1704 b, HD 10442 b.
+5. Keep working down the "strongest flags" list (`report.md`): K2-43 b and c (Hedges et al. 2019), Kepler-53 c, OGLE2-TR-L9 b, TOI-128.01, TOI-4602.01, HATS-62 b, Kepler-1704 b, HD 10442 b, GJ 682 (Tuomi et al. 2014: log L = −2.70 against −2.17 from R★ and Teff).
