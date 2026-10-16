@@ -14,6 +14,10 @@ two planets whose Archive period is twice the light curve's: Kepler-1604 b (0.68
 0.342 d) and Kepler-1301 b (9.082 d against its DR25 TCE's 4.541 d). 0.2.0 adds a second census that
 compares the Archive's composite period with the DR25 KOI period directly (the route that finds
 Kepler-1604 b), and splits each group's depth into the first and second half of the mission.
+0.2.0 (2026-10-16T16:01Z) added Kepler-1632 b: all six 224.15 d epochs are deep, so the Archive's
+448.30 d (Morton et al. 2016) is twice the real period. 0.3.0 tests DR25 candidates too (--dispositions),
+and adds the pipeline's odd-even statistic, the KOI's transit count and a flag for counts the KOI
+period cannot allow (Kepler-1301 b: 298 transits listed, at most 161 at 9.08 d).
 
 Method:
 1. TCE census. Join the DR25 TCE and KOI tables on (kepid, TCE number). k is the whole number 2..5
@@ -24,20 +28,24 @@ Method:
    Kepler planet; "archive_long" or "koi_long". The fold always uses the KOI ephemeris: P_short is the
    KOI period, or the KOI period / k if the Archive's is the shorter. The long period's phase comes
    from pl_tranmid (BJD - 2454833 = BKJD), or is the KOI epoch itself.
-3. Light curves (Kepler long cadence PDCSAP, quality 0) for confirmed planets from both censuses,
-   Kepler-1802 b first. Epochs on the short period are split into k groups (epoch mod k). Each epoch's
-   depth is the mean deficit of the central 70 % of the KOI duration below a straight line fitted to
-   points 1 to 3 durations from mid-transit (at least 0.25 d), with the star's other KOIs masked.
+3. Light curves (Kepler long cadence PDCSAP, quality 0) for the chosen dispositions from the TCE census
+   (and, for CONFIRMED, the Archive census), Kepler-1802 b first. Epochs on the short period are split
+   into k groups (epoch mod k). Each epoch's depth is the mean deficit of the central 70 % of the KOI
+   duration below a straight line fitted to points 1 to 3 durations from mid-transit (at least
+   0.25 d), with the star's other KOIs masked.
      long_period_real   one group >= 5 sigma deep, at the long period's phase, the others within 3
                         sigma of zero;
      short_period_real  every group >= 5 sigma deep and all agree within 3 sigma;
      inconclusive       otherwise.
    The same group depths are also given for the first and second half of the epochs.
 4. Compare with the Archive's composite pl_orbper and pl_orbsmax (Kepler's law with st_mass).
+5. Transit count. max_transits = floor(1459.5 / koi_period) + 1 (Q1-Q17 span BKJD 131.5-1591.0);
+   impossible_count = "yes" if koi_num_transits is larger.
 A verdict is a candidate to check by eye, not a published correction. A short_period_real verdict
 also fits an eclipsing binary at the long period with two equal eclipses.
 
 Usage: python kepler_alias.py --out-dir /out [--data-dir /data] [--max-targets 40]
+                              [--dispositions CONFIRMED,CANDIDATE]
 """
 import argparse
 import bisect
@@ -53,7 +61,7 @@ import tempfile
 import urllib.parse
 import urllib.request
 
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 TAP = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
 MAST = "https://archive.stsci.edu/missions/kepler/lightcurves/{d4}/{d9}/"
 UA = f"kepler-alias/{VERSION} (Munim, Inc.; mv2@munimtech.com)"
@@ -62,13 +70,14 @@ MAX_K = 5
 SIG_DEEP, SIG_EMPTY = 5.0, 3.0
 ERR_FLOOR = 1e-6
 BKJD = 2454833.0
+MISSION_DAYS = 1459.5
 CHECK = "K02174.03"
 JOIN = ("select t.kepid, t.tce_plnt_num, t.tce_period, t.tce_time0bk, t.tce_depth, t.tce_duration, "
-        "k.kepoi_name, k.kepler_name, k.koi_period, k.koi_time0bk, k.koi_depth, k.koi_duration, "
-        "k.koi_disposition, k.koi_prad from q1_q17_dr25_tce t join q1_q17_dr25_koi k "
-        "on t.kepid = k.kepid and t.tce_plnt_num = k.koi_tce_plnt_num")
+        "t.tce_bin_oedp_stat, k.kepoi_name, k.kepler_name, k.koi_period, k.koi_time0bk, k.koi_depth, "
+        "k.koi_duration, k.koi_disposition, k.koi_prad, k.koi_num_transits from q1_q17_dr25_tce t "
+        "join q1_q17_dr25_koi k on t.kepid = k.kepid and t.tce_plnt_num = k.koi_tce_plnt_num")
 KOIS = ("select kepid, kepoi_name, kepler_name, koi_disposition, koi_period, koi_time0bk, koi_depth, "
-        "koi_duration, koi_prad from q1_q17_dr25_koi")
+        "koi_duration, koi_prad, koi_num_transits from q1_q17_dr25_koi")
 COMP = ("select pl_name, pl_orbper, pl_orbper_reflink, pl_tranmid, pl_orbsmax, pl_orbsmax_reflink, st_mass "
         "from pscomppars")
 
@@ -129,6 +138,20 @@ def kepler_smax(m_star, p_days):
     return (m_star * (p_days / 365.25) ** 2) ** (1 / 3)
 
 
+def max_transits(p_days):
+    """Most transits a period can have in the Q1-Q17 span, or None."""
+    if not p_days or p_days <= 0:
+        return None
+    return math.floor(MISSION_DAYS / p_days) + 1
+
+
+def count_columns(row, p_koi):
+    """The odd-even statistic, the KOI's transit count, its ceiling and the impossible-count flag."""
+    n, m = num(row, "koi_num_transits"), max_transits(p_koi)
+    return {"oedp_stat": num(row, "tce_bin_oedp_stat"), "koi_num_transits": n, "max_transits": m,
+            "impossible_count": "yes" if n is not None and m is not None and n > m else ""}
+
+
 def add_archive(out, c, p_long, p_short):
     """Fill the Archive comparison columns of a census row from composite row c (may be None)."""
     if not c:
@@ -171,6 +194,7 @@ def census_row(row, comp=None):
            "koi_duration_h": num(row, "koi_duration"), "koi_prad": num(row, "koi_prad"),
            "archive_period": "", "archive_period_ref": "", "archive_matches": "", "archive_smax": "",
            "archive_smax_ref": "", "smax_kepler_ratio": ""}
+    out.update(count_columns(row, p_koi))
     return add_archive(out, (comp or {}).get(row.get("kepler_name", "")), p_long, p_short)
 
 
@@ -198,7 +222,23 @@ def archive_row(koi, comp):
            "koi_duration_h": num(koi, "koi_duration"), "koi_prad": num(koi, "koi_prad"),
            "archive_period": "", "archive_period_ref": "", "archive_matches": "", "archive_smax": "",
            "archive_smax_ref": "", "smax_kepler_ratio": ""}
+    out.update(count_columns(koi, p_k))
     return add_archive(out, c, p_long, p_short)
+
+
+def select_targets(census, arch, dispositions, max_targets):
+    """Census rows to test: the TCE census rows with a chosen disposition, then (for CONFIRMED) the
+    Archive census; one per KOI, only those with an ephemeris, a duration and a long-period phase."""
+    pool = [c for c in census if c["koi_disposition"] in dispositions]
+    if "CONFIRMED" in dispositions:
+        pool += arch
+    seen, targets = set(), []
+    for c in pool:
+        if c["kepoi_name"] in seen or c["t0_short"] is None or not c["koi_duration_h"] or c["long_group"] == "":
+            continue
+        seen.add(c["kepoi_name"])
+        targets.append(c)
+    return targets[:max_targets]
 
 
 def mask_others(times, others):
@@ -369,12 +409,14 @@ def main(argv=None):
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--data-dir", default="")
     ap.add_argument("--max-targets", type=int, default=40)
+    ap.add_argument("--dispositions", default="CONFIRMED")
     args = ap.parse_args(argv)
+    dispositions = {d.strip() for d in args.dispositions.split(",") if d.strip()}
     os.makedirs(args.out_dir, exist_ok=True)
     cache = args.data_dir or tempfile.mkdtemp()
     p = (lambda n: os.path.join(args.data_dir, n)) if args.data_dir else (lambda n: None)
-    joined = list(csv.DictReader(fetch(JOIN, p("dr25-tce-koi.csv")).splitlines()))
-    kois = list(csv.DictReader(fetch(KOIS, p("dr25-koi-v2.csv")).splitlines()))
+    joined = list(csv.DictReader(fetch(JOIN, p("dr25-tce-koi-v3.csv")).splitlines()))
+    kois = list(csv.DictReader(fetch(KOIS, p("dr25-koi-v3.csv")).splitlines()))
     comp = {r["pl_name"]: r for r in csv.DictReader(fetch(COMP, p("pc-alias-v2.csv")).splitlines())}
 
     census = [c for c in (census_row(r, comp) for r in joined) if c]
@@ -384,18 +426,15 @@ def main(argv=None):
     arch = sorted((c for c in (archive_row(r, comp) for r in kois) if c), key=lambda c: c["kepoi_name"])
     write_csv(os.path.join(args.out_dir, "archive_census.csv"), arch, fields or (list(arch[0].keys()) if arch else []))
 
-    seen, targets = set(), []
-    for c in [c for c in census if c["koi_disposition"] == "CONFIRMED"] + arch:
-        if c["kepoi_name"] in seen or c["t0_short"] is None or not c["koi_duration_h"] or c["long_group"] == "":
-            continue
-        seen.add(c["kepoi_name"])
-        targets.append(c)
-    targets = targets[:args.max_targets]
+    targets = select_targets(census, arch, dispositions, args.max_targets)
     tests, epoch_rows = [], []
     for c in targets:
-        row = {"census": c["census"], "kepoi_name": c["kepoi_name"], "kepler_name": c["kepler_name"], "k": c["k"],
+        row = {"census": c["census"], "kepoi_name": c["kepoi_name"], "kepler_name": c["kepler_name"],
+               "koi_disposition": c["koi_disposition"], "k": c["k"],
                "which_long": c["which_long"], "p_short": c["p_short"], "p_long": c["p_long"],
-               "long_group": c["long_group"], "depth_ratio": c["depth_ratio"],
+               "long_group": c["long_group"], "depth_ratio": c["depth_ratio"], "depth_hint": c["depth_hint"],
+               "oedp_stat": c["oedp_stat"], "koi_num_transits": c["koi_num_transits"],
+               "max_transits": c["max_transits"], "impossible_count": c["impossible_count"],
                "archive_period": c["archive_period"], "archive_period_ref": c["archive_period_ref"],
                "archive_matches": c["archive_matches"], "smax_kepler_ratio": c["smax_kepler_ratio"]}
         try:
@@ -411,9 +450,11 @@ def main(argv=None):
         tests.append(row)
         print(json.dumps({k: row[k] for k in ("kepoi_name", "kepler_name", "verdict", "groups", "error")}),
               flush=True)
-    test_fields = ["census", "kepoi_name", "kepler_name", "k", "which_long", "p_short", "p_long", "long_group",
-                   "depth_ratio", "archive_period", "archive_period_ref", "archive_matches", "smax_kepler_ratio",
-                   "points", "epochs", "verdict", "groups", "first_half", "second_half", "error"]
+    test_fields = ["census", "kepoi_name", "kepler_name", "koi_disposition", "k", "which_long", "p_short",
+                   "p_long", "long_group", "depth_ratio", "depth_hint", "oedp_stat", "koi_num_transits",
+                   "max_transits", "impossible_count", "archive_period", "archive_period_ref", "archive_matches",
+                   "smax_kepler_ratio", "points", "epochs", "verdict", "groups", "first_half", "second_half",
+                   "error"]
     write_csv(os.path.join(args.out_dir, "lightcurve_tests.csv"), tests, test_fields)
     write_csv(os.path.join(args.out_dir, "epochs.csv"), epoch_rows,
               ["kepoi_name", "epoch", "group", "depth_ppm", "err_ppm", "n_in", "n_out"])
@@ -422,6 +463,7 @@ def main(argv=None):
     check = next((t for t in tests if t["kepoi_name"] == CHECK), None)
     stats = {
         "version": VERSION, "run_at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
+        "dispositions": sorted(dispositions),
         "joined_rows": len(joined), "koi_rows": len(kois), "composite_rows": len(comp),
         "alias_pairs": len(census), "tce_long": sum(1 for c in census if c["which_long"] == "tce_long"),
         "koi_long": sum(1 for c in census if c["which_long"] == "koi_long"),
@@ -431,6 +473,7 @@ def main(argv=None):
         "confirmed_archive_short": sum(1 for c in conf if c["archive_matches"] == "short"),
         "archive_alias_pairs": len(arch),
         "archive_alias_archive_long": sum(1 for c in arch if c["which_long"] == "archive_long"),
+        "impossible_count_pairs": sum(1 for c in census if c["impossible_count"]),
         "tested": len(tests), "verdicts": {v: sum(1 for t in tests if t["verdict"] == v) for v in
                                            ("long_period_real", "short_period_real", "inconclusive", "error")},
         "check_kepler_1802_b": None if not check else {k: check[k] for k in ("verdict", "groups", "error")},
@@ -444,12 +487,16 @@ def main(argv=None):
              "fits an eclipsing binary at the long period with two equal eclipses.", ""]
     lines += [f"- {k}: {v}" for k, v in stats.items() if k not in ("version", "run_at")]
     lines += ["", "## Light-curve tests", "",
-              "| census | KOI | planet | k | longer | P short | P long | Archive P (ref) | Archive P is | a / Kepler a "
-              "| verdict | groups | first half | second half |", "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+              "| census | KOI | planet | disposition | k | longer | P short | P long | depth ratio (hint) | odd-even "
+              "| transits / max | Archive P (ref) | verdict | groups | first half | second half |",
+              "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for t in tests:
-        lines.append(f"| {t['census']} | {t['kepoi_name']} | {t['kepler_name']} | {t['k']} | {t['which_long']} | "
-                     f"{t['p_short']} | {t['p_long']} | {t['archive_period']} ({t['archive_period_ref']}) | "
-                     f"{t['archive_matches']} | {t['smax_kepler_ratio']} | {t['verdict']} | "
+        lines.append(f"| {t['census']} | {t['kepoi_name']} | {t['kepler_name']} | {t['koi_disposition']} | {t['k']} | "
+                     f"{t['which_long']} | {t['p_short']} | {t['p_long']} | {t['depth_ratio']} ({t['depth_hint']}) | "
+                     f"{t['oedp_stat'] if t['oedp_stat'] is not None else ''} | "
+                     f"{fmt(t['koi_num_transits'], nd=0)} / {t['max_transits'] or ''}"
+                     f"{' IMPOSSIBLE' if t['impossible_count'] else ''} | "
+                     f"{t['archive_period']} ({t['archive_period_ref']}) | {t['verdict']} | "
                      f"{t['groups'] or t['error']} | {t['first_half']} | {t['second_half']} |")
     lines += ["", "## Archive census: composite period k times the DR25 KOI period, or 1/k", "",
               "| KOI | planet | disposition | k | longer | KOI P | Archive P (ref) | a / Kepler a |",
@@ -458,6 +505,14 @@ def main(argv=None):
         lines.append(f"| {c['kepoi_name']} | {c['kepler_name']} | {c['koi_disposition']} | {c['k']} | "
                      f"{c['which_long']} | {c['koi_period']} | {c['archive_period']} ({c['archive_period_ref']}) | "
                      f"{c['smax_kepler_ratio']} |")
+    lines += ["", "## TCE census rows whose transit count the KOI period cannot allow", "",
+              "| KOI | planet | disposition | k | TCE P | KOI P | transits | max at KOI P | odd-even |",
+              "|---|---|---|---|---|---|---|---|---|"]
+    for c in census:
+        if c["impossible_count"]:
+            lines.append(f"| {c['kepoi_name']} | {c['kepler_name']} | {c['koi_disposition']} | {c['k']} | "
+                         f"{c['tce_period']} | {c['koi_period']} | {fmt(c['koi_num_transits'], nd=0)} | "
+                         f"{c['max_transits']} | {c['oedp_stat'] if c['oedp_stat'] is not None else ''} |")
     lines += ["", "## Confirmed planets in the TCE census (first 100)", "",
               "| KOI | planet | k | longer | TCE P | KOI P | depth ratio | hint | Archive P (ref) | a / Kepler a |",
               "|---|---|---|---|---|---|---|---|---|---|"]

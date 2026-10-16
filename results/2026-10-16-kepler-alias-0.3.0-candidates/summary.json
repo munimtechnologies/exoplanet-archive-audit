@@ -1,0 +1,28 @@
+{
+ "version": "0.3.0",
+ "run_at": "2026-10-16T19:19Z",
+ "dispositions": [
+  "CANDIDATE"
+ ],
+ "joined_rows": 8054,
+ "koi_rows": 8054,
+ "composite_rows": 6451,
+ "alias_pairs": 246,
+ "tce_long": 137,
+ "koi_long": 109,
+ "confirmed_alias_pairs": 6,
+ "confirmed_depth_hint_long": 1,
+ "confirmed_archive_long": 4,
+ "confirmed_archive_short": 1,
+ "archive_alias_pairs": 4,
+ "archive_alias_archive_long": 4,
+ "impossible_count_pairs": 85,
+ "tested": 18,
+ "verdicts": {
+  "long_period_real": 3,
+  "short_period_real": 9,
+  "inconclusive": 6,
+  "error": 0
+ },
+ "check_kepler_1802_b": null
+}

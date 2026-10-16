@@ -5,10 +5,12 @@ import kepler_alias as ka
 
 def joined(**kw):
     # DR25 TCE 2 and KOI K02174.03 of KIC 8261920, as returned by the Archive's TAP join on 2026-10-16.
+    # tce_bin_oedp_stat and koi_num_transits were not part of that query; the values here are made up.
     base = {"kepid": "8261920", "tce_plnt_num": "2", "tce_period": "15.4502", "tce_time0bk": "145.907",
-            "tce_depth": "738.7", "tce_duration": "1.772", "kepoi_name": "K02174.03", "kepler_name": "Kepler-1802 b",
+            "tce_depth": "738.7", "tce_duration": "1.772", "tce_bin_oedp_stat": "0.5",
+            "kepoi_name": "K02174.03", "kepler_name": "Kepler-1802 b",
             "koi_period": "7.72513619", "koi_time0bk": "176.80202", "koi_depth": "382.2", "koi_duration": "2.042",
-            "koi_disposition": "CONFIRMED", "koi_prad": "1.71"}
+            "koi_disposition": "CONFIRMED", "koi_prad": "1.71", "koi_num_transits": "150"}
     base.update({k: str(v) for k, v in kw.items()})
     return base
 
@@ -65,17 +67,38 @@ class CensusRowTest(unittest.TestCase):
         self.assertEqual((c["archive_matches"], c["archive_period_ref"]), ("long", "Valizadegan et al. 2022"))
         self.assertEqual(c["archive_smax_ref"], "Q1-Q17 DR25 KOI Table")
         self.assertAlmostEqual(c["smax_kepler_ratio"], 0.630, delta=0.002)  # 2^(-2/3): a from the 7.725 d fit
+        # 1459.5 / 7.72513619 = 188.93, so at most 189 transits; 150 is allowed
+        self.assertEqual((c["oedp_stat"], c["koi_num_transits"], c["max_transits"], c["impossible_count"]),
+                         (0.5, 150.0, 189, ""))
+
+    def test_kepler_1301_b_transit_count_is_impossible(self):
+        # DR25: KOI 9.08233411 d with 298 transits (read 2026-10-16), TCE 4.54116 d; other values made up.
+        c = ka.census_row(joined(kepoi_name="K02643.01", kepler_name="Kepler-1301 b", tce_period=4.54116,
+                                 tce_time0bk=131.9, koi_period=9.08233411, koi_time0bk=131.9,
+                                 koi_num_transits=298, tce_bin_oedp_stat=0.7513), {})
+        self.assertEqual((c["k"], c["which_long"]), (2, "koi_long"))
+        self.assertEqual(c["max_transits"], 161)  # 1459.5 / 9.08233411 = 160.69
+        self.assertEqual(c["impossible_count"], "yes")
+        self.assertEqual(c["oedp_stat"], 0.7513)
+
+    def test_max_transits(self):
+        self.assertEqual(ka.max_transits(1459.5), 2)
+        self.assertEqual(ka.max_transits(1000.0), 2)
+        self.assertEqual(ka.max_transits(224.150923), 7)  # 6.51
+        self.assertIsNone(ka.max_transits(None))
+        self.assertIsNone(ka.max_transits(0.0))
 
     def test_same_period_row_is_skipped(self):
         self.assertIsNone(ka.census_row(joined(tce_period=7.72513, tce_depth=380), COMP))
 
     def test_koi_long_row_and_short_hint(self):
         c = ka.census_row(joined(tce_period=3.0, tce_time0bk=101.0, tce_depth=400, koi_period=6.0,
-                                 koi_time0bk=104.0, koi_depth=410, kepler_name=""), COMP)
+                                 koi_time0bk=104.0, koi_depth=410, kepler_name="", koi_num_transits=""), COMP)
         self.assertEqual((c["k"], c["which_long"], c["p_short"], c["p_long"]), (2, "koi_long", 3.0, 6.0))
         self.assertEqual(c["long_group"], 1)  # (104 - 101) / 3 = 1
         self.assertEqual(c["depth_hint"], "short")  # ratio 1.025, not near 2
         self.assertEqual((c["archive_period"], c["smax_kepler_ratio"]), ("", ""))
+        self.assertEqual((c["koi_num_transits"], c["impossible_count"]), (None, ""))
 
     def test_kepler_smax(self):
         self.assertAlmostEqual(ka.kepler_smax(1.0, 365.25), 1.0, places=9)
@@ -91,6 +114,7 @@ class ArchiveRowTest(unittest.TestCase):
         self.assertEqual(c["long_group"], 1)  # pl_tranmid - 2454833 = 132.002178, one KOI period later
         self.assertEqual((c["archive_matches"], c["archive_period_ref"]), ("long", "Morton et al. 2016"))
         self.assertEqual((c["koi_duration_h"], c["archive_smax"], c["smax_kepler_ratio"]), (1.1554, "", ""))
+        self.assertEqual((c["koi_num_transits"], c["max_transits"]), (None, 4270))  # 1459.5 / 0.3418 = 4269.5
 
     def test_no_tranmid_leaves_the_long_phase_unknown(self):
         comp = {"Kepler-1604 b": dict(COMP_1604["Kepler-1604 b"], pl_tranmid="")}
@@ -106,6 +130,24 @@ class ArchiveRowTest(unittest.TestCase):
         koi = dict(KOI_1604, kepler_name="X b", koi_period="6.0")
         self.assertIsNone(ka.archive_row(koi, {"X b": {"pl_name": "X b", "pl_orbper": "6.0001"}}))
         self.assertIsNone(ka.archive_row(KOI_1604, {}))
+
+
+class SelectTargetsTest(unittest.TestCase):
+    @staticmethod
+    def row(name, disp, census="tce", t0=1.0, dur=2.0, group=0):
+        return {"census": census, "kepoi_name": name, "koi_disposition": disp, "t0_short": t0,
+                "koi_duration_h": dur, "long_group": group}
+
+    def test_dispositions_archive_rows_and_duplicates(self):
+        census = [self.row("A", "CONFIRMED"), self.row("B", "CANDIDATE"), self.row("C", "FALSE POSITIVE"),
+                  self.row("D", "CANDIDATE", t0=None), self.row("E", "CANDIDATE", group="")]
+        arch = [self.row("A", "CONFIRMED", census="archive"), self.row("F", "CONFIRMED", census="archive")]
+        names = lambda ts: [(t["kepoi_name"], t["census"]) for t in ts]
+        self.assertEqual(names(ka.select_targets(census, arch, {"CANDIDATE"}, 40)), [("B", "tce")])
+        self.assertEqual(names(ka.select_targets(census, arch, {"CONFIRMED"}, 40)),
+                         [("A", "tce"), ("F", "archive")])
+        self.assertEqual(names(ka.select_targets(census, arch, {"CONFIRMED", "CANDIDATE"}, 2)),
+                         [("A", "tce"), ("B", "tce")])
 
 
 class LightCurveTest(unittest.TestCase):

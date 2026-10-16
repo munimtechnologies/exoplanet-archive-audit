@@ -1,0 +1,87 @@
+{
+ "version": "0.1.0",
+ "run_at": "2026-10-16T19:21Z",
+ "reference_kepid": "8105398",
+ "reference_quarters": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17
+ ],
+ "reference_segments": 187,
+ "stars_with_quarters": 6923,
+ "koi_rows": 8054,
+ "kois_without_quarters": 0,
+ "census_rows": 4094,
+ "koi_ephemeris_rows": 4089,
+ "archive_ephemeris_rows": 5,
+ "flagged_rows": 10,
+ "flagged_confirmed": 3,
+ "flagged_candidate": 7,
+ "by_flag": {
+  "one_epoch": {
+   "CONFIRMED": 0,
+   "CANDIDATE": 2
+  },
+  "P/3": {
+   "CONFIRMED": 2,
+   "CANDIDATE": 0
+  },
+  "3P": {
+   "CONFIRMED": 1,
+   "CANDIDATE": 3
+  },
+  "P/2": {
+   "CONFIRMED": 1,
+   "CANDIDATE": 1
+  },
+  "2P": {
+   "CONFIRMED": 0,
+   "CANDIDATE": 1
+  }
+ },
+ "lightcurve_checked": 14,
+ "lightcurve_agree": 11,
+ "lightcurve_disagree": 3,
+ "lightcurve_error": 0,
+ "controls": {
+  "K05568.01 archive": {
+   "flags": "P/2;P/3",
+   "lc_flags": "P/2;P/3"
+  },
+  "K05568.01 koi": {
+   "flags": "3P",
+   "lc_flags": "3P"
+  },
+  "K02174.03 koi": {
+   "flags": "",
+   "lc_flags": ""
+  },
+  "K02174.03 archive": {
+   "flags": "",
+   "lc_flags": ""
+  },
+  "K05475.01 koi": {
+   "flags": "",
+   "lc_flags": ""
+  },
+  "K05475.01 archive": {
+   "flags": "",
+   "lc_flags": ""
+  }
+ }
+}
