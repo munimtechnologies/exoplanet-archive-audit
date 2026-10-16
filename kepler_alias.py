@@ -1,5 +1,5 @@
-"""kepler_alias: Kepler planets whose DR25 detection period (TCE) and catalog period (KOI) differ by a
-whole factor, and a light-curve test of which one is real.
+"""kepler_alias: Kepler planets whose periods in different catalogues differ by a whole factor, and a
+light-curve test of which one is real.
 
 Munim, Inc. (MV2 of Munim, Inc.). Made with AI. Apache-2.0. Standard library plus astropy for FITS.
 
@@ -9,24 +9,35 @@ et al. 2022) is 15.4502 d. If transits came every 7.725 d, folding on 15.45 d wo
 depth; if they come every 15.45 d, folding on 7.725 d averages each one with an empty orbit and halves
 it. So the depth ratio points to 15.45 d. Either way the composite row pairs the 15.45 d period with
 a = 0.0662 AU, a/R* = 10.88, insolation 26.9 and Teq 581 K from the 7.725 d KOI fit.
+0.1.0 (2026-10-16T12:41Z) found Kepler-1802 b long_period_real (649 +- 55 ppm against -67 +- 49), and
+two planets whose Archive period is twice the light curve's: Kepler-1604 b (0.684 d against DR25's
+0.342 d) and Kepler-1301 b (9.082 d against its DR25 TCE's 4.541 d). 0.2.0 adds a second census that
+compares the Archive's composite period with the DR25 KOI period directly (the route that finds
+Kepler-1604 b), and splits each group's depth into the first and second half of the mission.
 
 Method:
-1. Census. Join the DR25 TCE and KOI tables on (kepid, TCE number). k is the whole number 2..5 with
-   P_long / P_short = k within 0.2 %; "tce_long" if the TCE period is the longer, "koi_long" if the
-   KOI period is. depth_ratio = depth at the longer period / depth at the shorter; about k if the long
-   period is real, about 1 if the short one is.
-2. Light curves (Kepler long cadence PDCSAP, quality 0) for confirmed planets with k >= 2, Kepler-1802 b
-   first. Epochs on the short period are split into k groups (epoch mod k). Each epoch's depth is the
-   mean deficit of the central 70 % of the KOI duration below a straight line fitted to points 1 to 3
-   durations from mid-transit (at least 0.25 d), with the star's other KOIs masked.
+1. TCE census. Join the DR25 TCE and KOI tables on (kepid, TCE number). k is the whole number 2..5
+   with P_long / P_short = k within 0.2 %; "tce_long" if the TCE period is the longer, "koi_long" if
+   the KOI period is. depth_ratio = depth at the longer period / depth at the shorter; about k if the
+   long period is real, about 1 if the short one is.
+2. Archive census. The same test between the composite pl_orbper and the DR25 KOI period of each
+   Kepler planet; "archive_long" or "koi_long". The fold always uses the KOI ephemeris: P_short is the
+   KOI period, or the KOI period / k if the Archive's is the shorter. The long period's phase comes
+   from pl_tranmid (BJD - 2454833 = BKJD), or is the KOI epoch itself.
+3. Light curves (Kepler long cadence PDCSAP, quality 0) for confirmed planets from both censuses,
+   Kepler-1802 b first. Epochs on the short period are split into k groups (epoch mod k). Each epoch's
+   depth is the mean deficit of the central 70 % of the KOI duration below a straight line fitted to
+   points 1 to 3 durations from mid-transit (at least 0.25 d), with the star's other KOIs masked.
      long_period_real   one group >= 5 sigma deep, at the long period's phase, the others within 3
                         sigma of zero;
      short_period_real  every group >= 5 sigma deep and all agree within 3 sigma;
      inconclusive       otherwise.
-3. Compare with the Archive's composite pl_orbper and pl_orbsmax (Kepler's law with st_mass).
-A verdict is a candidate to check by eye, not a published correction.
+   The same group depths are also given for the first and second half of the epochs.
+4. Compare with the Archive's composite pl_orbper and pl_orbsmax (Kepler's law with st_mass).
+A verdict is a candidate to check by eye, not a published correction. A short_period_real verdict
+also fits an eclipsing binary at the long period with two equal eclipses.
 
-Usage: python kepler_alias.py --out-dir /out [--data-dir /data] [--max-targets 12]
+Usage: python kepler_alias.py --out-dir /out [--data-dir /data] [--max-targets 40]
 """
 import argparse
 import bisect
@@ -42,7 +53,7 @@ import tempfile
 import urllib.parse
 import urllib.request
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 TAP = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
 MAST = "https://archive.stsci.edu/missions/kepler/lightcurves/{d4}/{d9}/"
 UA = f"kepler-alias/{VERSION} (Munim, Inc.; mv2@munimtech.com)"
@@ -50,13 +61,16 @@ TOL = 0.002
 MAX_K = 5
 SIG_DEEP, SIG_EMPTY = 5.0, 3.0
 ERR_FLOOR = 1e-6
+BKJD = 2454833.0
 CHECK = "K02174.03"
 JOIN = ("select t.kepid, t.tce_plnt_num, t.tce_period, t.tce_time0bk, t.tce_depth, t.tce_duration, "
         "k.kepoi_name, k.kepler_name, k.koi_period, k.koi_time0bk, k.koi_depth, k.koi_duration, "
         "k.koi_disposition, k.koi_prad from q1_q17_dr25_tce t join q1_q17_dr25_koi k "
         "on t.kepid = k.kepid and t.tce_plnt_num = k.koi_tce_plnt_num")
-KOIS = "select kepid, kepoi_name, koi_period, koi_time0bk, koi_duration from q1_q17_dr25_koi"
-COMP = "select pl_name, pl_orbper, pl_orbper_reflink, pl_orbsmax, pl_orbsmax_reflink, st_mass from pscomppars"
+KOIS = ("select kepid, kepoi_name, kepler_name, koi_disposition, koi_period, koi_time0bk, koi_depth, "
+        "koi_duration, koi_prad from q1_q17_dr25_koi")
+COMP = ("select pl_name, pl_orbper, pl_orbper_reflink, pl_tranmid, pl_orbsmax, pl_orbsmax_reflink, st_mass "
+        "from pscomppars")
 
 
 def http_bytes(url, timeout=600):
@@ -115,8 +129,26 @@ def kepler_smax(m_star, p_days):
     return (m_star * (p_days / 365.25) ** 2) ** (1 / 3)
 
 
+def add_archive(out, c, p_long, p_short):
+    """Fill the Archive comparison columns of a census row from composite row c (may be None)."""
+    if not c:
+        return out
+    p_a = num(c, "pl_orbper")
+    out["archive_period"] = "" if p_a is None else p_a
+    out["archive_period_ref"] = ref_text(c.get("pl_orbper_reflink", ""))
+    if p_a:
+        out["archive_matches"] = ("long" if abs(p_a / p_long - 1) <= TOL else
+                                  "short" if abs(p_a / p_short - 1) <= TOL else "neither")
+    a, a_k = num(c, "pl_orbsmax"), kepler_smax(num(c, "st_mass"), p_a)
+    out["archive_smax"] = "" if a is None else a
+    out["archive_smax_ref"] = ref_text(c.get("pl_orbsmax_reflink", ""))
+    if a and a_k:
+        out["smax_kepler_ratio"] = round(a / a_k, 4)
+    return out
+
+
 def census_row(row, comp=None):
-    """One census row for a joined TCE/KOI row with k >= 2, else None."""
+    """One TCE-census row for a joined TCE/KOI row with k >= 2, else None."""
     p_tce, p_koi = num(row, "tce_period"), num(row, "koi_period")
     k, which = alias_factor(p_tce, p_koi)
     if k < 2:
@@ -130,7 +162,7 @@ def census_row(row, comp=None):
     ratio = d_long / d_short if d_long and d_short and d_short > 0 else None
     hint = "" if ratio is None else ("long" if ratio >= (1 + k) / 2 else "short")
     long_group = round((t0_long - t0_short) / p_short) % k if t0_long is not None and t0_short is not None else ""
-    out = {"kepid": row.get("kepid", ""), "kepoi_name": row.get("kepoi_name", ""),
+    out = {"census": "tce", "kepid": row.get("kepid", ""), "kepoi_name": row.get("kepoi_name", ""),
            "kepler_name": row.get("kepler_name", ""), "koi_disposition": row.get("koi_disposition", ""),
            "k": k, "which_long": which, "tce_period": p_tce, "koi_period": p_koi,
            "p_short": p_short, "t0_short": t0_short, "p_long": p_long, "long_group": long_group,
@@ -139,20 +171,34 @@ def census_row(row, comp=None):
            "koi_duration_h": num(row, "koi_duration"), "koi_prad": num(row, "koi_prad"),
            "archive_period": "", "archive_period_ref": "", "archive_matches": "", "archive_smax": "",
            "archive_smax_ref": "", "smax_kepler_ratio": ""}
-    c = (comp or {}).get(row.get("kepler_name", ""))
-    if c:
-        p_a = num(c, "pl_orbper")
-        out["archive_period"] = "" if p_a is None else p_a
-        out["archive_period_ref"] = ref_text(c.get("pl_orbper_reflink", ""))
-        if p_a:
-            out["archive_matches"] = ("long" if abs(p_a / p_long - 1) <= TOL else
-                                      "short" if abs(p_a / p_short - 1) <= TOL else "neither")
-        a, a_k = num(c, "pl_orbsmax"), kepler_smax(num(c, "st_mass"), p_a)
-        out["archive_smax"] = "" if a is None else a
-        out["archive_smax_ref"] = ref_text(c.get("pl_orbsmax_reflink", ""))
-        if a and a_k:
-            out["smax_kepler_ratio"] = round(a / a_k, 4)
-    return out
+    return add_archive(out, (comp or {}).get(row.get("kepler_name", "")), p_long, p_short)
+
+
+def archive_row(koi, comp):
+    """One Archive-census row for a DR25 KOI whose composite period is k = 2..5 times its KOI period
+    (or 1/k of it), else None. The fold uses the KOI ephemeris."""
+    c = (comp or {}).get(koi.get("kepler_name", ""))
+    if not c:
+        return None
+    p_a, p_k, t0_k = num(c, "pl_orbper"), num(koi, "koi_period"), num(koi, "koi_time0bk")
+    k, which = alias_factor(p_a, p_k)
+    if k < 2:
+        return None
+    tm = num(c, "pl_tranmid")
+    if which == "tce_long":  # the Archive's period is the longer
+        which, p_short, p_long, t0_short = "archive_long", p_k, p_a, t0_k
+        long_group = round((tm - BKJD - t0_k) / p_k) % k if tm is not None and t0_k is not None else ""
+    else:
+        p_short, p_long, t0_short, long_group = p_k / k, p_k, t0_k, 0
+    out = {"census": "archive", "kepid": koi.get("kepid", ""), "kepoi_name": koi.get("kepoi_name", ""),
+           "kepler_name": koi.get("kepler_name", ""), "koi_disposition": koi.get("koi_disposition", ""),
+           "k": k, "which_long": which, "tce_period": "", "koi_period": p_k,
+           "p_short": p_short, "t0_short": t0_short, "p_long": p_long, "long_group": long_group,
+           "tce_depth_ppm": "", "koi_depth_ppm": num(koi, "koi_depth"), "depth_ratio": "", "depth_hint": "",
+           "koi_duration_h": num(koi, "koi_duration"), "koi_prad": num(koi, "koi_prad"),
+           "archive_period": "", "archive_period_ref": "", "archive_matches": "", "archive_smax": "",
+           "archive_smax_ref": "", "smax_kepler_ratio": ""}
+    return add_archive(out, c, p_long, p_short)
 
 
 def mask_others(times, others):
@@ -234,6 +280,16 @@ def group_stats(epochs, k):
     return groups
 
 
+def split_halves(epochs, k):
+    """(groups of the first half of the epochs, groups of the second half), split at the middle epoch."""
+    if not epochs:
+        return group_stats([], k), group_stats([], k)
+    ordered = sorted(epochs)
+    cut = ordered[len(ordered) // 2][0]
+    return (group_stats([e for e in ordered if e[0] < cut], k),
+            group_stats([e for e in ordered if e[0] >= cut], k))
+
+
 def verdict(groups, long_group):
     if not groups or any(g["epochs"] == 0 for g in groups):
         return "inconclusive"
@@ -289,7 +345,7 @@ def test_target(c, koi_rows, cache):
     mask = mask_others(times, others)
     epochs = epoch_depths(times, fluxes, c["p_short"], c["t0_short"], c["koi_duration_h"], mask)
     groups = group_stats(epochs, c["k"])
-    return len(times), epochs, groups, verdict(groups, c["long_group"])
+    return len(times), epochs, groups, verdict(groups, c["long_group"]), split_halves(epochs, c["k"])
 
 
 def write_csv(path, rows, fields):
@@ -303,49 +359,62 @@ def fmt(x, scale=1.0, nd=1):
     return "" if x is None or x == "" else f"{x * scale:.{nd}f}"
 
 
+def groups_text(groups):
+    return "; ".join(f"g{g['group']}: n={g['epochs']} depth={fmt(g['depth'], 1e6)}"
+                     f"+-{fmt(g['err'], 1e6)} ppm snr={fmt(g['snr'])}" for g in groups)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--data-dir", default="")
-    ap.add_argument("--max-targets", type=int, default=12)
+    ap.add_argument("--max-targets", type=int, default=40)
     args = ap.parse_args(argv)
     os.makedirs(args.out_dir, exist_ok=True)
     cache = args.data_dir or tempfile.mkdtemp()
     p = (lambda n: os.path.join(args.data_dir, n)) if args.data_dir else (lambda n: None)
     joined = list(csv.DictReader(fetch(JOIN, p("dr25-tce-koi.csv")).splitlines()))
-    kois = list(csv.DictReader(fetch(KOIS, p("dr25-koi.csv")).splitlines()))
-    comp = {r["pl_name"]: r for r in csv.DictReader(fetch(COMP, p("pc-alias.csv")).splitlines())}
+    kois = list(csv.DictReader(fetch(KOIS, p("dr25-koi-v2.csv")).splitlines()))
+    comp = {r["pl_name"]: r for r in csv.DictReader(fetch(COMP, p("pc-alias-v2.csv")).splitlines())}
 
     census = [c for c in (census_row(r, comp) for r in joined) if c]
     census.sort(key=lambda c: (c["kepoi_name"] != CHECK, c["koi_disposition"] != "CONFIRMED", c["kepoi_name"]))
     fields = list(census[0].keys()) if census else []
     write_csv(os.path.join(args.out_dir, "census.csv"), census, fields)
+    arch = sorted((c for c in (archive_row(r, comp) for r in kois) if c), key=lambda c: c["kepoi_name"])
+    write_csv(os.path.join(args.out_dir, "archive_census.csv"), arch, fields or (list(arch[0].keys()) if arch else []))
 
-    targets = [c for c in census if c["koi_disposition"] == "CONFIRMED" and c["t0_short"] is not None
-               and c["koi_duration_h"] and c["long_group"] != ""][:args.max_targets]
+    seen, targets = set(), []
+    for c in [c for c in census if c["koi_disposition"] == "CONFIRMED"] + arch:
+        if c["kepoi_name"] in seen or c["t0_short"] is None or not c["koi_duration_h"] or c["long_group"] == "":
+            continue
+        seen.add(c["kepoi_name"])
+        targets.append(c)
+    targets = targets[:args.max_targets]
     tests, epoch_rows = [], []
     for c in targets:
-        row = {"kepoi_name": c["kepoi_name"], "kepler_name": c["kepler_name"], "k": c["k"],
+        row = {"census": c["census"], "kepoi_name": c["kepoi_name"], "kepler_name": c["kepler_name"], "k": c["k"],
                "which_long": c["which_long"], "p_short": c["p_short"], "p_long": c["p_long"],
                "long_group": c["long_group"], "depth_ratio": c["depth_ratio"],
+               "archive_period": c["archive_period"], "archive_period_ref": c["archive_period_ref"],
                "archive_matches": c["archive_matches"], "smax_kepler_ratio": c["smax_kepler_ratio"]}
         try:
-            n_pts, epochs, groups, v = test_target(c, kois, cache)
+            n_pts, epochs, groups, v, (h1, h2) = test_target(c, kois, cache)
             row.update({"points": n_pts, "epochs": len(epochs), "verdict": v, "error": "",
-                        "groups": "; ".join(f"g{g['group']}: n={g['epochs']} depth={fmt(g['depth'], 1e6)}"
-                                            f"+-{fmt(g['err'], 1e6)} ppm snr={fmt(g['snr'])}" for g in groups)})
+                        "groups": groups_text(groups), "first_half": groups_text(h1), "second_half": groups_text(h2)})
             epoch_rows += [{"kepoi_name": c["kepoi_name"], "epoch": n, "group": n % c["k"],
                             "depth_ppm": round(d * 1e6, 1), "err_ppm": round(e * 1e6, 1), "n_in": a, "n_out": b}
                            for n, d, e, a, b in epochs]
         except Exception as exc:  # one target's download or file problem must not stop the others
-            row.update({"points": "", "epochs": "", "verdict": "error", "groups": "",
-                        "error": f"{type(exc).__name__}: {exc}"[:300]})
+            row.update({"points": "", "epochs": "", "verdict": "error", "groups": "", "first_half": "",
+                        "second_half": "", "error": f"{type(exc).__name__}: {exc}"[:300]})
         tests.append(row)
         print(json.dumps({k: row[k] for k in ("kepoi_name", "kepler_name", "verdict", "groups", "error")}),
               flush=True)
-    write_csv(os.path.join(args.out_dir, "lightcurve_tests.csv"), tests,
-              ["kepoi_name", "kepler_name", "k", "which_long", "p_short", "p_long", "long_group", "depth_ratio",
-               "archive_matches", "smax_kepler_ratio", "points", "epochs", "verdict", "groups", "error"])
+    test_fields = ["census", "kepoi_name", "kepler_name", "k", "which_long", "p_short", "p_long", "long_group",
+                   "depth_ratio", "archive_period", "archive_period_ref", "archive_matches", "smax_kepler_ratio",
+                   "points", "epochs", "verdict", "groups", "first_half", "second_half", "error"]
+    write_csv(os.path.join(args.out_dir, "lightcurve_tests.csv"), tests, test_fields)
     write_csv(os.path.join(args.out_dir, "epochs.csv"), epoch_rows,
               ["kepoi_name", "epoch", "group", "depth_ppm", "err_ppm", "n_in", "n_out"])
 
@@ -360,6 +429,8 @@ def main(argv=None):
         "confirmed_depth_hint_long": sum(1 for c in conf if c["depth_hint"] == "long"),
         "confirmed_archive_long": sum(1 for c in conf if c["archive_matches"] == "long"),
         "confirmed_archive_short": sum(1 for c in conf if c["archive_matches"] == "short"),
+        "archive_alias_pairs": len(arch),
+        "archive_alias_archive_long": sum(1 for c in arch if c["which_long"] == "archive_long"),
         "tested": len(tests), "verdicts": {v: sum(1 for t in tests if t["verdict"] == v) for v in
                                            ("long_period_real", "short_period_real", "inconclusive", "error")},
         "check_kepler_1802_b": None if not check else {k: check[k] for k in ("verdict", "groups", "error")},
@@ -369,16 +440,25 @@ def main(argv=None):
 
     lines = [f"# kepler-alias {VERSION}", "",
              f"Run {stats['run_at']}. By MV2 of Munim, Inc.; made with AI agents. Code Apache-2.0, results CC BY "
-             "4.0. A verdict is a candidate to check by eye, not a published correction.", ""]
+             "4.0. A verdict is a candidate to check by eye, not a published correction. short_period_real also "
+             "fits an eclipsing binary at the long period with two equal eclipses.", ""]
     lines += [f"- {k}: {v}" for k, v in stats.items() if k not in ("version", "run_at")]
     lines += ["", "## Light-curve tests", "",
-              "| KOI | planet | k | longer | P short | P long | depth ratio | Archive P is | a / Kepler a | verdict "
-              "| groups |", "|---|---|---|---|---|---|---|---|---|---|---|"]
+              "| census | KOI | planet | k | longer | P short | P long | Archive P (ref) | Archive P is | a / Kepler a "
+              "| verdict | groups | first half | second half |", "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for t in tests:
-        lines.append(f"| {t['kepoi_name']} | {t['kepler_name']} | {t['k']} | {t['which_long']} | {t['p_short']} | "
-                     f"{t['p_long']} | {t['depth_ratio']} | {t['archive_matches']} | {t['smax_kepler_ratio']} | "
-                     f"{t['verdict']} | {t['groups'] or t['error']} |")
-    lines += ["", "## Confirmed planets in the census (first 100)", "",
+        lines.append(f"| {t['census']} | {t['kepoi_name']} | {t['kepler_name']} | {t['k']} | {t['which_long']} | "
+                     f"{t['p_short']} | {t['p_long']} | {t['archive_period']} ({t['archive_period_ref']}) | "
+                     f"{t['archive_matches']} | {t['smax_kepler_ratio']} | {t['verdict']} | "
+                     f"{t['groups'] or t['error']} | {t['first_half']} | {t['second_half']} |")
+    lines += ["", "## Archive census: composite period k times the DR25 KOI period, or 1/k", "",
+              "| KOI | planet | disposition | k | longer | KOI P | Archive P (ref) | a / Kepler a |",
+              "|---|---|---|---|---|---|---|---|"]
+    for c in arch:
+        lines.append(f"| {c['kepoi_name']} | {c['kepler_name']} | {c['koi_disposition']} | {c['k']} | "
+                     f"{c['which_long']} | {c['koi_period']} | {c['archive_period']} ({c['archive_period_ref']}) | "
+                     f"{c['smax_kepler_ratio']} |")
+    lines += ["", "## Confirmed planets in the TCE census (first 100)", "",
               "| KOI | planet | k | longer | TCE P | KOI P | depth ratio | hint | Archive P (ref) | a / Kepler a |",
               "|---|---|---|---|---|---|---|---|---|---|"]
     for c in conf[:100]:

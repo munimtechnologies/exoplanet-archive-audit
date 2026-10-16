@@ -1,0 +1,31 @@
+{
+ "version": "0.1.0",
+ "run_at": "2026-10-16T15:58Z",
+ "agree_factor": 1.18,
+ "ps": {
+  "table": "ps",
+  "transiting_rows": 36477,
+  "rows_checked": 20875,
+  "ratror": 3,
+  "trandep": 236,
+  "radius": 2,
+  "two-way": 25,
+  "mixed": 12,
+  "grazing": 189,
+  "ok": 20408,
+  "default_ratror": 2
+ },
+ "pscomppars": {
+  "table": "pscomppars",
+  "transiting_rows": 4815,
+  "rows_checked": 4642,
+  "ratror": 22,
+  "trandep": 169,
+  "radius": 113,
+  "two-way": 2,
+  "mixed": 177,
+  "grazing": 56,
+  "ok": 4103,
+  "default_ratror": 22
+ }
+}

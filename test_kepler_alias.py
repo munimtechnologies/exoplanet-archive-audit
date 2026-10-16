@@ -21,6 +21,15 @@ COMP = {"Kepler-1802 b": {"pl_name": "Kepler-1802 b", "pl_orbper": "15.45020008"
                           "pl_orbper_reflink": link("Valizadegan et al. 2022"), "pl_orbsmax": "0.0662",
                           "pl_orbsmax_reflink": link("Q1-Q17 DR25 KOI Table"), "st_mass": "0.649"}}
 
+# DR25 KOI K04441.01 of KIC 8416523 as returned on 2026-10-16; the composite period is Morton et al.
+# 2016's. The pl_tranmid here is made up: one KOI period after the KOI epoch, in BJD.
+KOI_1604 = {"kepid": "8416523", "kepoi_name": "K04441.01", "kepler_name": "Kepler-1604 b",
+            "koi_disposition": "CONFIRMED", "koi_period": "0.341842017", "koi_time0bk": "131.660336",
+            "koi_depth": "285.6", "koi_duration": "1.1554", "koi_prad": "1.72"}
+COMP_1604 = {"Kepler-1604 b": {"pl_name": "Kepler-1604 b", "pl_orbper": "0.683684256",
+                               "pl_orbper_reflink": link("Morton et al. 2016"), "pl_tranmid": "2454965.002178",
+                               "pl_orbsmax": "", "pl_orbsmax_reflink": "", "st_mass": ""}}
+
 
 def synthetic(p, t0, dur_h, depth, every=1, span=200.0, step=0.0204):
     """Box transits on every `every`-th epoch of (p, t0); noiseless, flux 1 elsewhere."""
@@ -48,7 +57,7 @@ class AliasFactorTest(unittest.TestCase):
 class CensusRowTest(unittest.TestCase):
     def test_kepler_1802_b_row(self):
         c = ka.census_row(joined(), COMP)
-        self.assertEqual((c["k"], c["which_long"]), (2, "tce_long"))
+        self.assertEqual((c["census"], c["k"], c["which_long"]), ("tce", 2, "tce_long"))
         self.assertEqual((c["p_short"], c["p_long"], c["t0_short"]), (7.72513619, 15.4502, 176.80202))
         self.assertEqual(c["long_group"], 0)  # TCE epoch is 4 KOI periods before the KOI epoch
         self.assertAlmostEqual(c["depth_ratio"], 1.9328, delta=0.001)
@@ -74,6 +83,31 @@ class CensusRowTest(unittest.TestCase):
         self.assertIsNone(ka.kepler_smax(None, 5.0))
 
 
+class ArchiveRowTest(unittest.TestCase):
+    def test_kepler_1604_b_archive_period_is_twice_the_koi_period(self):
+        c = ka.archive_row(KOI_1604, COMP_1604)
+        self.assertEqual((c["census"], c["k"], c["which_long"]), ("archive", 2, "archive_long"))
+        self.assertEqual((c["p_short"], c["p_long"], c["t0_short"]), (0.341842017, 0.683684256, 131.660336))
+        self.assertEqual(c["long_group"], 1)  # pl_tranmid - 2454833 = 132.002178, one KOI period later
+        self.assertEqual((c["archive_matches"], c["archive_period_ref"]), ("long", "Morton et al. 2016"))
+        self.assertEqual((c["koi_duration_h"], c["archive_smax"], c["smax_kepler_ratio"]), (1.1554, "", ""))
+
+    def test_no_tranmid_leaves_the_long_phase_unknown(self):
+        comp = {"Kepler-1604 b": dict(COMP_1604["Kepler-1604 b"], pl_tranmid="")}
+        self.assertEqual(ka.archive_row(KOI_1604, comp)["long_group"], "")
+
+    def test_archive_period_shorter_folds_on_koi_period_over_k(self):
+        koi = dict(KOI_1604, kepler_name="X b", koi_period="6.0", koi_time0bk="104.0")
+        c = ka.archive_row(koi, {"X b": {"pl_name": "X b", "pl_orbper": "3.0", "pl_tranmid": ""}})
+        self.assertEqual((c["k"], c["which_long"], c["p_short"], c["p_long"]), (2, "koi_long", 3.0, 6.0))
+        self.assertEqual((c["t0_short"], c["long_group"], c["archive_matches"]), (104.0, 0, "short"))
+
+    def test_same_period_or_no_composite_row_is_skipped(self):
+        koi = dict(KOI_1604, kepler_name="X b", koi_period="6.0")
+        self.assertIsNone(ka.archive_row(koi, {"X b": {"pl_name": "X b", "pl_orbper": "6.0001"}}))
+        self.assertIsNone(ka.archive_row(KOI_1604, {}))
+
+
 class LightCurveTest(unittest.TestCase):
     def test_alternate_transits_mean_the_long_period_is_real(self):
         times, fluxes = synthetic(7.7, 3.0, 2.0, 5e-4, every=2)
@@ -85,6 +119,17 @@ class LightCurveTest(unittest.TestCase):
         self.assertAlmostEqual(groups[1]["depth"], 0.0, delta=1e-9)
         self.assertEqual(ka.verdict(groups, 0), "long_period_real")
         self.assertEqual(ka.verdict(groups, 1), "inconclusive")  # deep group is not where the long period says
+
+    def test_halves_split_at_the_middle_epoch(self):
+        times, fluxes = synthetic(7.7, 3.0, 2.0, 5e-4, every=2)
+        h1, h2 = ka.split_halves(ka.epoch_depths(times, fluxes, 7.7, 3.0, 2.0), 2)
+        self.assertEqual([g["epochs"] for g in h1], [7, 6])  # epochs 0..12
+        self.assertEqual([g["epochs"] for g in h2], [6, 7])  # epochs 13..25
+        self.assertAlmostEqual(h1[0]["depth"], 5e-4, delta=1e-9)
+        self.assertAlmostEqual(h2[0]["depth"], 5e-4, delta=1e-9)
+        self.assertAlmostEqual(h2[1]["depth"], 0.0, delta=1e-9)
+        e1, e2 = ka.split_halves([], 2)
+        self.assertEqual([g["epochs"] for g in e1 + e2], [0, 0, 0, 0])
 
     def test_every_transit_means_the_short_period_is_real(self):
         times, fluxes = synthetic(7.7, 3.0, 2.0, 5e-4, every=1)
@@ -107,12 +152,14 @@ class LightCurveTest(unittest.TestCase):
         times, fluxes = synthetic(7.7, 3.0, 2.0, 5e-4, span=3.05)  # data stop just after mid-transit
         self.assertEqual(ka.epoch_depths(times, fluxes, 7.7, 3.0, 2.0), [])
 
-    def test_line_fit_and_ref_text(self):
+    def test_line_fit_ref_text_and_groups_text(self):
         a, b, rms = ka.line_fit([(0.0, 1.0), (1.0, 3.0), (2.0, 5.0)])
         self.assertAlmostEqual((a, b, rms)[0], 1.0)
         self.assertAlmostEqual(b, 2.0)
         self.assertAlmostEqual(rms, 0.0)
         self.assertEqual(ka.ref_text(link("Fulton &amp; Petigura 2018")), "Fulton & Petigura 2018")
+        self.assertEqual(ka.groups_text([{"group": 0, "epochs": 3, "depth": 2.5e-4, "err": 1e-5, "snr": 25.0}]),
+                         "g0: n=3 depth=250.0+-10.0 ppm snr=25.0")
 
 
 if __name__ == "__main__":
