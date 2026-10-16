@@ -1,0 +1,14 @@
+{
+ "version": "0.1.0",
+ "run_at": "2026-10-16T13:07Z",
+ "ps_transiting_rows": 36477,
+ "rows_testable": 15592,
+ "dor_tested": 12239,
+ "dor_hits": 237,
+ "dor_control_per_window": 381.0,
+ "ratror_tested": 12412,
+ "ratror_hits": 10,
+ "ratror_control_per_window": 1676.5,
+ "rows_both": 7,
+ "default_rows_hit": 16
+}

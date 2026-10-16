@@ -1,0 +1,26 @@
+{
+ "version": "0.1.0",
+ "run_at": "2026-10-16T12:41Z",
+ "joined_rows": 8054,
+ "koi_rows": 8054,
+ "composite_rows": 6451,
+ "alias_pairs": 246,
+ "tce_long": 137,
+ "koi_long": 109,
+ "confirmed_alias_pairs": 6,
+ "confirmed_depth_hint_long": 1,
+ "confirmed_archive_long": 4,
+ "confirmed_archive_short": 1,
+ "tested": 6,
+ "verdicts": {
+  "long_period_real": 3,
+  "short_period_real": 2,
+  "inconclusive": 1,
+  "error": 0
+ },
+ "check_kepler_1802_b": {
+  "verdict": "long_period_real",
+  "groups": "g0: n=77 depth=649.2+-54.7 ppm snr=11.9; g1: n=74 depth=-66.6+-48.7 ppm snr=-1.4",
+  "error": ""
+ }
+}
