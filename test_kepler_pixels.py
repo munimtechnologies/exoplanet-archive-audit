@@ -41,6 +41,15 @@ class Windows(unittest.TestCase):
     def test_mask_others(self):
         self.assertEqual(kp.mask_others([1.0, 1.04, 1.2], [(10.0, 1.0, 2.4)]), [True, True, False])
 
+    def test_other_ephemerides(self):
+        # The star's KOI rows as TAP returns them (strings); the KOI itself and any unmasked KOI are left out.
+        rows = [{"kepoi_name": "K02167.01", "koi_period": "24.3", "koi_time0bk": "136.1", "koi_duration": "3.9"},
+                {"kepoi_name": "K02167.02", "koi_period": "6.96", "koi_time0bk": "359.0", "koi_duration": "4.5"},
+                {"kepoi_name": "K02167.03", "koi_period": "76.5", "koi_time0bk": "164.2", "koi_duration": "5.6"}]
+        self.assertEqual(kp.other_ephemerides(rows, "K02167.03"), [(24.3, 136.1, 3.9), (6.96, 359.0, 4.5)])
+        self.assertEqual(kp.other_ephemerides(rows, "K02167.03", ["K02167.02"]), [(24.3, 136.1, 3.9)])
+        self.assertEqual(kp.other_ephemerides(rows, "K02167.02", ["K02167.03"]), [(24.3, 136.1, 3.9)])
+
 
 class Period(unittest.TestCase):
     def test_scaled_period(self):

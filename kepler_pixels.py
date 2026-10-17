@@ -12,13 +12,19 @@ there could make one of the two dips. This asks whether each dip comes from the 
 alternate events of a KOI suspected to orbit at twice its catalogued period (KOI-4893.01,
 KOI-4711.01) fall in phase groups 0 and 0.5 and can be measured separately in the pixels.
 
+0.3.0 adds --unmask: KOIs on the star that are left out of the mask, so a KOI whose transits fall on
+a sibling's (koi_dupes 0.1.0: every 11th K02167.02 event is a Kepler-1129 c transit, every 7th
+K01922.02 event a Kepler-1016 c transit) can be measured with and without the sibling's events, and the sibling itself can be
+measured without the KOI's ephemeris masking its transits away.
+
 Method:
 1. Kepler long-cadence target pixel files (FLUX, QUALITY = 0), one per quarter. Pixels finite in
    under 90 % of cadences are left out; cadences with any other pixel missing are dropped.
 2. For each phase group (default 0, 0.5 and the null phases 0.25, 0.75 of the KOI ephemeris) and
    each event: difference image = mean out-of-transit frame (1 to 1 + max(2 dur, 0.25 d) from
    mid-event, both sides, >= 3 cadences each) minus mean in-transit frame (|dt| < dur / 2, >= 2
-   cadences). Events are averaged per quarter, each with equal weight. Other KOIs are masked.
+   cadences). Events are averaged per quarter, each with equal weight. Other KOIs are masked
+   (except those given to --unmask).
 3. The quarter's difference image D is fitted by least squares as a shifted copy of its mean
    out-of-transit image O: D ~ a O + b (-dO/dcol) + c (-dO/drow). a is the fractional depth and
    (b, c) / a the shift in pixels (first order in the shift). (b, c) go to arcsec east/north with
@@ -39,6 +45,7 @@ A difference-image offset is evidence about where the light comes from, not a di
 
 Usage: python kepler_pixels.py --out-dir /out [--data-dir /data] [--koi K02643.01]
                                [--phases 0,0.5,0.25,0.75] [--neighbour 2.69,-1.85] [--period-mult 1]
+                               [--unmask K02167.03,...]
 """
 import argparse
 import bisect
@@ -53,7 +60,7 @@ import tempfile
 import urllib.parse
 import urllib.request
 
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 TAP = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
 MAST_TPF = "https://archive.stsci.edu/missions/kepler/target_pixel_files/{d4}/{d9}/"
 UA = f"kepler-pixels/{VERSION} (Munim, Inc.; mv2@munimtech.com)"
@@ -130,6 +137,13 @@ def mask_others(times, others):
                     break
         mask.append(hit)
     return mask
+
+
+def other_ephemerides(rows, koi, unmask=()):
+    """[(P, t0, dur_h)] to mask: the star's KOI rows except koi itself and any named in unmask."""
+    skip = {koi, *unmask}
+    return [(num(r, "koi_period"), num(r, "koi_time0bk"), num(r, "koi_duration")) for r in rows
+            if r["kepoi_name"] not in skip]
 
 
 def mean_frame(frames, idx):
@@ -414,9 +428,11 @@ def main(argv=None):
     ap.add_argument("--phases", default="0,0.5,0.25,0.75")
     ap.add_argument("--neighbour", default="2.69,-1.85", help="east,north arcsec from the target")
     ap.add_argument("--period-mult", type=float, default=1.0, help="whole factor applied to the catalogued period")
+    ap.add_argument("--unmask", default="", help="comma-separated KOIs on the star not to mask")
     args = ap.parse_args(argv)
     phases = [float(x) for x in args.phases.split(",") if x.strip()]
     neighbour = tuple(float(x) for x in args.neighbour.split(","))
+    unmask = [x.strip() for x in args.unmask.split(",") if x.strip()]
     os.makedirs(args.out_dir, exist_ok=True)
     cache = args.data_dir or tempfile.mkdtemp()
 
@@ -424,9 +440,9 @@ def main(argv=None):
                    f"from cumulative where kepoi_name = '{args.koi}'")[0]
     kepid, p_cat, t0, dur_h = koi["kepid"], num(koi, "koi_period"), num(koi, "koi_time0bk"), num(koi, "koi_duration")
     p = scaled_period(p_cat, args.period_mult)
-    others = [(num(r, "koi_period"), num(r, "koi_time0bk"), num(r, "koi_duration")) for r in
-              tap_rows(f"select kepoi_name, koi_period, koi_time0bk, koi_duration from cumulative where kepid = {kepid}")
-              if r["kepoi_name"] != args.koi]
+    others = other_ephemerides(
+        tap_rows(f"select kepoi_name, koi_period, koi_time0bk, koi_duration from cumulative where kepid = {kepid}"),
+        args.koi, unmask)
 
     rows, errors = [], []
     for path in tpf_files(kepid, cache):
@@ -450,8 +466,8 @@ def main(argv=None):
              "koi": args.koi, "kepler_name": koi.get("kepler_name", ""), "kepid": kepid, "period": p,
              "catalog_period": p_cat, "period_mult": int(args.period_mult),
              "t0_bkjd": t0, "duration_h": dur_h, "koi_depth_ppm": num(koi, "koi_depth"),
-             "neighbour_east_north": list(neighbour), "other_kois": len(others), "errors": errors,
-             "phases": summaries}
+             "neighbour_east_north": list(neighbour), "other_kois": len(others), "unmasked": unmask,
+             "errors": errors, "phases": summaries}
     with open(os.path.join(args.out_dir, "summary.json"), "w", encoding="utf-8") as f:
         json.dump(stats, f, indent=1)
 
@@ -459,6 +475,7 @@ def main(argv=None):
              f"Run {stats['run_at']}. By MV2 of Munim, Inc.; made with AI agents. Code Apache-2.0, results CC BY "
              "4.0. A difference-image offset is evidence about where the light comes from, not a disposition.", "",
              f"P = {p} d ({int(args.period_mult)} x catalogued {p_cat} d), T0 = BKJD {t0}, duration {dur_h} h. "
+             f"Other KOIs masked: {len(others)}; not masked: {', '.join(unmask) or 'none'}. "
              f"Neighbour at {neighbour[0]:+.2f}\" E, "
              f"{neighbour[1]:+.2f}\" N. Offsets are arcsec east/north of the out-of-transit light, jackknife errors "
              "over quarters; 'if neighbour' is the same estimator run on a copy of the image moved to the neighbour.",
