@@ -1,0 +1,92 @@
+{
+ "version": "0.3.0",
+ "run_at": "2026-10-17T08:40Z",
+ "koi": "K02167.03",
+ "kepler_name": "Kepler-1129 c",
+ "kepid": "6041734",
+ "period": 76.5369531,
+ "catalog_period": 76.5369531,
+ "period_mult": 1,
+ "t0_bkjd": 164.15644,
+ "duration_h": 5.574,
+ "koi_depth_ppm": 652.2,
+ "neighbour_east_north": [
+  0.0,
+  3.98
+ ],
+ "other_kois": 1,
+ "unmasked": [
+  "K02167.02"
+ ],
+ "errors": [],
+ "phases": [
+  {
+   "phase": 0.0,
+   "quarters": 13,
+   "events": 15,
+   "depth_ppm": 419.59499620793514,
+   "depth_err_ppm": 34.63775372558736,
+   "depth_snr": 12.113805055954737,
+   "cal_east": 0.46883135001371434,
+   "cal_north": 3.9332237053312307,
+   "east": -1.8266945671809092,
+   "north": 0.41491145193582313,
+   "err_east": 0.45950621897555044,
+   "err_north": 0.4257602798574037,
+   "chi2_zero": 16.753034544791866,
+   "chi2_neighbour": 47.76949150625381,
+   "verdict": "unclear"
+  },
+  {
+   "phase": 0.5,
+   "quarters": 14,
+   "events": 16,
+   "depth_ppm": 178.11139705312416,
+   "depth_err_ppm": 26.272273908915302,
+   "depth_snr": 6.779443517931783,
+   "cal_east": 0.30640401649962967,
+   "cal_north": 3.860806178591985,
+   "east": -0.5436368644190172,
+   "north": -0.9469949948304192,
+   "err_east": 1.6957791969687976,
+   "err_north": 0.6602374852474766,
+   "chi2_zero": 2.1600606510885236,
+   "chi2_neighbour": 30.220117819299603,
+   "verdict": "on_target"
+  },
+  {
+   "phase": 0.25,
+   "quarters": 13,
+   "events": 15,
+   "depth_ppm": 180.9565309280299,
+   "depth_err_ppm": 27.973430067462164,
+   "depth_snr": 6.468871729052384,
+   "cal_east": 0.41327063903987193,
+   "cal_north": 3.9980824189589006,
+   "east": -1.0429981369090588,
+   "north": -1.3732416844554778,
+   "err_east": 1.0611354546490495,
+   "err_north": 1.0886623570376894,
+   "chi2_zero": 2.5572442955163965,
+   "chi2_neighbour": 20.55278130714561,
+   "verdict": "on_target"
+  },
+  {
+   "phase": 0.75,
+   "quarters": 12,
+   "events": 14,
+   "depth_ppm": -2.6933231660969836,
+   "depth_err_ppm": 31.588760708447865,
+   "depth_snr": -0.08526207124601445,
+   "cal_east": 0.366598351027941,
+   "cal_north": 3.8719766579357335,
+   "east": -90.90265480605763,
+   "north": 66.43881796185109,
+   "err_east": 236.1036668585633,
+   "err_north": 430.5659033689405,
+   "chi2_zero": 0.1720442272342142,
+   "chi2_neighbour": 0.17054780632546426,
+   "verdict": "no_signal"
+  }
+ ]
+}

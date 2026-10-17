@@ -1,0 +1,92 @@
+{
+ "version": "0.3.0",
+ "run_at": "2026-10-17T08:41Z",
+ "koi": "K01922.02",
+ "kepler_name": "",
+ "kepid": "9411166",
+ "period": 15.09521323,
+ "catalog_period": 15.09521323,
+ "period_mult": 1,
+ "t0_bkjd": 139.474359,
+ "duration_h": 3.41,
+ "koi_depth_ppm": null,
+ "neighbour_east_north": [
+  0.0,
+  3.98
+ ],
+ "other_kois": 1,
+ "unmasked": [
+  "K01922.03"
+ ],
+ "errors": [],
+ "phases": [
+  {
+   "phase": 0.0,
+   "quarters": 17,
+   "events": 84,
+   "depth_ppm": 190.47657601993154,
+   "depth_err_ppm": 13.81961981345835,
+   "depth_snr": 13.783054714315249,
+   "cal_east": -1.693987909881939,
+   "cal_north": 5.708868464283418,
+   "east": 0.4154216526589796,
+   "north": -0.21335345561587415,
+   "err_east": 0.30539457949252374,
+   "err_north": 0.5753515061618362,
+   "chi2_zero": 1.9878668974044453,
+   "chi2_neighbour": 61.144931483322836,
+   "verdict": "on_target"
+  },
+  {
+   "phase": 0.5,
+   "quarters": 17,
+   "events": 82,
+   "depth_ppm": -7.282154758320091,
+   "depth_err_ppm": 14.731485718127523,
+   "depth_snr": -0.494325887942123,
+   "cal_east": -1.6897942021418222,
+   "cal_north": 5.7439438201977175,
+   "east": 4.25882939424462,
+   "north": -16.8857183685021,
+   "err_east": 37.21376761798233,
+   "err_north": 100.46923056597798,
+   "chi2_zero": 0.04134408054688431,
+   "chi2_neighbour": 0.07628006600328424,
+   "verdict": "no_signal"
+  },
+  {
+   "phase": 0.25,
+   "quarters": 17,
+   "events": 77,
+   "depth_ppm": 51.35510156631936,
+   "depth_err_ppm": 14.816633935898297,
+   "depth_snr": 3.4660437578804113,
+   "cal_east": -1.819166375037176,
+   "cal_north": 5.957663350872702,
+   "east": -2.2138821338312993,
+   "north": -1.2684035438062298,
+   "err_east": 1.0799740598398433,
+   "err_north": 2.091738861412318,
+   "chi2_zero": 4.569959782086266,
+   "chi2_neighbour": 10.217608081367956,
+   "verdict": "unclear"
+  },
+  {
+   "phase": 0.75,
+   "quarters": 17,
+   "events": 81,
+   "depth_ppm": -27.240498477676983,
+   "depth_err_ppm": 13.186478461425795,
+   "depth_snr": -2.0657902378836925,
+   "cal_east": -1.8068423302424683,
+   "cal_north": 6.066880942620064,
+   "east": 0.48459005096127616,
+   "north": 0.9181821102736051,
+   "err_east": 3.0176329148076904,
+   "err_north": 2.7092747470607166,
+   "chi2_zero": 0.14064334768699546,
+   "chi2_neighbour": 3.817346708737159,
+   "verdict": "no_signal"
+  }
+ ]
+}
