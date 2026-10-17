@@ -1,0 +1,363 @@
+{
+ "version": "0.1.0",
+ "n_lissauer_rows": 9693,
+ "n_archive_rows": 9564,
+ "n_matched": 9564,
+ "n_archive_only": 0,
+ "n_lissauer_only": 129,
+ "archive_only": [],
+ "lissauer_only": [
+  "K00191.05",
+  "K00351.08",
+  "K00354.03",
+  "K00408.06",
+  "K00416.05",
+  "K00500.06",
+  "K00542.03",
+  "K00597.04",
+  "K00671.05",
+  "K00691.03",
+  "K00693.03",
+  "K00847.02",
+  "K01108.04",
+  "K01165.03",
+  "K01240.03",
+  "K01276.03",
+  "K01589.06",
+  "K01843.03",
+  "K01870.02",
+  "K01889.03",
+  "K01992.04",
+  "K02061.03",
+  "K02193.03",
+  "K02248.05",
+  "K02433.08",
+  "K02525.02",
+  "K03349.02",
+  "K04246.03",
+  "K04307.02",
+  "K04772.04",
+  "K05547.02",
+  "K07194.02",
+  "K08298.01",
+  "K08299.01",
+  "K08300.01",
+  "K08301.01",
+  "K08302.01",
+  "K08303.01",
+  "K08304.01",
+  "K08305.01",
+  "K08306.01",
+  "K08307.01",
+  "K08308.01",
+  "K08309.01",
+  "K08310.01",
+  "K08311.01",
+  "K08312.01",
+  "K08313.01",
+  "K08314.01",
+  "K08315.01",
+  "K08316.01",
+  "K08317.01",
+  "K08318.01",
+  "K08319.01",
+  "K08320.01",
+  "K08321.01",
+  "K08322.01",
+  "K08323.01",
+  "K08324.01",
+  "K08325.01",
+  "K08326.01",
+  "K08327.01",
+  "K08328.01",
+  "K08329.01",
+  "K08330.01",
+  "K08331.01",
+  "K08332.01",
+  "K08333.01",
+  "K08334.01",
+  "K08335.01",
+  "K08336.01",
+  "K08337.01",
+  "K08338.01",
+  "K08339.01",
+  "K08340.01",
+  "K08341.01",
+  "K08342.01",
+  "K08343.01",
+  "K08344.01",
+  "K08345.01",
+  "K08346.01",
+  "K08347.01",
+  "K08348.01",
+  "K08349.01",
+  "K08350.01",
+  "K08351.01",
+  "K08352.01",
+  "K08353.01",
+  "K08354.01",
+  "K08355.01",
+  "K08356.01",
+  "K08357.01",
+  "K08358.01",
+  "K08359.01",
+  "K08360.01",
+  "K08361.01",
+  "K08362.01",
+  "K08363.01",
+  "K08364.01",
+  "K08365.01",
+  "K08366.01",
+  "K08367.01",
+  "K08368.01",
+  "K08369.01",
+  "K08370.01",
+  "K08371.01",
+  "K08372.01",
+  "K08373.01",
+  "K08374.01",
+  "K08375.01",
+  "K08376.01",
+  "K08377.01",
+  "K08378.01",
+  "K08379.01",
+  "K08380.01",
+  "K08381.01",
+  "K08382.01",
+  "K08383.01",
+  "K08384.01",
+  "K08385.01",
+  "K08386.01",
+  "K08387.01",
+  "K08388.01",
+  "K08389.01",
+  "K08390.01",
+  "K08391.01",
+  "K08392.01",
+  "K08393.01",
+  "K08394.01"
+ ],
+ "n_kic_mismatch": 0,
+ "lissauer_now_counts": {
+  "F": 4840,
+  "P": 4293,
+  "S": 319,
+  "R": 99,
+  "M": 13
+ },
+ "crosstab_archive_vs_lissauer_now": {
+  "CONFIRMED": {
+   "P": 2739,
+   "M": 4,
+   "F": 4,
+   "R": 1
+  },
+  "CANDIDATE": {
+   "R": 98,
+   "P": 1546,
+   "S": 319,
+   "M": 8,
+   "F": 6
+  },
+  "FALSE POSITIVE": {
+   "F": 4830,
+   "M": 1,
+   "P": 8
+  }
+ },
+ "candidates_by_prov_vs_lissauer_now": {
+  "q1_q17_dr25_koi": {
+   "R": 65,
+   "P": 1262,
+   "M": 8,
+   "S": 41,
+   "F": 1
+  },
+  "q1_q16_koi": {
+   "R": 30,
+   "P": 192,
+   "S": 236,
+   "F": 3
+  },
+  "q1_q17_dr24_koi": {
+   "P": 92,
+   "R": 3,
+   "S": 42,
+   "F": 2
+  }
+ },
+ "candidates_rejected": 431,
+ "candidate_reject_rate_orphan": {
+  "n": 600,
+  "rejected": 316,
+  "fraction": 0.5267
+ },
+ "candidate_reject_rate_dr25": {
+  "n": 1377,
+  "rejected": 115,
+  "fraction": 0.0835
+ },
+ "confirmed_rejected": 9,
+ "fp_now_p": 8,
+ "dr25supp_letter_vs_archive": {
+  "n": 9564,
+  "agree": 9554
+ },
+ "n_period_flags": 72,
+ "period_flags_by_fraction": {
+  "1/1": 50,
+  "12/1": 8,
+  "1/5": 2,
+  "12/11": 2,
+  "6/1": 2,
+  "1/2": 2,
+  "2/1": 1,
+  "1/4": 1,
+  "2/3": 1,
+  "1/12": 1,
+  "3/1": 1,
+  "5/4": 1
+ },
+ "watch": {
+  "K00001.01": {
+   "archive_disposition": "CONFIRMED",
+   "parm_prov": "q1_q17_dr25_koi",
+   "lissauer_status": "PPPP",
+   "archive_period": 2.470613377,
+   "lissauer_period": 2.47061338,
+   "ratio_fraction": "1/1",
+   "lissauer_snr": 4360.4,
+   "archive_snr": 4304.3
+  },
+  "K01101.02": {
+   "archive_disposition": "CANDIDATE",
+   "parm_prov": "q1_q16_koi",
+   "lissauer_status": "FPNN",
+   "archive_period": 11.39110963,
+   "lissauer_period": 11.39114826,
+   "ratio_fraction": "1/1",
+   "lissauer_snr": 0.0,
+   "archive_snr": 12.1
+  },
+  "K01922.02": {
+   "archive_disposition": "CANDIDATE",
+   "parm_prov": "q1_q16_koi",
+   "lissauer_status": "SPNN",
+   "archive_period": 15.09521323,
+   "lissauer_period": 15.09681793,
+   "ratio_fraction": "1/1",
+   "lissauer_snr": 4.1,
+   "archive_snr": null
+  },
+  "K02167.02": {
+   "archive_disposition": "CANDIDATE",
+   "parm_prov": "q1_q16_koi",
+   "lissauer_status": "SPNN",
+   "archive_period": 6.95787,
+   "lissauer_period": 6.95745228,
+   "ratio_fraction": "1/1",
+   "lissauer_snr": 1.9,
+   "archive_snr": 1.8
+  },
+  "K01353.03": {
+   "archive_disposition": "CONFIRMED",
+   "parm_prov": "q1_q17_dr25_koi",
+   "lissauer_status": "PPPN",
+   "archive_period": 330.071558,
+   "lissauer_period": 66.01646112,
+   "ratio_fraction": "1/5",
+   "lissauer_snr": 24.4,
+   "archive_snr": 10.6
+  },
+  "K06262.01": {
+   "archive_disposition": "CANDIDATE",
+   "parm_prov": "q1_q17_dr24_koi",
+   "lissauer_status": "PPNP",
+   "archive_period": 0.673141323,
+   "lissauer_period": 0.33657302,
+   "ratio_fraction": "1/2",
+   "lissauer_snr": 15.1,
+   "archive_snr": 10.5
+  },
+  "K04777.01": {
+   "archive_disposition": "CONFIRMED",
+   "parm_prov": "q1_q17_dr24_koi",
+   "lissauer_status": "PPNP",
+   "archive_period": 0.824000125,
+   "lissauer_period": 0.82400164,
+   "ratio_fraction": "1/1",
+   "lissauer_snr": 13.6,
+   "archive_snr": 12.3
+  },
+  "K02061.03": null,
+  "K00245.04": {
+   "archive_disposition": "CONFIRMED",
+   "parm_prov": "q1_q16_koi",
+   "lissauer_status": "FFNN",
+   "archive_period": 51.20690303,
+   "lissauer_period": 51.21471872,
+   "ratio_fraction": "1/1",
+   "lissauer_snr": 3.7,
+   "archive_snr": null
+  },
+  "K00129.01": {
+   "archive_disposition": "CONFIRMED",
+   "parm_prov": "q1_q17_dr25_koi",
+   "lissauer_status": "MFPP",
+   "archive_period": 24.669192732,
+   "lissauer_period": 24.66919299,
+   "ratio_fraction": "1/1",
+   "lissauer_snr": 602.9,
+   "archive_snr": 603.0
+  },
+  "K00125.01": {
+   "archive_disposition": "CONFIRMED",
+   "parm_prov": "q1_q17_dr25_koi",
+   "lissauer_status": "PFPP",
+   "archive_period": 38.47876629,
+   "lissauer_period": 38.47876843,
+   "ratio_fraction": "1/1",
+   "lissauer_snr": 1077.5,
+   "archive_snr": 1077.8
+  }
+ },
+ "fetch": {
+  "version": "0.1.0",
+  "python": "3.12.15",
+  "mrt_source": "https://content.cld.iop.org/journals/2632-3338/5/6/152/revision3/psjad0e6et1_mrt.txt",
+  "mrt_bytes": 6991129,
+  "mrt_sha256": "1fe1360313268ee305dead10cffbf79e1ebf18a76b0032e64e11870fe3af0521",
+  "mrt_columns": {
+   "KIC": [
+    1,
+    8
+   ],
+   "KOI": [
+    10,
+    16
+   ],
+   "Kepler": [
+    18,
+    31
+   ],
+   "Period": [
+    33,
+    46
+   ],
+   "S/N": [
+    255,
+    260
+   ],
+   "MES": [
+    262,
+    269
+   ],
+   "Status": [
+    548,
+    551
+   ]
+  },
+  "cumulative_source": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+kepoi_name%2Ckepid%2Ckepler_name%2Ckoi_disposition%2Ckoi_parm_prov%2Ckoi_period%2Ckoi_model_snr+from+cumulative&format=csv",
+  "cumulative_fetched_at": "2026-10-17T16:22:15Z"
+ }
+}

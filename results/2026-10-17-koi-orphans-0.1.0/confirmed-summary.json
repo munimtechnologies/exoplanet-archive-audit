@@ -1,0 +1,65 @@
+{
+ "version": "0.1.0",
+ "dispositions": [
+  "CONFIRMED"
+ ],
+ "koi_rows": 9564,
+ "tce_rows": 34032,
+ "federated_tces": 8054,
+ "orphans": 17,
+ "orphans_by_prov": {
+  "q1_q16_koi": 12,
+  "q1_q17_dr24_koi": 5
+ },
+ "orphans_with_tce": 14,
+ "orphan_tce_pairs": 31,
+ "commensurate_pairs": 2,
+ "n_max": 12,
+ "drift_max_d": 0.5,
+ "counts": {
+  "same_events": 1,
+  "offset": 1,
+  "unrelated": 12,
+  "no_params": 0,
+  "no_tce": 3,
+  "same_events_same": 0,
+  "same_events_integer": 1,
+  "same_events_rational": 0
+ },
+ "null_mean": {
+  "same_events": 0.0,
+  "offset": 0.36,
+  "unrelated": 13.64,
+  "no_params": 0.0,
+  "no_tce": 0.0,
+  "same_events_same": 0.0,
+  "same_events_integer": 0.0,
+  "same_events_rational": 0.0
+ },
+ "null_shuffles": 100,
+ "seed": 20261017,
+ "expected_same_events_by_chance": 0.311,
+ "control": {
+  "tested": 2731,
+  "no_tce_row": 0,
+  "same_events_same": 2721,
+  "same_events_other": 6,
+  "offset": 0,
+  "not_commensurate": 4
+ },
+ "control_misses": [
+  "K00904.02 P=27.9541337 TCE 3 P=27.9721: not_commensurate",
+  "K00904.03 P=42.1406089 TCE 5 P=42.1142: not_commensurate",
+  "K00134.01 P=67.5923754 TCE 2 P=67.6858: not_commensurate",
+  "K00961.02 P=0.453287416 TCE 3 P=0.906561: same_events_other 1/2 off=-0.0074",
+  "K00179.02 P=572.376632 TCE 2 P=286.187: same_events_other 2/1 off=-0.0019",
+  "K01831.03 P=34.205785079 TCE 4 P=34.1937: not_commensurate",
+  "K02174.03 P=7.72513619 TCE 2 P=15.4502: same_events_other 1/2 off=-0.0055",
+  "K02643.01 P=9.08233411 TCE 1 P=4.54116: same_events_other 2/1 off=-0.0023",
+  "K00490.02 P=1071.232624 TCE 1 P=535.616: same_events_other 2/1 off=-0.0004",
+  "K04441.01 P=0.341842017 TCE 1 P=0.683677: same_events_other 1/2 off=-0.0067"
+ ],
+ "same_events": [
+  "K01236.03 (q1_q17_dr24_koi) P=54.4205407 ~ 1/4 x TCE 4 P=217.709 (no KOI ) off=0.0733 d p_phase=0.026"
+ ]
+}
