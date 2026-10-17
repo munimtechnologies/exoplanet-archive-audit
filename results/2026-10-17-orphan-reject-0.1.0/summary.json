@@ -1,0 +1,91 @@
+{
+ "version": "0.1.0",
+ "n_orphans": 600,
+ "n_joined": 600,
+ "missing_from_xmatch": [],
+ "rejected_total": 316,
+ "by_status": {
+  "no_tce": {
+   "n": 437,
+   "rejected": 221,
+   "fraction": 0.5057
+  },
+  "unrelated": {
+   "n": 146,
+   "rejected": 88,
+   "fraction": 0.6027
+  },
+  "offset": {
+   "n": 3,
+   "rejected": 1,
+   "fraction": 0.3333
+  },
+  "same_events": {
+   "n": 14,
+   "rejected": 6,
+   "fraction": 0.4286
+  }
+ },
+ "by_prov": {
+  "q1_q16_koi": {
+   "n": 461,
+   "rejected": 269,
+   "fraction": 0.5835
+  },
+  "q1_q17_dr24_koi": {
+   "n": 139,
+   "rejected": 47,
+   "fraction": 0.3381
+  }
+ },
+ "no_tce_vs_with_tce": {
+  "no_tce": {
+   "n": 437,
+   "rejected": 221,
+   "fraction": 0.5057
+  },
+  "with_tce": {
+   "n": 163,
+   "rejected": 95,
+   "fraction": 0.5828
+  },
+  "fisher_p_greater": 0.9622306369905338
+ },
+ "reject_letters_by_status": {
+  "same_events": {
+   "F": 1,
+   "R": 2,
+   "S": 3
+  },
+  "offset": {
+   "S": 1
+  },
+  "unrelated": {
+   "F": 3,
+   "S": 77,
+   "R": 8
+  },
+  "no_tce": {
+   "R": 23,
+   "S": 197,
+   "F": 1
+  }
+ },
+ "same_events_on_rogue_tce": [
+  "K00600.02 TCE 2 Lissauer PPNN",
+  "K03401.02 TCE 2 Lissauer RPNN",
+  "K04333.01 TCE 1 Lissauer PPNN",
+  "K05126.01 TCE 1 Lissauer PPNN",
+  "K05423.01 TCE 1 Lissauer PPNN",
+  "K05613.01 TCE 1 Lissauer PPNN",
+  "K06151.01 TCE 1 Lissauer PPNN"
+ ],
+ "orphans_with_rogue_on_star": 16,
+ "n_rogue_tces": 1498,
+ "sources": {
+  "orphans": "https://raw.githubusercontent.com/munimtechnologies/exoplanet-archive-audit/main/results/2026-10-17-koi-orphans-0.1.0/orphans.csv",
+  "xmatch": "https://raw.githubusercontent.com/munimtechnologies/exoplanet-archive-audit/main/results/2026-10-17-lissauer-xmatch-0.1.0/xmatch.csv",
+  "rogue": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+kepid%2Ctce_plnt_num+from+q1_q17_dr25_tce+where+tce_rogue_flag%3D1&format=csv",
+  "fetched_at": "2026-10-17T23:09:25Z"
+ }
+}
