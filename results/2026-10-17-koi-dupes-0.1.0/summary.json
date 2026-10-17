@@ -1,0 +1,95 @@
+{
+ "version": "0.1.0",
+ "koi_rows": 9564,
+ "ps_rows": 2755,
+ "stars": 8214,
+ "k_max": 30,
+ "drift_max_d": 0.5,
+ "counts": {
+  "koi": {
+   "same_events": 21,
+   "offset": 16,
+   "same_both_not_fp": 4,
+   "same_any_fp": 17
+  },
+  "cross": {
+   "same_events": 2,
+   "offset": 0,
+   "same_both_not_fp": 2,
+   "same_any_fp": 0
+  }
+ },
+ "null": {
+  "0.25": {
+   "koi": {
+    "same_events": 8,
+    "offset": 29,
+    "same_both_not_fp": 1,
+    "same_any_fp": 7
+   },
+   "cross": {
+    "same_events": 0,
+    "offset": 2,
+    "same_both_not_fp": 0,
+    "same_any_fp": 0
+   }
+  },
+  "0.5": {
+   "koi": {
+    "same_events": 10,
+    "offset": 27,
+    "same_both_not_fp": 1,
+    "same_any_fp": 9
+   },
+   "cross": {
+    "same_events": 0,
+    "offset": 2,
+    "same_both_not_fp": 0,
+    "same_any_fp": 0
+   }
+  },
+  "0.75": {
+   "koi": {
+    "same_events": 6,
+    "offset": 31,
+    "same_both_not_fp": 1,
+    "same_any_fp": 5
+   },
+   "cross": {
+    "same_events": 0,
+    "offset": 2,
+    "same_both_not_fp": 0,
+    "same_any_fp": 0
+   }
+  }
+ },
+ "chance_same_events": {
+  "koi": 7.0,
+  "cross": 0.0
+ },
+ "same_events": [
+  "cross: K01833.02 (CONFIRMED) / KOI-1833 d (PS) k=1 off=-0.0004 d",
+  "cross: Kepler-289 d (PS) / K01353.03 (CONFIRMED) k=5 off=0.2785 d",
+  "koi: K04298.01 (CANDIDATE) / K04298.02 (FALSE POSITIVE) k=4 off=-0.0009 d",
+  "koi: K04417.01 (FALSE POSITIVE) / K04417.02 (FALSE POSITIVE) k=2 off=0.0014 d",
+  "koi: K03610.02 (FALSE POSITIVE) / K03610.01 (FALSE POSITIVE) k=2 off=0.0015 d",
+  "koi: K03376.01 (FALSE POSITIVE) / K03376.02 (FALSE POSITIVE) k=6 off=-0.0017 d",
+  "koi: K02360.02 (FALSE POSITIVE) / K02360.01 (FALSE POSITIVE) k=2 off=-0.0025 d",
+  "koi: K01042.01 (FALSE POSITIVE) / K01042.02 (FALSE POSITIVE) k=2 off=0.0029 d",
+  "koi: K01132.02 (FALSE POSITIVE) / K01132.01 (FALSE POSITIVE) k=2 off=-0.0030 d",
+  "koi: K03691.02 (FALSE POSITIVE) / K03691.01 (FALSE POSITIVE) k=2 off=0.0060 d",
+  "koi: K03381.01 (FALSE POSITIVE) / K03381.02 (FALSE POSITIVE) k=11 off=0.0077 d",
+  "koi: K03172.01 (FALSE POSITIVE) / K03172.02 (FALSE POSITIVE) k=1 off=-0.0088 d",
+  "koi: K01101.01 (CONFIRMED) / K01101.02 (CANDIDATE) k=1 off=-0.0120 d",
+  "koi: K03644.02 (FALSE POSITIVE) / K03644.01 (FALSE POSITIVE) k=2 off=0.0151 d",
+  "koi: K02918.02 (FALSE POSITIVE) / K02918.01 (FALSE POSITIVE) k=1 off=-0.0192 d",
+  "koi: K04154.02 (FALSE POSITIVE) / K04154.01 (FALSE POSITIVE) k=3 off=0.0251 d",
+  "koi: K02167.02 (CANDIDATE) / K02167.03 (CONFIRMED) k=11 off=-0.0302 d",
+  "koi: K01922.02 (CANDIDATE) / K01922.03 (CONFIRMED) k=7 off=0.0530 d",
+  "koi: K02768.01 (CONFIRMED) / K02768.03 (FALSE POSITIVE) k=1 off=-0.1062 d",
+  "koi: K03862.02 (FALSE POSITIVE) / K03862.01 (FALSE POSITIVE) k=3 off=0.1176 d",
+  "koi: K03716.02 (FALSE POSITIVE) / K03716.01 (FALSE POSITIVE) k=1 off=0.2038 d",
+  "koi: K01955.03 (CONFIRMED) / K01955.02 (CONFIRMED) k=24 off=-0.2111 d",
+  "koi: K03641.01 (FALSE POSITIVE) / K03641.02 (FALSE POSITIVE) k=1 off=-0.5534 d"
+ ]
+}
