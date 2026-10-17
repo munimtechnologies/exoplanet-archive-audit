@@ -1,0 +1,18 @@
+{
+ "version": "0.1.0",
+ "rows": 2683,
+ "hosts": 1079,
+ "rel_tol": 0.002,
+ "phase_tol": 0.01,
+ "counts": {
+  "same_events": 4,
+  "no_epoch": 79,
+  "offset": 88
+ },
+ "same_events": [
+  "Kepler-289 d / Kepler-289 e (k=5)",
+  "pi Men c / HD 39091 b (k=333)",
+  "TOI-500 b / TOI-500 e (k=112)",
+  "HD 224018 b / HD 224018 d (k=13)"
+ ]
+}
