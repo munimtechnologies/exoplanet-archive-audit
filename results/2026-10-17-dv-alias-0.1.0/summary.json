@@ -1,0 +1,22 @@
+{
+ "version": "0.1.0",
+ "run_at": "2026-10-17T01:56Z",
+ "dr25_rows": 8054,
+ "dr24_rows": 7470,
+ "cumulative_rows": 9564,
+ "alias_rows": 246,
+ "tce_long": 137,
+ "koi_long": 109,
+ "counts": {
+  "koi_long|koi_long|CANDIDATE": 4,
+  "koi_long|koi_long|CONFIRMED": 3,
+  "koi_long|koi_long|FALSE POSITIVE": 102,
+  "tce_long|no_alias_secondary|CANDIDATE": 1,
+  "tce_long|no_alias_secondary|CONFIRMED": 1,
+  "tce_long|no_alias_secondary|FALSE POSITIVE": 18,
+  "tce_long|secondary_at_alias|CANDIDATE": 15,
+  "tce_long|secondary_at_alias|CONFIRMED": 2,
+  "tce_long|secondary_at_alias|FALSE POSITIVE": 100
+ },
+ "errors": []
+}
