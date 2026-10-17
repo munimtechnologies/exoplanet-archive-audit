@@ -168,6 +168,43 @@ class Summary(unittest.TestCase):
         self.assertEqual(kp.verdict(2, 0, 0), "no_signal")
         self.assertEqual(kp.verdict(None, 0, 0), "unclear")
 
+    def test_scatter(self):
+        # [1, 2, 3], unit variances: chi2 about 2 is 2, / (n - 1) = 1; sd 1, se 1 / sqrt(3).
+        birge, mean, err = kp.scatter([1, 2, 3], [1, 1, 1])
+        self.assertAlmostEqual(birge, 1.0)
+        self.assertAlmostEqual(mean, 2.0)
+        self.assertAlmostEqual(err, 0.57735, places=5)
+        # [0, 0, 6]: chi2 about 2 is 4 + 4 + 16 = 24, Birge sqrt(12); sd sqrt(12), se 2.
+        birge, mean, err = kp.scatter([0, 0, 6], [1, 1, 1])
+        self.assertAlmostEqual(birge, 3.46410, places=5)
+        self.assertAlmostEqual(err, 2.0)
+        # Unequal variances [1, 4, 4]: weights 1, 1/4, 1/4, weighted mean 2 / 1.5 = 4/3;
+        # chi2 = (4/3)^2 + 2 x (8/3)^2 / 4 = 16/9 + 32/9 = 48/9, / 2 = 8/3, Birge 1.63299.
+        birge, mean, _ = kp.scatter([0, 4, 4], [1, 4, 4])
+        self.assertAlmostEqual(birge, 1.63299, places=5)
+        self.assertAlmostEqual(mean, 8 / 3)
+        self.assertIsNone(kp.scatter([1, 2], [1, 1]))
+
+    def test_scaled_verdict(self):
+        # Quarters 0, 0, 6000 ppm with formal errors 1000 ppm: weighted 2000 +- 577 (SNR 3.46), but Birge
+        # sqrt(12) scales the error to 2000 (SNR 1.0). Leaving out the deep quarter leaves no depth for the
+        # offset, so the jackknife fails and the formal verdict is unclear.
+        s = kp.summarise([row(0, 0.0, 0, 0), row(0, 0.0, 0, 0), row(0, 0.006, 0, 0)], 0)
+        self.assertAlmostEqual(s["depth_ppm"], 2000.0)
+        self.assertAlmostEqual(s["depth_snr"], 3.4641, places=3)
+        self.assertAlmostEqual(s["birge"], 3.4641, places=3)
+        self.assertAlmostEqual(s["depth_err_scaled_ppm"], 2000.0, places=6)
+        self.assertAlmostEqual(s["depth_snr_scaled"], 1.0)
+        self.assertAlmostEqual(s["mean_ppm"], 2000.0)
+        self.assertAlmostEqual(s["mean_err_ppm"], 2000.0)
+        self.assertEqual(s["verdict"], "unclear")
+        self.assertEqual(s["verdict_scaled"], "no_signal")
+        # Identical quarters: Birge 0, the error is not shrunk, so both verdicts agree.
+        s0 = kp.summarise([row(0, 0.01, 0.0, 0.0), row(0, 0.01, 0.1, -0.1), row(0, 0.01, -0.1, 0.1)], 0)
+        self.assertAlmostEqual(s0["birge"], 0.0)
+        self.assertAlmostEqual(s0["depth_err_scaled_ppm"], s0["depth_err_ppm"])
+        self.assertEqual(s0["verdict_scaled"], "on_target")
+
 
 if __name__ == "__main__":
     unittest.main()

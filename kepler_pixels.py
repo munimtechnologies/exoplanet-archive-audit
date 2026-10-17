@@ -17,6 +17,12 @@ a sibling's (koi_dupes 0.1.0: every 11th K02167.02 event is a Kepler-1129 c tran
 K01922.02 event a Kepler-1016 c transit) can be measured with and without the sibling's events, and the sibling itself can be
 measured without the KOI's ephemeris masking its transits away.
 
+0.4.0 adds between-quarter checks on the depth, because the quarter depths scatter more than their
+formal fit errors allow (orphan-pixels-v1: by ~1.4-2.8 x, worst where a quarter holds one event): the
+Birge ratio sqrt(chi2 / (n - 1)) of the quarter depths about the weighted mean, the depth error scaled
+by max(1, Birge), the SNR and verdict with that error, and the unweighted mean of the quarter depths
+with its standard error. Every 0.3.0 field is computed as before.
+
 Method:
 1. Kepler long-cadence target pixel files (FLUX, QUALITY = 0), one per quarter. Pixels finite in
    under 90 % of cadences are left out; cadences with any other pixel missing are dropped.
@@ -41,6 +47,7 @@ than a real star image):
   on_target    consistent with zero offset and not with the neighbour;
   neighbour    consistent with the neighbour and not with zero;
   unclear      otherwise.
+verdict uses the formal depth error, verdict_scaled the Birge-scaled one (same offset tests).
 A difference-image offset is evidence about where the light comes from, not a disposition.
 
 Usage: python kepler_pixels.py --out-dir /out [--data-dir /data] [--koi K02643.01]
@@ -60,7 +67,7 @@ import tempfile
 import urllib.parse
 import urllib.request
 
-VERSION = "0.3.0"
+VERSION = "0.4.0"
 TAP = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
 MAST_TPF = "https://archive.stsci.edu/missions/kepler/target_pixel_files/{d4}/{d9}/"
 UA = f"kepler-pixels/{VERSION} (Munim, Inc.; mv2@munimtech.com)"
@@ -283,6 +290,20 @@ def jackknife(rows):
     return full[0], full[1], errs[0], errs[1]
 
 
+def scatter(depths, variances):
+    """(birge, mean, mean_err) of quarter depths with formal variances: birge = sqrt(chi2 / (n - 1)) about
+    the weighted mean, mean and mean_err the unweighted mean and its standard error; None (< 3 quarters)."""
+    n = len(depths)
+    if n < 3:
+        return None
+    ws = [1 / v for v in variances]
+    wmean = sum(w * a for w, a in zip(ws, depths)) / sum(ws)
+    birge = math.sqrt(sum(w * (a - wmean) ** 2 for w, a in zip(ws, depths)) / (n - 1))
+    mean = sum(depths) / n
+    sd = math.sqrt(sum((a - mean) ** 2 for a in depths) / (n - 1))
+    return birge, mean, sd / math.sqrt(n)
+
+
 def chi2(e, n, ref_e, ref_n, err_e, err_n):
     if not err_e or not err_n:
         return None
@@ -387,25 +408,32 @@ def summarise(rows, phase):
     out = {"phase": phase, "quarters": len(use), "events": sum(r["events"] for r in use)}
     if not use:
         out["verdict"] = "unclear"
+        out["verdict_scaled"] = "unclear"
         return out
     ws = [1 / r["var_a"] for r in use]
     depth = sum(w * r["a"] for w, r in zip(ws, use)) / sum(ws)
     derr = 1 / math.sqrt(sum(ws))
     out.update({"depth_ppm": depth * 1e6, "depth_err_ppm": derr * 1e6, "depth_snr": depth / derr})
+    sc = scatter([r["a"] for r in use], [r["var_a"] for r in use])
+    if sc:
+        birge, mean, mean_err = sc
+        err_s = derr * max(1.0, birge)
+        out.update({"birge": birge, "depth_err_scaled_ppm": err_s * 1e6, "depth_snr_scaled": depth / err_s,
+                    "mean_ppm": mean * 1e6, "mean_err_ppm": mean_err * 1e6})
     jk = jackknife([(w, r["a"], r["b_east"], r["b_north"]) for w, r in zip(ws, use)])
     cal = [(w, r["cal_east"], r["cal_north"]) for w, r in zip(ws, use) if r["cal_east"] is not None]
     cal_e = sum(w * e for w, e, _ in cal) / sum(w for w, _, _ in cal) if cal else None
     cal_n = sum(w * n for w, _, n in cal) / sum(w for w, _, _ in cal) if cal else None
     out.update({"cal_east": cal_e, "cal_north": cal_n})
+    c0 = cn = None
     if jk:
         e, n, se, sn = jk
         c0 = chi2(e, n, 0.0, 0.0, se, sn)
         cn = (chi2(e, n, cal_e, cal_n, math.hypot(se, CAL_SYS * cal_e), math.hypot(sn, CAL_SYS * cal_n))
               if cal_e is not None else None)
         out.update({"east": e, "north": n, "err_east": se, "err_north": sn, "chi2_zero": c0, "chi2_neighbour": cn})
-        out["verdict"] = verdict(out["depth_snr"], c0, cn)
-    else:
-        out["verdict"] = verdict(out["depth_snr"], None, None)
+    out["verdict"] = verdict(out["depth_snr"], c0, cn)
+    out["verdict_scaled"] = verdict(out.get("depth_snr_scaled"), c0, cn)
     return out
 
 
@@ -487,6 +515,14 @@ def main(argv=None):
                      f"{fmt(s.get('north'))} +- {fmt(s.get('err_north'))} | {fmt(s.get('cal_east'))}, "
                      f"{fmt(s.get('cal_north'))} | {fmt(s.get('chi2_zero'), 1)} | {fmt(s.get('chi2_neighbour'), 1)} | "
                      f"{s['verdict']} |")
+    lines += ["", "Between quarters: Birge ratio of the quarter depths about the weighted mean, the depth with its "
+              "error scaled by max(1, Birge), and the unweighted mean of the quarter depths.", "",
+              "| phase | Birge | depth, scaled error (ppm) | SNR scaled | unweighted mean (ppm) | verdict scaled |",
+              "|---|---|---|---|---|---|"]
+    for s in summaries:
+        lines.append(f"| {s['phase']} | {fmt(s.get('birge'))} | {fmt(s.get('depth_ppm'), 0)} +- "
+                     f"{fmt(s.get('depth_err_scaled_ppm'), 0)} | {fmt(s.get('depth_snr_scaled'), 1)} | "
+                     f"{fmt(s.get('mean_ppm'), 0)} +- {fmt(s.get('mean_err_ppm'), 0)} | {s['verdict_scaled']} |")
     if errors:
         lines += ["", "## File errors", ""] + [f"- {e}" for e in errors]
     with open(os.path.join(args.out_dir, "report.md"), "w", encoding="utf-8") as f:
