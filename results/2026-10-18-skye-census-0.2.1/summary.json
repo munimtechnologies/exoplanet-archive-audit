@@ -1,0 +1,764 @@
+{
+ "version": "0.2.1",
+ "skye_census_sha256": "fec3c102a12356c2167047ca551d232965f8d4dc9cc5e354589058531854d34c",
+ "run_at": "2026-10-18T19:53Z",
+ "params": {
+  "p_min": 45.0,
+  "bin0": 131.5,
+  "n_sigma": 3.0,
+  "passes": 5,
+  "min_good": 3,
+  "rv_skye_col": 11
+ },
+ "fetched": {
+  "dr25_tce": {
+   "query": "select kepid,tce_plnt_num,tce_period,tce_time0bk from q1_q17_dr25_tce",
+   "source": "snapshot_v1",
+   "tap_error": "<HTTPError 400: 'Bad Request'>",
+   "rows": 34032,
+   "sha256": "003d16155dc5e42858777c1097efa5bd62a120eb846a982ef553e3dbdef60664"
+  },
+  "cumulative": {
+   "query": "select kepoi_name,kepid,koi_disposition,koi_period,koi_time0bk from cumulative",
+   "source": "snapshot_v1",
+   "tap_error": "<HTTPError 400: 'Bad Request'>",
+   "rows": 9564,
+   "sha256": "df551272c3e8a945fed88c23129328b0d070c224f6cf503048b5f88e88e89286"
+  },
+  "dr25_koi": {
+   "query": "select kepoi_name,kepid,koi_pdisposition,koi_period,koi_time0bk,koi_comment from q1_q17_dr25_koi",
+   "source": "snapshot_v1",
+   "tap_error": "<HTTPError 400: 'Bad Request'>",
+   "rows": 8054,
+   "sha256": "9b07b64c34e213947c92941c797c1298c9fc0ab298a3ba3e8c4597749db264b4"
+  }
+ },
+ "robovetter": {
+  "input": {
+   "url": "https://raw.githubusercontent.com/nasa/kepler-robovetter/master/kplr_dr25_obs_robovetter_input.tar.gz",
+   "sha256": "3d6689deb2fc76babdd9935f803f0395d5b73dfa4a7b2ac73aed53a731c49655",
+   "member": "kplr_dr25_obs_robovetter_input.txt",
+   "member_bytes": 46576123,
+   "rows": 32534
+  },
+  "output": {
+   "url": "https://raw.githubusercontent.com/nasa/kepler-robovetter/master/kplr_dr25_obs_robovetter_output.txt",
+   "sha256": "9e1e7a468dadf3f7cd5e29c83980c3a1a6908dc34f1fadfac9ff65b1de3a8a21",
+   "rows": 32534
+  }
+ },
+ "robovetter_error": "",
+ "coverage": {
+  "tce_rows": 15349,
+  "tce_stars": 8034,
+  "tce_stars_with_skygroup": 8034,
+  "tces_used": 15349,
+  "koi_rows": 2257,
+  "koi_stars": 2165,
+  "koi_stars_with_skygroup": 2165,
+  "tce_star_fraction": 1.0,
+  "koi_star_fraction": 1.0
+ },
+ "mast_errors": [],
+ "skygroups": 84,
+ "skygroups_with_skye_bins": 84,
+ "validation": {
+  "rv_rows": 32534,
+  "tces_with_skygroup": 15349,
+  "tces_found_in_rv": 13952,
+  "join_fraction": 0.909,
+  "rv_skye_flag_1_all_periods": 19194,
+  "comment_skye_tces": 4790,
+  "comment_skye_with_flag_1": 4790,
+  "comment_flag_fraction": 1.0,
+  "events_equal_nrealtrans": 0.5814,
+  "primary": {
+   "tp": 3382,
+   "fp": 1621,
+   "fn": 893,
+   "tn": 8056,
+   "recall": 0.7911,
+   "precision": 0.676
+  },
+  "v1_bins": {
+   "tp": 2870,
+   "fp": 2801,
+   "fn": 1405,
+   "tn": 6876,
+   "recall": 0.6713,
+   "precision": 0.5061
+  }
+ },
+ "groups": {
+  "dr25_pc": {
+   "n": 668,
+   "with_flagged": 316,
+   "flagged_fraction": 0.4731,
+   "eligible": 668,
+   "fails": 7,
+   "fail_fraction": 0.0105
+  },
+  "dr25_skye": {
+   "n": 109,
+   "with_flagged": 87,
+   "flagged_fraction": 0.7982,
+   "eligible": 109,
+   "fails": 50,
+   "fail_fraction": 0.4587
+  },
+  "never_dr25": {
+   "n": 425,
+   "with_flagged": 73,
+   "flagged_fraction": 0.1718,
+   "eligible": 415,
+   "fails": 22,
+   "fail_fraction": 0.053
+  }
+ },
+ "groups_v1_bins": {
+  "dr25_pc": {
+   "n": 668,
+   "with_flagged": 358,
+   "flagged_fraction": 0.5359,
+   "eligible": 668,
+   "fails": 13,
+   "fail_fraction": 0.0195
+  },
+  "dr25_skye": {
+   "n": 109,
+   "with_flagged": 74,
+   "flagged_fraction": 0.6789,
+   "eligible": 109,
+   "fails": 44,
+   "fail_fraction": 0.4037
+  },
+  "never_dr25": {
+   "n": 425,
+   "with_flagged": 84,
+   "flagged_fraction": 0.1976,
+   "eligible": 415,
+   "fails": 24,
+   "fail_fraction": 0.0578
+  }
+ },
+ "named": {
+  "K05269.01": {
+   "skygroup": 66,
+   "n_events": 3,
+   "n_flagged": 2,
+   "good": 1,
+   "would_fail": 1,
+   "flagged_times": "631.6306 1003.1369",
+   "event_times": "631.6306 1003.1369 1374.6432"
+  },
+  "K05227.01": {
+   "skygroup": 66,
+   "n_events": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "would_fail": 1,
+   "flagged_times": "1002.9789",
+   "event_times": "631.4140 1002.9789 1374.5439"
+  }
+ },
+ "tests": {
+  "p2_data": false,
+  "p3_tce_recall": false,
+  "p4_tce_precision": false,
+  "p5_koi_skye_recall": true,
+  "p6_pc_fail_fraction": true,
+  "p7_named_fail": true,
+  "p8_census": true,
+  "p8_p": 4.5e-05
+ },
+ "skygroup_info": {
+  "1": {
+   "events": 732,
+   "rate_bins": 1416,
+   "rate": 0.4785,
+   "threshold": 2.5537,
+   "skye_bins": 20
+  },
+  "2": {
+   "events": 863,
+   "rate_bins": 1416,
+   "rate": 0.5437,
+   "threshold": 2.7559,
+   "skye_bins": 33
+  },
+  "3": {
+   "events": 316,
+   "rate_bins": 1416,
+   "rate": 0.1849,
+   "threshold": 1.4749,
+   "skye_bins": 26
+  },
+  "4": {
+   "events": 908,
+   "rate_bins": 1416,
+   "rate": 0.6262,
+   "threshold": 3.0003,
+   "skye_bins": 6
+  },
+  "5": {
+   "events": 539,
+   "rate_bins": 1181,
+   "rate": 0.4343,
+   "threshold": 2.4113,
+   "skye_bins": 9
+  },
+  "6": {
+   "events": 501,
+   "rate_bins": 1181,
+   "rate": 0.4094,
+   "threshold": 2.3288,
+   "skye_bins": 6
+  },
+  "7": {
+   "events": 690,
+   "rate_bins": 1181,
+   "rate": 0.5239,
+   "threshold": 2.6952,
+   "skye_bins": 28
+  },
+  "8": {
+   "events": 453,
+   "rate_bins": 1181,
+   "rate": 0.3533,
+   "threshold": 2.1364,
+   "skye_bins": 12
+  },
+  "9": {
+   "events": 574,
+   "rate_bins": 1416,
+   "rate": 0.3769,
+   "threshold": 2.2186,
+   "skye_bins": 15
+  },
+  "10": {
+   "events": 512,
+   "rate_bins": 1416,
+   "rate": 0.3383,
+   "threshold": 2.0833,
+   "skye_bins": 12
+  },
+  "11": {
+   "events": 446,
+   "rate_bins": 1416,
+   "rate": 0.2115,
+   "threshold": 1.591,
+   "skye_bins": 73
+  },
+  "12": {
+   "events": 774,
+   "rate_bins": 1416,
+   "rate": 0.4885,
+   "threshold": 2.5851,
+   "skye_bins": 30
+  },
+  "13": {
+   "events": 1047,
+   "rate_bins": 1416,
+   "rate": 0.7117,
+   "threshold": 3.2427,
+   "skye_bins": 11
+  },
+  "14": {
+   "events": 923,
+   "rate_bins": 1416,
+   "rate": 0.5491,
+   "threshold": 2.7722,
+   "skye_bins": 52
+  },
+  "15": {
+   "events": 1046,
+   "rate_bins": 1416,
+   "rate": 0.7141,
+   "threshold": 3.2492,
+   "skye_bins": 10
+  },
+  "16": {
+   "events": 1182,
+   "rate_bins": 1416,
+   "rate": 0.7964,
+   "threshold": 3.4737,
+   "skye_bins": 16
+  },
+  "17": {
+   "events": 1389,
+   "rate_bins": 1416,
+   "rate": 0.9188,
+   "threshold": 3.7943,
+   "skye_bins": 25
+  },
+  "18": {
+   "events": 2024,
+   "rate_bins": 1416,
+   "rate": 1.2744,
+   "threshold": 4.661,
+   "skye_bins": 42
+  },
+  "19": {
+   "events": 1087,
+   "rate_bins": 1416,
+   "rate": 0.7479,
+   "threshold": 3.3423,
+   "skye_bins": 8
+  },
+  "20": {
+   "events": 1099,
+   "rate_bins": 1416,
+   "rate": 0.7371,
+   "threshold": 3.3129,
+   "skye_bins": 16
+  },
+  "21": {
+   "events": 941,
+   "rate_bins": 1416,
+   "rate": 0.6444,
+   "threshold": 3.0527,
+   "skye_bins": 7
+  },
+  "22": {
+   "events": 752,
+   "rate_bins": 1416,
+   "rate": 0.4784,
+   "threshold": 2.5534,
+   "skye_bins": 28
+  },
+  "23": {
+   "events": 788,
+   "rate_bins": 1416,
+   "rate": 0.5061,
+   "threshold": 2.6404,
+   "skye_bins": 27
+  },
+  "24": {
+   "events": 1163,
+   "rate_bins": 1416,
+   "rate": 0.7869,
+   "threshold": 3.4481,
+   "skye_bins": 13
+  },
+  "25": {
+   "events": 840,
+   "rate_bins": 1416,
+   "rate": 0.5329,
+   "threshold": 2.7229,
+   "skye_bins": 33
+  },
+  "26": {
+   "events": 1133,
+   "rate_bins": 1416,
+   "rate": 0.6307,
+   "threshold": 3.0133,
+   "skye_bins": 43
+  },
+  "27": {
+   "events": 693,
+   "rate_bins": 1416,
+   "rate": 0.4462,
+   "threshold": 2.4501,
+   "skye_bins": 22
+  },
+  "28": {
+   "events": 473,
+   "rate_bins": 1416,
+   "rate": 0.2398,
+   "threshold": 1.7088,
+   "skye_bins": 69
+  },
+  "29": {
+   "events": 461,
+   "rate_bins": 1416,
+   "rate": 0.2154,
+   "threshold": 1.6078,
+   "skye_bins": 79
+  },
+  "30": {
+   "events": 808,
+   "rate_bins": 1416,
+   "rate": 0.5159,
+   "threshold": 2.6705,
+   "skye_bins": 28
+  },
+  "31": {
+   "events": 521,
+   "rate_bins": 1416,
+   "rate": 0.3567,
+   "threshold": 2.1486,
+   "skye_bins": 6
+  },
+  "32": {
+   "events": 474,
+   "rate_bins": 1416,
+   "rate": 0.3291,
+   "threshold": 2.0501,
+   "skye_bins": 3
+  },
+  "33": {
+   "events": 1213,
+   "rate_bins": 1132,
+   "rate": 1.0409,
+   "threshold": 4.1016,
+   "skye_bins": 7
+  },
+  "34": {
+   "events": 1312,
+   "rate_bins": 1132,
+   "rate": 1.1212,
+   "threshold": 4.2978,
+   "skye_bins": 10
+  },
+  "35": {
+   "events": 1309,
+   "rate_bins": 1132,
+   "rate": 1.1169,
+   "threshold": 4.2873,
+   "skye_bins": 11
+  },
+  "36": {
+   "events": 964,
+   "rate_bins": 1132,
+   "rate": 0.7822,
+   "threshold": 3.4354,
+   "skye_bins": 21
+  },
+  "37": {
+   "events": 1939,
+   "rate_bins": 1416,
+   "rate": 1.3116,
+   "threshold": 4.7474,
+   "skye_bins": 20
+  },
+  "38": {
+   "events": 2181,
+   "rate_bins": 1416,
+   "rate": 1.5167,
+   "threshold": 5.2113,
+   "skye_bins": 7
+  },
+  "39": {
+   "events": 1800,
+   "rate_bins": 1416,
+   "rate": 1.2169,
+   "threshold": 4.5263,
+   "skye_bins": 19
+  },
+  "40": {
+   "events": 1526,
+   "rate_bins": 1416,
+   "rate": 1.0602,
+   "threshold": 4.1493,
+   "skye_bins": 5
+  },
+  "41": {
+   "events": 1603,
+   "rate_bins": 1416,
+   "rate": 0.8863,
+   "threshold": 3.7107,
+   "skye_bins": 61
+  },
+  "42": {
+   "events": 1492,
+   "rate_bins": 1416,
+   "rate": 0.8449,
+   "threshold": 3.6025,
+   "skye_bins": 62
+  },
+  "43": {
+   "events": 1559,
+   "rate_bins": 1416,
+   "rate": 0.8191,
+   "threshold": 3.5343,
+   "skye_bins": 67
+  },
+  "44": {
+   "events": 1322,
+   "rate_bins": 1416,
+   "rate": 0.8653,
+   "threshold": 3.6559,
+   "skye_bins": 28
+  },
+  "45": {
+   "events": 1044,
+   "rate_bins": 1416,
+   "rate": 0.715,
+   "threshold": 3.2517,
+   "skye_bins": 9
+  },
+  "46": {
+   "events": 1039,
+   "rate_bins": 1416,
+   "rate": 0.6902,
+   "threshold": 3.1826,
+   "skye_bins": 15
+  },
+  "47": {
+   "events": 1114,
+   "rate_bins": 1416,
+   "rate": 0.7488,
+   "threshold": 3.3447,
+   "skye_bins": 15
+  },
+  "48": {
+   "events": 818,
+   "rate_bins": 1416,
+   "rate": 0.5152,
+   "threshold": 2.6685,
+   "skye_bins": 34
+  },
+  "49": {
+   "events": 686,
+   "rate_bins": 1101,
+   "rate": 0.5664,
+   "threshold": 2.8242,
+   "skye_bins": 24
+  },
+  "50": {
+   "events": 524,
+   "rate_bins": 1101,
+   "rate": 0.4365,
+   "threshold": 2.4184,
+   "skye_bins": 15
+  },
+  "51": {
+   "events": 653,
+   "rate_bins": 1101,
+   "rate": 0.5422,
+   "threshold": 2.7511,
+   "skye_bins": 22
+  },
+  "52": {
+   "events": 529,
+   "rate_bins": 1101,
+   "rate": 0.45,
+   "threshold": 2.4623,
+   "skye_bins": 12
+  },
+  "53": {
+   "events": 1363,
+   "rate_bins": 1416,
+   "rate": 0.9038,
+   "threshold": 3.7559,
+   "skye_bins": 23
+  },
+  "54": {
+   "events": 1204,
+   "rate_bins": 1416,
+   "rate": 0.8123,
+   "threshold": 3.5161,
+   "skye_bins": 15
+  },
+  "55": {
+   "events": 1845,
+   "rate_bins": 1416,
+   "rate": 1.2367,
+   "threshold": 4.573,
+   "skye_bins": 22
+  },
+  "56": {
+   "events": 2155,
+   "rate_bins": 1416,
+   "rate": 1.4836,
+   "threshold": 5.1378,
+   "skye_bins": 10
+  },
+  "57": {
+   "events": 2100,
+   "rate_bins": 1416,
+   "rate": 1.4603,
+   "threshold": 5.0855,
+   "skye_bins": 6
+  },
+  "58": {
+   "events": 3184,
+   "rate_bins": 1416,
+   "rate": 1.32,
+   "threshold": 4.7668,
+   "skye_bins": 88
+  },
+  "59": {
+   "events": 2048,
+   "rate_bins": 1416,
+   "rate": 1.3764,
+   "threshold": 4.8961,
+   "skye_bins": 24
+  },
+  "60": {
+   "events": 1804,
+   "rate_bins": 1416,
+   "rate": 1.2352,
+   "threshold": 4.5694,
+   "skye_bins": 13
+  },
+  "61": {
+   "events": 3062,
+   "rate_bins": 1416,
+   "rate": 2.1181,
+   "threshold": 6.4843,
+   "skye_bins": 11
+  },
+  "62": {
+   "events": 1211,
+   "rate_bins": 1416,
+   "rate": 0.7736,
+   "threshold": 3.4123,
+   "skye_bins": 29
+  },
+  "63": {
+   "events": 1753,
+   "rate_bins": 1416,
+   "rate": 1.1989,
+   "threshold": 4.4836,
+   "skye_bins": 13
+  },
+  "64": {
+   "events": 1554,
+   "rate_bins": 1416,
+   "rate": 1.0668,
+   "threshold": 4.1654,
+   "skye_bins": 9
+  },
+  "65": {
+   "events": 1309,
+   "rate_bins": 1416,
+   "rate": 0.8635,
+   "threshold": 3.6513,
+   "skye_bins": 24
+  },
+  "66": {
+   "events": 2102,
+   "rate_bins": 1416,
+   "rate": 1.2725,
+   "threshold": 4.6566,
+   "skye_bins": 58
+  },
+  "67": {
+   "events": 1447,
+   "rate_bins": 1416,
+   "rate": 1.0064,
+   "threshold": 4.0159,
+   "skye_bins": 5
+  },
+  "68": {
+   "events": 1276,
+   "rate_bins": 1416,
+   "rate": 0.8062,
+   "threshold": 3.5,
+   "skye_bins": 38
+  },
+  "69": {
+   "events": 706,
+   "rate_bins": 1416,
+   "rate": 0.4613,
+   "threshold": 2.4989,
+   "skye_bins": 20
+  },
+  "70": {
+   "events": 1311,
+   "rate_bins": 1416,
+   "rate": 0.8508,
+   "threshold": 3.6179,
+   "skye_bins": 29
+  },
+  "71": {
+   "events": 1053,
+   "rate_bins": 1416,
+   "rate": 0.7045,
+   "threshold": 3.2225,
+   "skye_bins": 15
+  },
+  "72": {
+   "events": 694,
+   "rate_bins": 1416,
+   "rate": 0.4289,
+   "threshold": 2.3936,
+   "skye_bins": 31
+  },
+  "73": {
+   "events": 2395,
+   "rate_bins": 1416,
+   "rate": 1.6403,
+   "threshold": 5.4824,
+   "skye_bins": 15
+  },
+  "74": {
+   "events": 2161,
+   "rate_bins": 1416,
+   "rate": 1.4592,
+   "threshold": 5.0832,
+   "skye_bins": 18
+  },
+  "75": {
+   "events": 3325,
+   "rate_bins": 1416,
+   "rate": 2.26,
+   "threshold": 6.77,
+   "skye_bins": 20
+  },
+  "76": {
+   "events": 2064,
+   "rate_bins": 1416,
+   "rate": 1.4319,
+   "threshold": 5.0218,
+   "skye_bins": 6
+  },
+  "77": {
+   "events": 1409,
+   "rate_bins": 1135,
+   "rate": 1.1898,
+   "threshold": 4.4622,
+   "skye_bins": 13
+  },
+  "78": {
+   "events": 1946,
+   "rate_bins": 1135,
+   "rate": 1.675,
+   "threshold": 5.5576,
+   "skye_bins": 9
+  },
+  "79": {
+   "events": 1659,
+   "rate_bins": 1135,
+   "rate": 1.4381,
+   "threshold": 5.0356,
+   "skye_bins": 5
+  },
+  "80": {
+   "events": 1658,
+   "rate_bins": 1135,
+   "rate": 1.434,
+   "threshold": 5.0265,
+   "skye_bins": 6
+  },
+  "81": {
+   "events": 1546,
+   "rate_bins": 1416,
+   "rate": 1.059,
+   "threshold": 4.1463,
+   "skye_bins": 10
+  },
+  "82": {
+   "events": 1747,
+   "rate_bins": 1416,
+   "rate": 1.1044,
+   "threshold": 4.2571,
+   "skye_bins": 27
+  },
+  "83": {
+   "events": 2701,
+   "rate_bins": 1416,
+   "rate": 1.8403,
+   "threshold": 5.9099,
+   "skye_bins": 20
+  },
+  "84": {
+   "events": 1440,
+   "rate_bins": 1416,
+   "rate": 1.0028,
+   "threshold": 4.0071,
+   "skye_bins": 4
+  }
+ }
+}

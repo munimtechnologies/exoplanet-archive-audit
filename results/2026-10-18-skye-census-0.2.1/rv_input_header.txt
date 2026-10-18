@@ -1,0 +1,223 @@
+\name = Kepler DR25 Robovetter Input File
+\
+\dataset = OBS
+\
+\date = 2017-05-15T19:08:36-0700
+\
+\nrows = 32534
+\
+\ Description of IPAC file format: http://exoplanetarchive.ipac.caltech.edu/docs/ddgen/ipac_tbl.html
+\
+\ Astropy Python tool to read IPAC format: http://docs.astropy.org/en/stable/api/astropy.io.ascii.Ipac.html
+\
+\ IDL tool to read IPAC format: https://irsa.ipac.caltech.edu/tools/pro/read_ipac_table.pro
+\
+\ Column Definitions
+\
+\ Data_Set
+\     An identifier for what set of data the TCE belongs to --- either Observed (OBS), Inverted (INV), Scrambled Set 1 (SCR1), Scrambled Set 2 (SCR2), Scrambled Set 3 (SCR3), Injected Group 1 (INJ1; the on-target planets), Injected Group 2 (INJ2; the off-target planets), or Injected Group 3 (INJ3; the eclipsing binaries).
+\ TCE_ID
+\     The Threshold Crossing Event (TCE) identifier, consisting of the Kepler Input Catalog (KIC) ID, followed by a dash, and then the planet number.
+\ KIC
+\     The KIC ID of the TCE.
+\ pn
+\     The planet number of the TCE.
+\ n_plan
+\     The highest planet number TCE on the given KIC.
+\ ntrans
+\     The number of transit events identified by TPS, including those in gap-filled data.
+\ nrealt
+\     The number of "real" transit events, which includes those identified by TPS with non-zero SES values (i.e., those used to calculate the MES), plus those with SES==0 that have more than 75\% of real (not gap-filled) data in-transit.
+\ ngoodt
+\     The number of real transit events left after "bad" transits have been ruled out by the Robovetter individual transit metrics.
+\ iflag0
+\     A flag that has a value of 1 if at least one transit event failed RUBBLE, else it is 0.
+\ iflag1
+\     A flag that has a value of 1 if at least one transit event failed CHASES, else it is 0.
+\ iflag2
+\     A flag that has a value of 1 if at least one transit event failed MARSHALL, else it is 0.
+\ iflag3
+\     A flag that has a value of 1 if at least one transit event failed SKYE, else it is 0.
+\ iflag4
+\     A flag that has a value of 1 if at least one transit event failed ZUMA, else it is 0.
+\ iflag5
+\     A flag that has a value of 1 if at least one transit event failed TRACKER, else it is 0.
+\ cflag0
+\     A flag that has a value of 1 if the TCE should receive the CENT_KIC_POS minor flag, else it is 0.
+\ cflag1
+\     A flag that has a value of 1 if the TCE should receive the CENT_UNCERTAIN minor flag, else it is 0.
+\ cflag2
+\     A flag that has a value of 1 if the TCE should receive the CENT_RESOLVED_OFFSET minor flag, else it is 0.
+\ cflag3
+\     A flag that has a value of 1 if the TCE should receive the CENT_CROWDED minor flag, else it is 0.
+\ cflag4
+\     A flag that has a value of 1 if the TCE should receive the CENT_NOFITS minor flag, else it is 0.
+\ cflag5
+\     A flag that has a value of 1 if the TCE should receive the CENT_UNRESOLVED_OFFSET minor flag, else it is 0.
+\ cflag6
+\     A flag that has a value of 1 if the TCE should receive the CENT_SATURATED minor flag, else it is 0.
+\ cflag7
+\     A flag that has a value of 1 if the TCE should receive the CENT_FEW_MEAS minor flag, else it is 0.
+\ cflag8
+\     A flag that has a value of 1 if the TCE should receive the CENT_FEW_DIFFS minor flag, else it is 0.
+\ ephem_disp
+\     A flag that has a value of 1 if the TCE is an ephemeris match, else it is 0.
+\ cent_disp
+\     A flag that has a value of 1 if the TCE has a centroid offset, else it is 0.
+\ cent_score
+\     The value of the centroid score, a number between 0.0 and 1.0 that is used to factor in the centroid offset metrics when calculating the Robovetter disposition score.
+\ period
+\     The period of the TCE in days as determined by the DV module.
+\ period_err
+\     The error on the period in days as determined by the DV module.
+\ epoch
+\     The epoch of the TCE in BKJD as determined by the DV module.
+\ epoch_err
+\     The error on the epoch in days as determined by the DV module.
+\ duration
+\     The duration of the TCE in hours as determined by the DV module.
+\ duration_err
+\     The error on the duration in hours as determined by the DV module.
+\ impact
+\     The impact parameter of the TCE as determined by the DV module. Note that the DV module only allows impact values between 0.0 and 1.0.
+\ impact_err
+\     The error on the impact parameter as determined by the DV module.
+\ depth
+\     The depth of the TCE in ppm as determined by the DV module.
+\ depth_err
+\     The error on the depth in ppm as determined by the DV module.
+\ depth_alt
+\     The depth of the TCE in ppm as determined by the DV module using a simple trapezoidal fit.
+\ sma
+\     The semi-major axis of the TCE in AU as determined by the DV module.
+\ rstar
+\     The radius of the star in units of solar radii as utilized by the DV module.
+\ mes
+\     The MES of the TCE as determined by the TPS module.
+\ ses_to_mes
+\     The ratio of the maximum SES value, used in calculating the MES, to the MES.
+\ new_mes
+\     The MES of the TCE when calculated using only the ngoodt transit events.
+\ lpp_dv
+\     The value of the LPP metric utilzing the DV detrending.
+\ lpp_alt
+\     The value of the LPP metric utilzing the ALT detrending.
+\ all_tran_chases
+\     The value of the CHASES metric applied to all transit events.
+\ sweet_snr
+\     The signal-to-noise ratio of the SWEET metric.
+\ sweet_amp
+\     The amplitude of the SWEET metric in ppm.
+\ shape_metric
+\     The shape metric, which is the sum of the radius ratio and the impact parameter, as determined by the DV module.
+\ halo_ghost
+\     The Ghostbuster test metric, which is the ratio of the signal-to-noise of the TCE signal in the halo of the pixel image to the signal in the core aperture.
+\ mod_sig_pri_dv
+\     The significance of primary event in the Modelshift test utilizing the DV detrending.
+\ mod_sig_sec_dv
+\     The significance of secondary event in the Modelshift test utilizing the DV detrending.
+\ mod_sig_ter_dv
+\     The significance of tertiary event in the Modelshift test utilizing the DV detrending.
+\ mod_sig_pos_dv
+\     The significance of positive event in the Modelshift test utilizing the DV detrending.
+\ mod_fred_dv
+\     The ratio of the level of red noise to white noise at the duration of the TCE as calculated by the Modelshift test utilizing the DV detrending.
+\ mod_fa1_dv
+\     The false alarm threshold for determine if an event is significant as calculated by the Modelshift test utilizing the DV detrending.
+\ mod_fa2_dv
+\     The flase alarm threshold for determining if two events are significantly different as calculated by the Modelshift test utilizing the DV detrending.
+\ mod_sig_pri_alt
+\     The significance of primary event in the Modelshift test utilizing the ALT detrending.
+\ mod_sig_sec_alt
+\     The significance of secondary event in the Modelshift test utilizing the ALT detrending.
+\ mod_sig_ter_alt
+\     The significance of tertiary event in the Modelshift test utilizing the ALT detrending.
+\ mod_sig_pos_alt
+\     The significance of positive event in the Modelshift test utilizing the ALT detrending.
+\ mod_fred_alt
+\     The ratio of the level of red noise to white noise at the duration of the TCE as calculated by the Modelshift test utilizing the ALT detrending.
+\ mod_fa1_alt
+\     The false alarm threshold for determine if an event is significant as calculated by the Modelshift test utilizing the ALT detrending.
+\ mod_fa2_alt
+\     The flase alarm threshold for determining if two events are significantly different as calculated by the Modelshift test utilizing the ALT detrending.
+\ modshiftval1_dv
+\     The Modelshift test metric that determines if the primary event is significant compared to the noise (both red and white) in the light curve utilizing the DV light curve. Note that modshiftval1_dv = mod_sig_pri_dv/mod_fred_dv - mod_fa1_dv.
+\ modshiftval2_dv
+\     The Modelshift test metric that determines if the primary event is significant compared to the secondary event utilizing the DV light curve. Note that modshiftval2_dv = mod_sig_pri_dv - mod_sig_ter_dv - mod_fa2_dv.
+\ modshiftval3_dv
+\     The Modelshift test metric that determines if the primary event is significant compared to the positive event utilizing the DV light curve. Note that modshiftval3_dv = mod_sig_pri_dv - mod_sig_pos_dv - mod_fa2_dv.
+\ modshiftval4_dv
+\     The Modelshift test metric that determines if the secondary event is significant compared to the noise (both red and white) in the light curve utilizing the DV light curve. Note that modshiftval4_dv = mod_sig_sec_dv/mod_fred_dv - mod_fa1_dv.
+\ modshiftval5_dv
+\     The Modelshift test metric that determines if the secondary event is significant compared to the tertiary event utilizing the DV light curve. Note that modshiftval5_dv = mod_sig_sec_dv - mod_sig_ter_dv - mod_fa2_dv.
+\ modshiftval6_dv
+\     The Modelshift test metric that determines if the secondary event is significant compared to the positive event utilizing the DV light curve. Note that modshiftval6_dv = mod_sig_sec_dv - mod_sig_pos_dv - mod_fa2_dv.
+\ modshiftval1_alt
+\     The Modelshift test metric that determines if the primary event is significant compared to the noise (both red and white) in the light curve utilizing the ALT light curve. Note that modshiftval1_alt = mod_sig_pri_alt/mod_fred_alt - mod_fa1_alt.
+\ modshiftval2_alt
+\     The Modelshift test metric that determines if the primary event is significant compared to the secondary event utilizing the ALT light curve. Note that modshiftval2_alt = mod_sig_pri_alt - mod_sig_ter_alt - mod_fa2_alt.
+\ modshiftval3_alt
+\     The Modelshift test metric that determines if the primary event is significant compared to the positive event utilizing the ALT light curve. Note that modshiftval3_alt = mod_sig_pri_alt - mod_sig_pos_alt - mod_fa2_alt.
+\ modshiftval4_alt
+\     The Modelshift test metric that determines if the secondary event is significant compared to the noise (both red and white) in the light curve utilizing the ALT light curve. Note that modshiftval4_alt = mod_sig_sec_alt/mod_fred_alt - mod_fa1_alt.
+\ modshiftval5_alt
+\     The Modelshift test metric that determines if the secondary event is significant compared to the tertiary event utilizing the ALT light curve. Note that modshiftval5_alt = mod_sig_sec_alt - mod_sig_ter_alt - mod_fa2_alt.
+\ modshiftval6_alt
+\     The Modelshift test metric that determines if the secondary event is significant compared to the positive event utilizing the ALT light curve. Note that modshiftval6_alt = mod_sig_sec_alt - mod_sig_pos_alt - mod_fa2_alt.
+\ oesig_dv
+\     A simple odd-even test based on the depths of the odd- and even-numbered transits utilizing the DV detrending.
+\ oesig_alt
+\     A simple odd-even test based on the depths of the odd- and even-numbered transits utilizing the ALT detrending.
+\ mod_oe_dv
+\     The Modelshift test odd-even metric utilizing the DV detrending.
+\ mod_oe_alt
+\     The Modelshift test odd-even metric utilizing the ALT detrending.
+\ rp_dv
+\     The radius inferred from combining the fitted radius ratio to the DV detrending and the stellar radius.
+\ rp_dv_perr
+\     The upper one-sigma error on rp_dv as determined by a Monte Carlo technique taking into account the errors on the utilized radius ratio and stellar radius.
+\ rp_dv_merr
+\     The lower one-sigma error on rp_dv as determined by a Monte Carlo technique taking into account the errors on the utilized radius ratio and stellar radius.
+\ alb_dv
+\     The planetary albedo calculated using the depth of the secondary from the Modelshift test, the radius ratio from the DV fit, the TCE period, and the DR25 Stellar Catalog stellar mass and radius
+\ alb_dv_perr
+\     The upper one-sigma error on alb_dv as determined by a Monte Carlo technique taking into the errors on all of the input parameters.
+\ alb_dv_merr
+\     The lower one-sigma error on alb_dv as determined by a Monte Carlo technique taking into the errors on all of the input parameters.
+\ mod_depth_pri_dv
+\     The fractional depth of the primary event as determined by the Modelshift test utilizing the DV detrending.
+\ mod_depth_sec_dv
+\     The fractional depth of the secondary event as determined by the Modelshift test utilizing the DV detrending.
+\ mod_ph_sec_dv
+\     The phase of the secondary event as determined by the Modelshift test utilizing the DV detrending.
+\ mod_ph_ter_dv
+\     The phase of the tertiary event as determined by the Modelshift test utilizing the DV detrending.
+\ rp_alt
+\     The radius inferred from combining the fitted radius ratio to the ALT detrending and the stellar radius.
+\ rp_alt_perr
+\     The upper one-sigma error on rp_alt as determined by a Monte Carlo technique taking into account the errors on the utilized radius ratio and stellar radius.
+\ rp_alt_merr
+\     The lower one-sigma error on rp_alt as determined by a Monte Carlo technique taking into account the errors on the utilized radius ratio and stellar radius.
+\ alb_alt
+\     The planetary albedo calculated using the depth of the secondary from the Modelshift test, the radius ratio from the ALT fit, the TCE period, and the DR25 Stellar Catalog stellar mass and radius
+\ alb_alt_perr
+\     The upper one-sigma error on alb_alt as determined by a Monte Carlo technique taking into the errors on all of the input parameters.
+\ alb_alt_merr
+\     The lower one-sigma error on alb_alt as determined by a Monte Carlo technique taking into the errors on all of the input parameters.
+\ mod_depth_pri_alt
+\     The fractional depth of the primary event as determined by the Modelshift test utilizing the ALT detrending.
+\ mod_depth_sec_alt
+\     The fractional depth of the secondary event as determined by the Modelshift test utilizing the ALT detrending.
+\ mod_ph_sec_alt
+\     The phase of the secondary event as determined by the Modelshift test utilizing the ALT detrending.
+\ mod_ph_ter_alt
+\     The phase of the tertiary event as determined by the Modelshift test utilizing the ALT detrending.
+\ sdepthsig_dv
+\     The significance of seasonal depth variations as determined by the Seasonal Depth test utilizing the DV detrending.
+\ sdepthsig_alt
+\     The significance of seasonal depth variations as determined by the Seasonal Depth test utilizing the ALT detrending.
+\
+|Data_Set|      TCE_ID|      KIC|  pn|n_plan|ntrans|nrealt|ngoodt|iflag0|iflag1|iflag2|iflag3|iflag4|iflag5|cflag0|cflag1|cflag2|cflag3|cflag4|cflag5|cflag6|cflag7|cflag8|ephem_disp|cent_disp|     cent_score|         period|     period_err|          epoch|      epoch_err|       duration|   duration_err|         impact|     impact_err|          depth|       depth_err|       depth_alt|            sma|          rstar|            mes|     ses_to_mes|        new_mes|         lpp_dv|        lpp_alt|all_tran_chases|      sweet_snr|      sweet_amp|   shape_metric|     halo_ghost| mod_sig_pri_dv| mod_sig_sec_dv| mod_sig_ter_dv| mod_sig_pos_dv|    mod_fred_dv|     mod_fa1_dv|     mod_fa2_dv|mod_sig_pri_alt|mod_sig_sec_alt|mod_sig_ter_alt|mod_sig_pos_alt|   mod_fred_alt|    mod_fa1_alt|    mod_fa2_alt| modshiftval1_dv| modshiftval2_dv| modshiftval3_dv| modshiftval4_dv| modshiftval5_dv| modshiftval6_dv|modshiftval1_alt|modshiftval2_alt|modshiftval3_alt|modshiftval4_alt|modshiftval5_alt|modshiftval6_alt|       oesig_dv|      oesig_alt|      mod_oe_dv|     mod_oe_alt|          rp_dv|     rp_dv_perr|     rp_dv_merr|         alb_dv|    alb_dv_perr|    alb_dv_merr|mod_depth_pri_dv|mod_depth_sec_dv|  mod_ph_sec_dv|  mod_ph_ter_dv|         rp_alt|    rp_alt_perr|    rp_alt_merr|        alb_alt|   alb_alt_perr|   alb_alt_merr|mod_depth_pri_alt|mod_depth_sec_alt| mod_ph_sec_alt| mod_ph_ter_alt|    sdepthsig_dv|   sdepthsig_alt|
+|    char|        char|      int| int|   int|   int|   int|   int|   int|   int|   int|   int|   int|   int|   int|   int|   int|   int|   int|   int|   int|   int|   int|       int|      int|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|          double|          double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|          double|          double|          double|          double|          double|          double|          double|          double|          double|          double|          double|          double|         double|         double|         double|         double|         double|         double|         double|         double|         double|         double|          double|          double|         double|         double|         double|         double|         double|         double|         double|         double|           double|           double|         double|         double|          double|          double|
+|        |            |         |    |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |          |         |               |         (days)|         (days)|           BKJD|         (days)|        (hours)|        (hours)|               |               |          (ppm)|           (ppm)|           (ppm)|           (AU)|        (R_sun)|               |               |               |               |               |               |               |          (ppm)|               |               |               |               |               |               |               |               |               |               |               |               |               |               |               |               |                |                |                |                |                |                |                |                |                |                |                |                |               |               |               |               |          (R_e)|          (R_e)|          (R_e)|               |               |               |                |                |               |               |          (R_e)|          (R_e)|          (R_e)|               |               |               |                 |                 |               |               |                |                |
+|    null|        null|     null|null|  null|  null|  null|  null|  null|  null|  null|  null|  null|  null|  null|  null|  null|  null|  null|  null|  null|  null|  null|      null|     null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|            null|            null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|            null|            null|            null|            null|            null|            null|            null|            null|            null|            null|            null|            null|           null|           null|           null|           null|           null|           null|           null|           null|           null|           null|            null|            null|           null|           null|           null|           null|           null|           null|           null|           null|             null|             null|           null|           null|            null|            null|
