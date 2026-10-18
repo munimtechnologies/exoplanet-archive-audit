@@ -1,0 +1,63 @@
+{
+ "version": "0.1.0",
+ "span_bkjd": [
+  131.5,
+  1591.0
+ ],
+ "p_max": 0.05,
+ "orphan_rows": 600,
+ "unrelated": 146,
+ "missing_from_cumulative": [],
+ "koi_rows": 9564,
+ "tce_rows": 34032,
+ "robovetter_rows": 32534,
+ "counts": {
+  "shared_event": 18,
+  "chance_overlap": 109,
+  "disjoint": 19,
+  "no_params": 0,
+  "no_tce": 0
+ },
+ "null_mean": {
+  "shared_event": 3.85,
+  "chance_overlap": 112.53,
+  "disjoint": 29.62,
+  "no_params": 0.0,
+  "no_tce": 0.0
+ },
+ "null_shuffles": 100,
+ "seed": 20261017,
+ "shared_tce_kind": {
+  "rogue": 2,
+  "FP": 14,
+  "federated": 2
+ },
+ "shared_event": [
+  "K05365.01 P=585.64118 ~ TCE 2 P=586.176 k=3 at [248.4981, 834.1393, 1419.7805] p=6.536e-07 RV absent   rogue=1 KOI=- Lissauer PPNN 586.09440343",
+  "K00227.01 P=17.65737838 ~ TCE 1 P=17.7094 k=15 at [260.1872, 277.8445, 295.5019, 313.1593, 330.8167, 348.474, 366.1314, 383.7888, 401.4462, 419.1036, 436.7609, 454.4183, 472.0757, 489.7331, 507.3905] p=6.964e-06 RV FP 0.000 LPP_DV rogue=0 KOI=- Lissauer PPNP 17.68947611",
+  "K02636.02 P=5.1777226 ~ TCE 1 P=3.88151 k=94 at [138.6821, 154.2153, 169.7485, 185.2816, 200.8148, 216.348, 231.8811, 247.4143, 262.9475, 278.4806, 294.0138, 309.547, 325.0801, 340.6133, 356.1465, 371.6796, 387.2128, 402.746, 418.2791, 433.8123] p=0.001772 RV PC 0.957  rogue=0 KOI=K02636.01 Lissauer SPNP 5.17783854",
+  "K05945.01 P=40.7282314 ~ TCE 1 P=2.90841 k=36 at [162.1513, 202.8795, 243.6078, 284.336, 325.0642, 365.7925, 406.5207, 447.2489, 487.9772, 528.7054, 569.4336, 610.1618, 650.8901, 691.6183, 732.3465, 773.0748, 813.803, 854.5312, 895.2595, 935.9877] p=0.003181 RV FP 0.000 SWEET_NTL---LPP_DV---MOD_NONUNIQ_DV---MOD_NONUNIQ_ALT rogue=0 KOI=- Lissauer RPNN 40.72956923",
+  "K01209.01 P=272.0868353 ~ TCE 1 P=408.415 k=1 at [378.1372] p=0.005347 RV FP 0.000 INDIV_TRANS_CHASES_MARSHALL---INCONSISTENT_TRANS---CENT_FEW_DIFFS rogue=0 KOI=- Lissauer PPNN 272.08627407",
+  "K06605.01 P=74.371666 ~ TCE 1 P=5.73064 k=16 at [187.379, 261.7507, 336.1223, 410.494, 484.8657, 559.2373, 633.609, 707.9807, 782.3523, 856.724, 931.0957, 1005.4673, 1079.839, 1154.2107, 1228.5823, 1302.954] p=0.006755 RV FP 0.000 LPP_DV---CENT_SATURATED rogue=0 KOI=- Lissauer PPNP 74.2735997",
+  "K00099.01 P=2190.7010353 ~ TCE 1 P=627.765 k=1 at [140.0481] p=0.0069 RV FP 0.000 INDIV_TRANS_MARSHALL---LPP_DV---MOD_NONUNIQ_DV---MOD_POS_DV---MOD_NONUNIQ_ALT---MOD_TER_ALT---MOD_POS_ALT---INCONSISTENT_TRANS---CENT_FEW_DIFFS rogue=0 KOI=- Lissauer PPNN -1567.8366422",
+  "K02188.02 P=6.7445683 ~ TCE 2 P=2.69641 k=64 at [142.2538, 155.7429, 169.232, 182.7212, 196.2103, 209.6995, 223.1886, 236.6777, 250.1669, 263.656, 277.1451, 290.6343, 304.1234, 317.6125, 331.1017, 344.5908, 358.08, 371.5691, 385.0582, 398.5474] p=0.009132 RV FP 0.000 IS_SEC_TCE---HALO_GHOST---EPHEM_MATCH rogue=0 KOI=- Lissauer SPNN 6.74429295",
+  "K00682.01 P=562.1725914 ~ TCE 1 P=563.276 k=1 at [748.1411] p=0.01013 RV absent   rogue=1 KOI=- Lissauer PPNN 562.1665225",
+  "K01421.01 P=1693.6636225 ~ TCE 1 P=327.155 k=1 at [524.2799] p=0.01251 RV FP 0.000 INDIV_TRANS_MARSHALL---LPP_DV---LPP_ALT---MOD_NONUNIQ_ALT---MOD_TER_ALT---MOD_POS_ALT---INCONSISTENT_TRANS---CENT_FEW_DIFFS rogue=0 KOI=- Lissauer PPNN -1693.6636225",
+  "K00435.02 P=934.09418462 ~ TCE 3 P=207.656 k=1 at [657.2688] p=0.01342 RV FP 0.000 INDIV_TRANS_MARSHALL_SKYE_ZUMA---LPP_DV---LPP_ALT---MOD_NONUNIQ_DV---MOD_TER_DV---MOD_POS_DV---MOD_NONUNIQ_ALT---MOD_TER_ALT---MOD_POS_ALT---INCONSISTENT_TRANS---CENT_FEW_DIFFS---HALO_GHOST rogue=0 KOI=- Lissauer PPNN -934.09704592",
+  "K01032.01 P=1500.1406772 ~ TCE 1 P=293.805 k=1 at [176.0823] p=0.01441 RV FP 0.000 INDIV_TRANS_MARSHALL_SKYE_ZUMA---LPP_DV---MOD_NONUNIQ_ALT---INCONSISTENT_TRANS---CENT_UNRESOLVED_OFFSET---HALO_GHOST rogue=0 KOI=- Lissauer RPNN -1500.1406772",
+  "K01356.01 P=384.02570682 ~ TCE 1 P=393.719 k=1 at [335.8162] p=0.02443 RV FP 0.000 INDIV_TRANS_MARSHALL_SKYE---INCONSISTENT_TRANS---CENT_FEW_DIFFS rogue=0 KOI=- Lissauer PPNN 787.43235205",
+  "K07180.01 P=487.83894 ~ TCE 1 P=466.184 k=1 at [606.1226] p=0.02551 RV FP 0.000 INDIV_TRANS_CHASES_MARSHALL---ALL_TRANS_CHASES---INCONSISTENT_TRANS---CENT_FEW_DIFFS rogue=0 KOI=- Lissauer PPNP 487.87639401",
+  "K05165.01 P=369.73011 ~ TCE 1 P=372.617 k=1 at [985.7502] p=0.02643 RV FP 0.000 INDIV_TRANS_MARSHALL_SKYE---CENT_FEW_DIFFS rogue=0 KOI=- Lissauer PPNN 369.73051691",
+  "K05893.01 P=405.6296 ~ TCE 1 P=178.021 k=1 at [1462.6261] p=0.03582 RV FP 0.009 INDIV_TRANS_MARSHALL---MOD_NONUNIQ_ALT---MOD_POS_ALT---CENT_FEW_DIFFS rogue=0 KOI=- Lissauer SPNN 405.63007564",
+  "K06118.01 P=571.280892 ~ TCE 3 P=160.436 k=1 at [1510.5699] p=0.0381 RV FP 0.000 INDIV_TRANS_RUBBLE_MARSHALL_SKYE---TRANS_GAPPED---LPP_DV---LPP_ALT---MOD_NONUNIQ_DV---MOD_NONUNIQ_ALT---MOD_TER_ALT---MOD_POS_ALT---INCONSISTENT_TRANS---SAME_NTL_PERIOD rogue=0 KOI=- Lissauer PPNN 571.81723018",
+  "K02311.01 P=191.86419296 ~ TCE 1 P=104.352 k=1 at [294.4704] p=0.0476 RV PC 0.976  rogue=0 KOI=K02311.03 Lissauer SPNN 191.824343"
+ ],
+ "sources": {
+  "orphans": "https://raw.githubusercontent.com/munimtechnologies/exoplanet-archive-audit/main/results/2026-10-17-koi-orphans-0.1.0/orphans.csv",
+  "xmatch": "https://raw.githubusercontent.com/munimtechnologies/exoplanet-archive-audit/main/results/2026-10-17-lissauer-xmatch-0.1.0/xmatch.csv",
+  "robovetter": "https://raw.githubusercontent.com/nasa/kepler-robovetter/master/kplr_dr25_obs_robovetter_output.txt",
+  "koi": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+kepid%2Ckepoi_name%2Ckoi_disposition%2Ckoi_tce_delivname%2Ckoi_tce_plnt_num%2Ckoi_period%2Ckoi_time0bk%2Ckoi_duration+from+cumulative&format=csv",
+  "tce": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+kepid%2Ctce_plnt_num%2Ctce_period%2Ctce_time0bk%2Ctce_duration%2Ctce_depth%2Ctce_model_snr%2Ctce_rogue_flag+from+q1_q17_dr25_tce&format=csv",
+  "fetched_at": "2026-10-18T04:55:37Z"
+ }
+}
