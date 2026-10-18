@@ -2,6 +2,9 @@
 
 Every expected value below was worked by hand.
 """
+import hashlib
+import os
+import tempfile
 import unittest
 
 import skye_census as sc
@@ -179,6 +182,39 @@ class TestRobovetter(unittest.TestCase):
                           v["comment_flag_fraction"], v["events_equal_nrealtrans"]), (2, 2, 1, 0.5, 0.5))
         self.assertEqual(v["primary"], {"tp": 1, "fp": 0, "fn": 0, "tn": 1, "recall": 1.0, "precision": 1.0})
         self.assertEqual(v["v1_bins"], {"tp": 0, "fp": 0, "fn": 1, "tn": 1, "recall": 0.0, "precision": None})
+
+
+class TestTables(unittest.TestCase):
+    def test_looks_like_table(self):
+        # the header line of skye-census-v1's dr25_koi.csv, as TAP wrote it
+        koi = (b'kepoi_name,kepid,koi_pdisposition,koi_period,koi_time0bk,koi_comment\n'
+               b'"K00753.01",10811496,"FALSE POSITIVE",19.89913995,175.850252,"DEEP_V_SHAPED"\n')
+        self.assertTrue(sc.looks_like_table(koi, sc.QUERIES["dr25_koi"]))
+        self.assertTrue(sc.looks_like_table(b"kepid,tce_plnt_num\r\n1,2\r\n",
+                                            "select kepid,tce_plnt_num from q1_q17_dr25_tce"))
+        self.assertFalse(sc.looks_like_table(koi, sc.QUERIES["cumulative"]))
+        self.assertFalse(sc.looks_like_table(b"<html>ORA-01653</html>", sc.QUERIES["dr25_tce"]))
+        self.assertFalse(sc.looks_like_table(b"", sc.QUERIES["dr25_tce"]))
+
+    def test_snapshot_bytes(self):
+        saved = sc.SNAPSHOT_SHA256
+        self.addCleanup(setattr, sc, "SNAPSHOT_SHA256", saved)
+        sc.SNAPSHOT_SHA256 = {"t": hashlib.sha256(b"a\nb\n").hexdigest()}
+        self.assertEqual(sc.snapshot_bytes("t", b"a\nb\n"), b"a\nb\n")
+        self.assertEqual(sc.snapshot_bytes("t", b"a\r\nb\r\n"), b"a\nb\n")
+        self.assertIsNone(sc.snapshot_bytes("t", b"a\nc\n"))
+        self.assertIsNone(sc.snapshot_bytes("other", b"a\nb\n"))
+
+    def test_snapshot_covers_every_query(self):
+        self.assertEqual(set(sc.SNAPSHOT_SHA256), set(sc.QUERIES))
+        self.assertTrue(all(len(v) == 64 for v in sc.SNAPSHOT_SHA256.values()))
+
+    def test_fetch_in_dir(self):
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "dr25_tce.csv"), "wb") as f:
+                f.write(b"kepid\n1\n")
+            self.assertEqual(sc.fetch_table("dr25_tce", "select kepid from q1_q17_dr25_tce", d),
+                             (b"kepid\n1\n", "in_dir", ""))
 
 
 class TestStats(unittest.TestCase):

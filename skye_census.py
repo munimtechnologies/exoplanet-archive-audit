@@ -1,7 +1,8 @@
 """skye_census: DR25's Skye test, re-run on every long-period KOI, including the candidates DR25 never vetted.
 
 Munim, Inc. (MV2 of Munim, Inc.). Made with AI. Apache-2.0. Standard library only.
-Pre-registration: findings/2026-10-18-skye-census-v2-prereg.md in munimtechnologies/exoplanet-archive-audit
+Pre-registration: findings/2026-10-18-skye-census-v2-prereg.md in munimtechnologies/exoplanet-archive-audit, with
+the amendment findings/2026-10-18-skye-census-v3-amendment.md (0.2.1 changes only where the tables come from)
 (v1: findings/2026-10-18-skye-census-prereg.md, scored in findings/2026-10-18-skye-census-results.md).
 
 Thompson et al. 2018 (ApJS 235, 38; appendix A.3.7.4, "Skye") flag individual transits that coincide with
@@ -23,6 +24,8 @@ KOIs: every cumulative-table KOI with P > 45 d: events, events in a bad bin of i
 good = events - flagged; eligible = events >= 3; would_fail = eligible and good < 3.
 Groups: dr25_pc (in the DR25 KOI table as CANDIDATE), dr25_skye (DR25 KOI table, SKYE among the INDIV_TRANS
 flags of koi_comment), never_dr25 (cumulative CANDIDATE, absent from the DR25 KOI table, so never scored by DR25).
+Tables (0.2.1): live TAP first; if TAP fails, the same queries as skye-census-v1 fetched them, published in the
+repository and accepted only when their sha256 matches v1's record.
 
 Usage: python skye_census.py --out-dir /out/skye [--cache-dir /data] [--in-dir dir-with-cached-tap-csvs]
 """
@@ -42,7 +45,7 @@ import time
 import urllib.parse
 import urllib.request
 
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 TAP = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query={}&format=csv"
 MAST = ("https://archive.stsci.edu/kepler/data_search/search.php?action=Search&ktc_kepler_id={}"
         "&ktc_target_type=LC&outputformat=CSV&max_records={}"
@@ -55,6 +58,16 @@ QUERIES = {
     "dr25_tce": "select kepid,tce_plnt_num,tce_period,tce_time0bk from q1_q17_dr25_tce",
     "cumulative": "select kepoi_name,kepid,koi_disposition,koi_period,koi_time0bk from cumulative",
     "dr25_koi": "select kepoi_name,kepid,koi_pdisposition,koi_period,koi_time0bk,koi_comment from q1_q17_dr25_koi",
+}
+# Fallback for a TAP outage (on 2026-10-18 from ~16:25Z every TAP query got HTTP 400 and the Archive's older API
+# reported ORA-01653): the QUERIES as skye-census-v1 fetched them at 2026-10-18T13:53Z, published byte for byte,
+# with the sha256 values from v1's summary.json.
+SNAPSHOT = ("https://raw.githubusercontent.com/munimtechnologies/exoplanet-archive-audit/main/"
+            "results/2026-10-18-skye-census-0.1.0/tap/{}.csv")
+SNAPSHOT_SHA256 = {
+    "dr25_tce": "003d16155dc5e42858777c1097efa5bd62a120eb846a982ef553e3dbdef60664",
+    "cumulative": "df551272c3e8a945fed88c23129328b0d070c224f6cf503048b5f88e88e89286",
+    "dr25_koi": "9b07b64c34e213947c92941c797c1298c9fc0ab298a3ba3e8c4597749db264b4",
 }
 # Long-cadence spans (BKJD) of quarters 1-17: first and last cadences of KIC 9018021 and KIC 6359929
 QUARTERS = {1: (131.51, 164.98), 2: (169.52, 258.47), 3: (260.22, 349.50), 4: (352.38, 442.20),
@@ -300,7 +313,7 @@ def build_skye(tces, mast, bin0=BIN0, per_skygroup_gaps=True):
     return skye, info, rows
 
 
-def http_bytes(url, tries=3, timeout=180):
+def http_bytes(url, tries=3, timeout=180, wait=5):
     last = None
     for k in range(tries):
         try:
@@ -310,8 +323,43 @@ def http_bytes(url, tries=3, timeout=180):
                 return r.read()
         except Exception as e:  # retried, then raised
             last = e
-            time.sleep(5 * (k + 1))
+            time.sleep(wait * (k + 1))
     raise last
+
+
+def looks_like_table(data, query):
+    """True when the first line of data is the query's column list, as the header of TAP's CSV is."""
+    cols = query.split(" from ")[0][len("select "):].strip()
+    return data.split(b"\n", 1)[0].strip().decode("utf-8", "replace") == cols
+
+
+def snapshot_bytes(name, data):
+    """data, or data with CRLF line ends undone, when its sha256 is v1's record for name; else None."""
+    for d in (data, data.replace(b"\r\n", b"\n")):
+        if hashlib.sha256(d).hexdigest() == SNAPSHOT_SHA256.get(name):
+            return d
+    return None
+
+
+def fetch_table(name, query, in_dir=""):
+    """(bytes, source, TAP error): an --in-dir copy, else live TAP, else the published v1 snapshot."""
+    cached = os.path.join(in_dir, name + ".csv") if in_dir else ""
+    if cached and os.path.isfile(cached):
+        with open(cached, "rb") as f:
+            return f.read(), "in_dir", ""
+    try:
+        data = http_bytes(TAP.format(urllib.parse.quote_plus(query)))
+        if looks_like_table(data, query):
+            return data, "tap", ""
+        tap_error = "TAP answered without the expected header: " + data[:200].decode("utf-8", "replace")
+    except Exception as e:  # TAP was down when v2 ran; the snapshot below is the fallback
+        tap_error = repr(e)
+    print(json.dumps({name: {"tap_error": tap_error}}), flush=True)
+    # waits up to about 12 minutes, in case the snapshot commit lands after the job starts
+    data = snapshot_bytes(name, http_bytes(SNAPSHOT.format(name), tries=8, wait=20))
+    if data is None:
+        raise RuntimeError(f"{name}: the snapshot's sha256 does not match skye-census-v1's record")
+    return data, "snapshot_v1", tap_error
 
 
 def fetch_skygroups(kepids, chunk=CHUNK, pause=0.5):
@@ -406,16 +454,12 @@ def main(argv=None):
     cache_dir = writable_dir(args.cache_dir) if args.cache_dir else tempfile.gettempdir()
     tables, fetched = {}, {}
     for name, q in QUERIES.items():
-        cached = os.path.join(args.in_dir, name + ".csv") if args.in_dir else ""
-        if cached and os.path.isfile(cached):
-            with open(cached, "rb") as f:
-                data = f.read()
-        else:
-            data = http_bytes(TAP.format(urllib.parse.quote_plus(q)))
+        data, source, tap_error = fetch_table(name, q, args.in_dir)
         with open(os.path.join(args.out_dir, name + ".csv"), "wb") as f:
             f.write(data)
         tables[name] = list(csv.DictReader(io.StringIO(data.decode("utf-8"))))
-        fetched[name] = {"query": q, "rows": len(tables[name]), "sha256": hashlib.sha256(data).hexdigest()}
+        fetched[name] = {"query": q, "source": source, "tap_error": tap_error, "rows": len(tables[name]),
+                         "sha256": hashlib.sha256(data).hexdigest()}
         print(json.dumps({name: fetched[name]}), flush=True)
     try:
         rv_table, rv_comments, rv_prov = load_robovetter(cache_dir, args.out_dir)
@@ -556,6 +600,8 @@ def write_outputs(out_dir, rows, rows_v1, tce_rows, rv_table, rv_comments, rv_pr
              f"Run {stats['run_at']}. By MV2 of Munim, Inc.; made with AI agents. Code Apache-2.0, results CC BY "
              "4.0. A re-implementation of DR25's Skye test (Thompson et al. 2018, A.3.7.4; Skye.py); leads, not "
              "dispositions.", "",
+             "Tables: " + ", ".join(f"{k} from {v['source']} ({v['rows']} rows)" for k, v in fetched.items()) + ".",
+             "",
              f"Skygroups: {stats['skygroups']}, with Skye bins: {stats['skygroups_with_skye_bins']}. "
              f"DR25 TCE stars with a skygroup: {cov['tce_stars_with_skygroup']} / {cov['tce_stars']}; KOI stars: "
              f"{cov['koi_stars_with_skygroup']} / {cov['koi_stars']}. MAST errors: {len(mast_errors)}. "
