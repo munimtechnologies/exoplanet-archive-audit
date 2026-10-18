@@ -1,0 +1,150 @@
+{
+ "version": "0.1.0",
+ "kepler_alias_version": "0.3.0",
+ "event_check_sha256": "84c017aa626f922ca85561192f3b4eee80d82c288317221ae27a927c7cd4b007",
+ "run_at": "2026-10-18T08:25Z",
+ "kepid": 3534076,
+ "dur_h": 3.1,
+ "points": 53097,
+ "span": [
+  131.5128,
+  1591.0017
+ ],
+ "quarters": 17,
+ "gaps_over_0.5d": 78,
+ "anchors": [
+  {
+   "time": 378.137,
+   "event": {
+    "depth_ppm": 5171.0,
+    "err_ppm": 229.3,
+    "snr": 22.55,
+    "n_in": 3,
+    "n_out": 20
+   },
+   "best_centre": 378.167
+  },
+  {
+   "time": 650.224,
+   "event": {
+    "depth_ppm": 4372.7,
+    "err_ppm": 166.5,
+    "snr": 26.27,
+    "n_in": 5,
+    "n_out": 25
+   },
+   "best_centre": 650.234
+  }
+ ],
+ "two_transit_period_from_best_centres": 272.067,
+ "hypotheses": {
+  "Q1-Q16": "excluded",
+  "DR25-TCE": "excluded",
+  "Lissauer2024": "excluded"
+ },
+ "aliases": {
+  "1": {
+   "period": 272.087,
+   "verdict": "excluded",
+   "statuses": "ddand"
+  },
+  "2": {
+   "period": 136.0435,
+   "verdict": "excluded",
+   "statuses": "adadaaanad"
+  },
+  "3": {
+   "period": 90.6957,
+   "verdict": "excluded",
+   "statuses": "aadnadanaaanaada"
+  },
+  "4": {
+   "period": 68.0218,
+   "verdict": "excluded",
+   "statuses": "aaadnaadaanaaannaaada"
+  },
+  "5": {
+   "period": 54.4174,
+   "verdict": "excluded",
+   "statuses": "aaandanaadaannaaaaanaaaadaa"
+  },
+  "6": {
+   "period": 45.3478,
+   "verdict": "excluded",
+   "statuses": "aaaaadanaaadaaannaaaaaanaaaaadaa"
+  },
+  "7": {
+   "period": 38.8696,
+   "verdict": "excluded",
+   "statuses": "anaaaadaaaaaadanannaaaaaananaaaaaadaan"
+  },
+  "8": {
+   "period": 34.0109,
+   "verdict": "excluded",
+   "statuses": "aaaaaaadannaaaadaanannaaaaaaannnnanaaaadaaa"
+  },
+  "9": {
+   "period": 30.2319,
+   "verdict": "excluded",
+   "statuses": "anaaaaaadaanaaaaadaaaaanaaaaaaaaaannnaaaaaandaaaa"
+  },
+  "10": {
+   "period": 27.2087,
+   "verdict": "excluded",
+   "statuses": "aaaaaaanndaannaaaaadaanaananaaaanaaaaaannaaaaaaaadaaaa"
+  },
+  "11": {
+   "period": 24.7352,
+   "verdict": "excluded",
+   "statuses": "anaanaaaadaaanaaaaaadaanaaaanaaaaaanannaaannannaaaanadaaaaa"
+  },
+  "12": {
+   "period": 22.6739,
+   "verdict": "excluded",
+   "statuses": "aaaaaaaaaadnannaaaaaaadaaaanannnnaaaaaaaaaanaanaaaaaaaaaaadaaaaa"
+  }
+ },
+ "dip_scale": 1.054,
+ "top_dips": [
+  {
+   "rank": 1,
+   "time": 1466.463,
+   "depth_ppm": 4816.8,
+   "err_ppm": 172.5,
+   "snr": 27.93,
+   "snr_robust": 26.51
+  },
+  {
+   "rank": 2,
+   "time": 650.213,
+   "depth_ppm": 4753.6,
+   "err_ppm": 181.1,
+   "snr": 26.26,
+   "snr_robust": 24.92
+  },
+  {
+   "rank": 3,
+   "time": 378.163,
+   "depth_ppm": 4908.9,
+   "err_ppm": 196.6,
+   "snr": 24.96,
+   "snr_robust": 23.7
+  },
+  {
+   "rank": 4,
+   "time": 1194.963,
+   "depth_ppm": 5348.4,
+   "err_ppm": 248.5,
+   "snr": 21.52,
+   "snr_robust": 20.43
+  },
+  {
+   "rank": 5,
+   "time": 922.513,
+   "depth_ppm": 4622.3,
+   "err_ppm": 225.6,
+   "snr": 20.49,
+   "snr_robust": 19.44
+  }
+ ]
+}
