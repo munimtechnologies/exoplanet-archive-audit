@@ -1,0 +1,34 @@
+===== setup-01-pip: pip install -r requirements.txt
+
+===== run-01-python: python fetch_tool.py --dest /out/tool --version 0.4.0
+
+===== run-02-python: python -c "import numpy, astropy; print('numpy', numpy.__version__, 'astropy', astropy.__version__)"
+
+===== run-03-python: python -m unittest discover -v -s /out/tool -p test_kepler_pixels.py
+test_quarter_on_target_and_neighbour (test_kepler_pixels.Fit.test_quarter_on_target_and_neighbour) ... ok
+test_small_shift_recovered (test_kepler_pixels.Fit.test_small_shift_recovered) ... ok
+test_gradients (test_kepler_pixels.LinearAlgebra.test_gradients) ... ok
+test_invert (test_kepler_pixels.LinearAlgebra.test_invert) ... ok
+test_lstsq_exact (test_kepler_pixels.LinearAlgebra.test_lstsq_exact) ... ok
+test_shifted (test_kepler_pixels.LinearAlgebra.test_shifted) ... ok
+test_sky_round_trip (test_kepler_pixels.LinearAlgebra.test_sky_round_trip) ... ok
+test_doubled_period_splits_alternate_events (test_kepler_pixels.Period.test_doubled_period_splits_alternate_events) ... ok
+test_scaled_period (test_kepler_pixels.Period.test_scaled_period) ... ok
+test_jackknife (test_kepler_pixels.Summary.test_jackknife) ... ok
+test_scaled_verdict (test_kepler_pixels.Summary.test_scaled_verdict) ... ok
+test_scatter (test_kepler_pixels.Summary.test_scatter) ... ok
+test_verdict_rules (test_kepler_pixels.Summary.test_verdict_rules) ... ok
+test_verdicts (test_kepler_pixels.Summary.test_verdicts) ... ok
+test_mask_and_partial (test_kepler_pixels.Windows.test_mask_and_partial) ... ok
+test_mask_others (test_kepler_pixels.Windows.test_mask_others) ... ok
+test_other_ephemerides (test_kepler_pixels.Windows.test_other_ephemerides) ... ok
+test_two_full_events (test_kepler_pixels.Windows.test_two_full_events) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.026s
+
+OK
+
+===== run-04-python: python /out/tool/kepler_pixels.py --data-dir /data --out-dir /out/K05600.01-x3 --koi K05600.01 --period-mult 3 --phases 0,0.3333333333,0.6666666667,0.1666666667,0.5,0.8333333333 --neighbour 0,3.98
+
+===== run-05-python: python /out/tool/kepler_pixels.py --data-dir /data --out-dir /out/K05600.01-x1 --koi K05600.01 --phases 0,0.5,0.25,0.75 --neighbour 0,3.98

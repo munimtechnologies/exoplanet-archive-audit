@@ -1,0 +1,359 @@
+===== setup-01-pip: pip install -r requirements.txt
+Collecting astropy==6.1.4 (from -r requirements.txt (line 2))
+  Downloading astropy-6.1.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (10 kB)
+Collecting numpy==2.1.3 (from -r requirements.txt (line 3))
+  Downloading numpy-2.1.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (62 kB)
+Collecting pyerfa>=2.0.1.1 (from astropy==6.1.4->-r requirements.txt (line 2))
+  Downloading pyerfa-2.0.1.5-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.7 kB)
+Collecting astropy-iers-data>=0.2024.8.27.10.28.29 (from astropy==6.1.4->-r requirements.txt (line 2))
+  Downloading astropy_iers_data-0.2026.10.12.1.3.27-py3-none-any.whl.metadata (3.4 kB)
+Collecting PyYAML>=3.13 (from astropy==6.1.4->-r requirements.txt (line 2))
+  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+Collecting packaging>=19.0 (from astropy==6.1.4->-r requirements.txt (line 2))
+  Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Downloading astropy-6.1.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.3/10.3 MB 33.1 MB/s eta 0:00:00
+Downloading numpy-2.1.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.0/16.0 MB 33.5 MB/s eta 0:00:00
+Downloading astropy_iers_data-0.2026.10.12.1.3.27-py3-none-any.whl (2.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 35.2 MB/s eta 0:00:00
+Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Downloading pyerfa-2.0.1.5-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (738 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 738.7/738.7 kB 24.0 MB/s eta 0:00:00
+Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 19.5 MB/s eta 0:00:00
+Installing collected packages: PyYAML, packaging, numpy, astropy-iers-data, pyerfa, astropy
+Successfully installed PyYAML-6.0.3 astropy-6.1.4 astropy-iers-data-0.2026.10.12.1.3.27 numpy-2.1.3 packaging-26.3 pyerfa-2.0.1.5
+
+===== run-01-python: python fetch_tool.py --dest /out/tool --version 0.4.0
+{
+ "source": "https://raw.githubusercontent.com/munimtechnologies/exoplanet-archive-audit/main/",
+ "files": {
+  "kepler_pixels.py": {
+   "bytes": 25782,
+   "sha256": "699c7a7209ca4be85771e28a31bd093c08e97b7f58ef9a016fd6bad2ced18236"
+  },
+  "test_kepler_pixels.py": {
+   "bytes": 11047,
+   "sha256": "c5cf414ffcd8396c3bc6e6aa7ea5d432a78ffc985900e817568f13afb81ea5ef"
+  }
+ },
+ "version": "0.4.0"
+}
+
+===== run-02-python: python -c "import numpy, astropy; print('numpy', numpy.__version__, 'astropy', astropy.__version__)"
+numpy 2.1.3 astropy 6.1.4
+
+===== run-03-python: python -m unittest discover -v -s /out/tool -p test_kepler_pixels.py
+
+===== run-04-python: python /out/tool/kepler_pixels.py --data-dir /data --out-dir /out/K05600.01-x3 --koi K05600.01 --period-mult 3 --phases 0,0.3333333333,0.6666666667,0.1666666667,0.5,0.8333333333 --neighbour 0,3.98
+{"file": "kplr009018021-2009166043257_lpd-targ.fits.gz", "quarter": 1, "cadences": 1467, "shape": [5, 6]}
+{"file": "kplr009018021-2009259160929_lpd-targ.fits.gz", "quarter": 2, "cadences": 3696, "shape": [5, 6]}
+{"file": "kplr009018021-2009350155506_lpd-targ.fits.gz", "quarter": 3, "cadences": 3817, "shape": [5, 6]}
+{"file": "kplr009018021-2010078095331_lpd-targ.fits.gz", "quarter": 4, "cadences": 3738, "shape": [4, 6]}
+{"file": "kplr009018021-2010174085026_lpd-targ.fits.gz", "quarter": 5, "cadences": 3860, "shape": [5, 6]}
+{"file": "kplr009018021-2010265121752_lpd-targ.fits.gz", "quarter": 6, "cadences": 3979, "shape": [5, 6]}
+{"file": "kplr009018021-2010355172524_lpd-targ.fits.gz", "quarter": 7, "cadences": 3825, "shape": [5, 6]}
+{"file": "kplr009018021-2011073133259_lpd-targ.fits.gz", "quarter": 8, "cadences": 2938, "shape": [4, 6]}
+{"file": "kplr009018021-2011177032512_lpd-targ.fits.gz", "quarter": 9, "cadences": 4189, "shape": [5, 6]}
+{"file": "kplr009018021-2011271113734_lpd-targ.fits.gz", "quarter": 10, "cadences": 3925, "shape": [5, 6]}
+{"file": "kplr009018021-2012004120508_lpd-targ.fits.gz", "quarter": 11, "cadences": 3833, "shape": [5, 6]}
+{"file": "kplr009018021-2012088054726_lpd-targ.fits.gz", "quarter": 12, "cadences": 3217, "shape": [4, 6]}
+{"file": "kplr009018021-2012179063303_lpd-targ.fits.gz", "quarter": 13, "cadences": 3762, "shape": [5, 6]}
+{"file": "kplr009018021-2012277125453_lpd-targ.fits.gz", "quarter": 14, "cadences": 3840, "shape": [5, 6]}
+{"file": "kplr009018021-2013011073258_lpd-targ.fits.gz", "quarter": 15, "cadences": 4139, "shape": [5, 6]}
+{"file": "kplr009018021-2013098041711_lpd-targ.fits.gz", "quarter": 16, "cadences": 3247, "shape": [4, 6]}
+{"file": "kplr009018021-2013131215648_lpd-targ.fits.gz", "quarter": 17, "cadences": 1237, "shape": [5, 6]}
+{
+ "version": "0.4.0",
+ "run_at": "2026-10-18T02:05Z",
+ "koi": "K05600.01",
+ "kepler_name": "",
+ "kepid": "9018021",
+ "period": 51.504285,
+ "catalog_period": 17.168095,
+ "period_mult": 3,
+ "t0_bkjd": 134.637329,
+ "duration_h": 13.04,
+ "koi_depth_ppm": 143.1,
+ "neighbour_east_north": [
+  0.0,
+  3.98
+ ],
+ "other_kois": 0,
+ "unmasked": [],
+ "errors": [],
+ "phases": [
+  {
+   "phase": 0.0,
+   "quarters": 17,
+   "events": 23,
+   "depth_ppm": 107.51105666800561,
+   "depth_err_ppm": 13.741581022844914,
+   "depth_snr": 7.823776353628604,
+   "birge": 5.426051608387357,
+   "depth_err_scaled_ppm": 74.56252781079283,
+   "depth_snr_scaled": 1.4418912532153119,
+   "mean_ppm": -361.7566969618126,
+   "mean_err_ppm": 309.9991062138907,
+   "cal_east": -1.0723748221961809,
+   "cal_north": 5.868932748557682,
+   "east": 1.277745322119361,
+   "north": -0.5810446255203414,
+   "err_east": 2.2410957292383786,
+   "err_north": 2.046628446431447,
+   "chi2_zero": 0.40566428200039906,
+   "chi2_neighbour": 9.475338915881732,
+   "verdict": "unclear",
+   "verdict_scaled": "no_signal"
+  },
+  {
+   "phase": 0.3333333333,
+   "quarters": 16,
+   "events": 27,
+   "depth_ppm": -37.29721109078789,
+   "depth_err_ppm": 14.499531016963626,
+   "depth_snr": -2.5723046522782202,
+   "birge": 4.410001712890019,
+   "depth_err_scaled_ppm": 63.94295662091156,
+   "depth_snr_scaled": -0.5832888102423216,
+   "mean_ppm": -214.29096535259384,
+   "mean_err_ppm": 151.37085893444,
+   "cal_east": -0.7586628448283984,
+   "cal_north": 5.984244147011256,
+   "east": -6.775126726365099,
+   "north": -2.155770045088069,
+   "err_east": 550.113558877151,
+   "err_north": 321.8829361610044,
+   "chi2_zero": 0.00019653544159197546,
+   "chi2_neighbour": 0.0007591283157822063,
+   "verdict": "no_signal",
+   "verdict_scaled": "no_signal"
+  },
+  {
+   "phase": 0.6666666667,
+   "quarters": 15,
+   "events": 22,
+   "depth_ppm": 192.1771371030294,
+   "depth_err_ppm": 9.962099237281082,
+   "depth_snr": 19.290827417563406,
+   "birge": 4.382650465277642,
+   "depth_err_scaled_ppm": 43.660398857411984,
+   "depth_snr_scaled": 4.4016349399521015,
+   "mean_ppm": 374.8434232947313,
+   "mean_err_ppm": 194.03497672405345,
+   "cal_east": -0.5241101626181934,
+   "cal_north": 5.99718867191684,
+   "east": 0.20838553022027664,
+   "north": 0.2629478805055611,
+   "err_east": 0.6355296357016932,
+   "err_north": 0.6854051626382793,
+   "chi2_zero": 0.25469220412201954,
+   "chi2_neighbour": 27.016749175824106,
+   "verdict": "on_target",
+   "verdict_scaled": "on_target"
+  },
+  {
+   "phase": 0.1666666667,
+   "quarters": 14,
+   "events": 22,
+   "depth_ppm": 102.59707055315408,
+   "depth_err_ppm": 12.282285230429656,
+   "depth_snr": 8.353255817489678,
+   "birge": 4.71678640559593,
+   "depth_err_scaled_ppm": 57.93291600454227,
+   "depth_snr_scaled": 1.7709633422407027,
+   "mean_ppm": 108.79970350523455,
+   "mean_err_ppm": 92.88935132117815,
+   "cal_east": -0.6864471334564043,
+   "cal_north": 5.996652265282808,
+   "east": -0.024184621269781867,
+   "north": 1.1810195470894296,
+   "err_east": 2.3180401386005403,
+   "err_north": 2.0269857192888274,
+   "chi2_zero": 0.33958775766733357,
+   "chi2_neighbour": 4.797082523127487,
+   "verdict": "unclear",
+   "verdict_scaled": "no_signal"
+  },
+  {
+   "phase": 0.5,
+   "quarters": 16,
+   "events": 26,
+   "depth_ppm": -54.90061442176234,
+   "depth_err_ppm": 10.421461304446305,
+   "depth_snr": -5.268034186178771,
+   "birge": 4.071222066768831,
+   "depth_err_scaled_ppm": 42.42808323063928,
+   "depth_snr_scaled": -1.2939687641160293,
+   "mean_ppm": -144.9911725627141,
+   "mean_err_ppm": 60.88569568006384,
+   "cal_east": -0.7182542369482752,
+   "cal_north": 5.9162097610202675,
+   "east": 2.564295671504191,
+   "north": -0.8319207391434171,
+   "err_east": 4.355344567475377,
+   "err_north": 2.1391894309685706,
+   "chi2_zero": 0.49788952729047437,
+   "chi2_neighbour": 9.057642597874727,
+   "verdict": "no_signal",
+   "verdict_scaled": "no_signal"
+  },
+  {
+   "phase": 0.8333333333,
+   "quarters": 16,
+   "events": 25,
+   "depth_ppm": 35.164811343910756,
+   "depth_err_ppm": 11.57076425792367,
+   "depth_snr": 3.039108788326567,
+   "birge": 4.88505331200416,
+   "depth_err_scaled_ppm": 56.52380026058939,
+   "depth_snr_scaled": 0.6221239757728929,
+   "mean_ppm": 272.8107802939884,
+   "mean_err_ppm": 115.30814372077472,
+   "cal_east": -0.7749273249371667,
+   "cal_north": 6.064054375380583,
+   "east": -10.316484376220693,
+   "north": 11.349401023489836,
+   "err_east": 1067.0996950019971,
+   "err_north": 1065.0592629710125,
+   "chi2_zero": 0.00020701888488209046,
+   "chi2_neighbour": 0.00010457814355195753,
+   "verdict": "unclear",
+   "verdict_scaled": "no_signal"
+  }
+ ]
+}
+
+===== run-05-python: python /out/tool/kepler_pixels.py --data-dir /data --out-dir /out/K05600.01-x1 --koi K05600.01 --phases 0,0.5,0.25,0.75 --neighbour 0,3.98
+{"file": "kplr009018021-2009166043257_lpd-targ.fits.gz", "quarter": 1, "cadences": 1467, "shape": [5, 6]}
+{"file": "kplr009018021-2009259160929_lpd-targ.fits.gz", "quarter": 2, "cadences": 3696, "shape": [5, 6]}
+{"file": "kplr009018021-2009350155506_lpd-targ.fits.gz", "quarter": 3, "cadences": 3817, "shape": [5, 6]}
+{"file": "kplr009018021-2010078095331_lpd-targ.fits.gz", "quarter": 4, "cadences": 3738, "shape": [4, 6]}
+{"file": "kplr009018021-2010174085026_lpd-targ.fits.gz", "quarter": 5, "cadences": 3860, "shape": [5, 6]}
+{"file": "kplr009018021-2010265121752_lpd-targ.fits.gz", "quarter": 6, "cadences": 3979, "shape": [5, 6]}
+{"file": "kplr009018021-2010355172524_lpd-targ.fits.gz", "quarter": 7, "cadences": 3825, "shape": [5, 6]}
+{"file": "kplr009018021-2011073133259_lpd-targ.fits.gz", "quarter": 8, "cadences": 2938, "shape": [4, 6]}
+{"file": "kplr009018021-2011177032512_lpd-targ.fits.gz", "quarter": 9, "cadences": 4189, "shape": [5, 6]}
+{"file": "kplr009018021-2011271113734_lpd-targ.fits.gz", "quarter": 10, "cadences": 3925, "shape": [5, 6]}
+{"file": "kplr009018021-2012004120508_lpd-targ.fits.gz", "quarter": 11, "cadences": 3833, "shape": [5, 6]}
+{"file": "kplr009018021-2012088054726_lpd-targ.fits.gz", "quarter": 12, "cadences": 3217, "shape": [4, 6]}
+{"file": "kplr009018021-2012179063303_lpd-targ.fits.gz", "quarter": 13, "cadences": 3762, "shape": [5, 6]}
+{"file": "kplr009018021-2012277125453_lpd-targ.fits.gz", "quarter": 14, "cadences": 3840, "shape": [5, 6]}
+{"file": "kplr009018021-2013011073258_lpd-targ.fits.gz", "quarter": 15, "cadences": 4139, "shape": [5, 6]}
+{"file": "kplr009018021-2013098041711_lpd-targ.fits.gz", "quarter": 16, "cadences": 3247, "shape": [4, 6]}
+{"file": "kplr009018021-2013131215648_lpd-targ.fits.gz", "quarter": 17, "cadences": 1237, "shape": [5, 6]}
+{
+ "version": "0.4.0",
+ "run_at": "2026-10-18T02:05Z",
+ "koi": "K05600.01",
+ "kepler_name": "",
+ "kepid": "9018021",
+ "period": 17.168095,
+ "catalog_period": 17.168095,
+ "period_mult": 1,
+ "t0_bkjd": 134.637329,
+ "duration_h": 13.04,
+ "koi_depth_ppm": 143.1,
+ "neighbour_east_north": [
+  0.0,
+  3.98
+ ],
+ "other_kois": 0,
+ "unmasked": [],
+ "errors": [],
+ "phases": [
+  {
+   "phase": 0.0,
+   "quarters": 17,
+   "events": 72,
+   "depth_ppm": 16.77251512470496,
+   "depth_err_ppm": 8.241950708823623,
+   "depth_snr": 2.035017645367465,
+   "birge": 4.5631277079145525,
+   "depth_err_scaled_ppm": 37.60907364669906,
+   "depth_snr_scaled": 0.4459699082797558,
+   "mean_ppm": -129.7414767077886,
+   "mean_err_ppm": 141.00207993541358,
+   "cal_east": -1.2969537929007944,
+   "cal_north": 5.9001639930517555,
+   "east": 4.577325294576374,
+   "north": -3.9732350012456434,
+   "err_east": 100.04180626219005,
+   "err_north": 47.34110467076517,
+   "chi2_zero": 0.009137316393323347,
+   "chi2_neighbour": 0.04692935181016723,
+   "verdict": "no_signal",
+   "verdict_scaled": "no_signal"
+  },
+  {
+   "phase": 0.5,
+   "quarters": 17,
+   "events": 73,
+   "depth_ppm": 22.980314220565617,
+   "depth_err_ppm": 8.743844840999639,
+   "depth_snr": 2.6281704031173536,
+   "birge": 4.868964480505399,
+   "depth_err_scaled_ppm": 42.57346995387763,
+   "depth_snr_scaled": 0.5397801552342705,
+   "mean_ppm": 83.95451655655214,
+   "mean_err_ppm": 66.471726047855,
+   "cal_east": -0.6025340943239058,
+   "cal_north": 6.025731200948317,
+   "east": -4.226738117191114,
+   "north": 4.996591891980031,
+   "err_east": 390.3632834831472,
+   "err_north": 835.7803265772204,
+   "chi2_zero": 0.0001529799098359649,
+   "chi2_neighbour": 8.771226741426421e-05,
+   "verdict": "no_signal",
+   "verdict_scaled": "no_signal"
+  },
+  {
+   "phase": 0.25,
+   "quarters": 17,
+   "events": 76,
+   "depth_ppm": 1.8974914447110733,
+   "depth_err_ppm": 6.5401683720068755,
+   "depth_snr": 0.2901288371768357,
+   "birge": 4.783852509950747,
+   "depth_err_scaled_ppm": 31.287200881925582,
+   "depth_snr_scaled": 0.060647529699828215,
+   "mean_ppm": 161.78916764795284,
+   "mean_err_ppm": 129.30088075602094,
+   "cal_east": -0.9515301114638666,
+   "cal_north": 5.971713696723283,
+   "east": 15.360097396763388,
+   "north": -5.66817488350228,
+   "err_east": 296.18771481433805,
+   "err_north": 75.31048995471274,
+   "chi2_zero": 0.008354072465004119,
+   "chi2_neighbour": 0.02691791720159512,
+   "verdict": "no_signal",
+   "verdict_scaled": "no_signal"
+  },
+  {
+   "phase": 0.75,
+   "quarters": 17,
+   "events": 77,
+   "depth_ppm": -49.777294791858395,
+   "depth_err_ppm": 7.303320430707085,
+   "depth_snr": -6.815707357240946,
+   "birge": 4.6785435205658175,
+   "depth_err_scaled_ppm": 34.168902479700584,
+   "depth_snr_scaled": -1.4568011021551133,
+   "mean_ppm": -56.20411573712436,
+   "mean_err_ppm": 127.4697674048036,
+   "cal_east": -0.8141037147517545,
+   "cal_north": 5.9869702199885735,
+   "east": -4.551841509831707,
+   "north": 1.2795150788651104,
+   "err_east": 2.3909971617497408,
+   "err_north": 2.2842799311282787,
+   "chi2_zero": 3.9379893628527842,
+   "chi2_neighbour": 6.1157919700749215,
+   "verdict": "no_signal",
+   "verdict_scaled": "no_signal"
+  }
+ ]
+}
