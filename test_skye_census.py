@@ -39,16 +39,25 @@ class TestEvents(unittest.TestCase):
 
 class TestBins(unittest.TestCase):
     def test_bin_index(self):
-        self.assertEqual(sc.bin_index(260.12), 129)
-        self.assertEqual(sc.bin_index(131.0), 0)
-        self.assertEqual(sc.bin_index(130.99), -1)
+        # Skye.py edges at 131.5 + k: 260.12 - 131.5 = 128.62 -> 128
+        self.assertEqual(sc.bin_index(260.12), 128)
+        self.assertEqual(sc.bin_index(131.5), 0)
+        self.assertEqual(sc.bin_index(131.49), -1)
+        self.assertEqual(sc.bin_index(260.12, 131.0), 129)
 
     def test_rate_bins(self):
         # centres 131.5 132.5 (in span 1), 133.5 134.5 (out), 135.5 (in span 2), 136.5 (out)
         self.assertEqual(sc.rate_bins({1: (131.5, 133.2), 2: (135.0, 136.0)}, 131.0), [0, 1, 4])
 
+    def test_rate_bins_default_origin(self):
+        # centres 132 133 (in span 1), 134 (out), 135 136 (in span 2, ends inclusive)
+        self.assertEqual(sc.rate_bins({1: (131.5, 133.2), 2: (135.0, 136.0)}), [0, 1, 3, 4])
+
+    def test_rate_bins_empty(self):
+        self.assertEqual(sc.rate_bins({}), [])
+
     def test_one_outlier(self):
-        # 19 / 10 = 1.9, thr 1.9 + 3 * 1.378405 = 6.035 -> reject bin 9; then 9 / 9 = 1, thr 4 -> stable
+        # 19 / 10 = 1.9, thr 1.9 + 3 * 1.378405 = 6.035 -> drop bin 9; then 9 / 9 = 1, thr 4 -> stable
         counts = {k: 1 for k in range(9)}
         counts[9] = 10
         flagged, r, thr = sc.skye_bins(counts, list(range(10)))
@@ -69,14 +78,107 @@ class TestBins(unittest.TestCase):
         self.assertAlmostEqual(thr, 4.0)
 
     def test_cascade(self):
-        # 59 / 20 = 2.95, thr 8.1027 -> {19}; 29 / 19 = 1.526316, thr 5.232642 -> {17, 18, 19};
-        # 17 / 17 = 1, thr 4 -> stable
+        # 59 / 20 = 2.95, thr 8.1027 -> drop 19; 29 / 19 = 1.526316, thr 5.232642 -> drop 17, 18;
+        # 17 / 17 = 1, thr 4 -> stable for the remaining passes
         counts = {k: 1 for k in range(17)}
         counts.update({17: 6, 18: 6, 19: 30})
         flagged, r, thr = sc.skye_bins(counts, list(range(20)))
         self.assertEqual(flagged, {17, 18, 19})
         self.assertAlmostEqual(r, 1.0)
         self.assertAlmostEqual(thr, 4.0)
+
+    def test_zero_passes(self):
+        # no pass: R 2.95, cutoff 2.95 + 3 * 1.717556 = 8.102669; only bin 19 (30) is above it
+        counts = {k: 1 for k in range(17)}
+        counts.update({17: 6, 18: 6, 19: 30})
+        flagged, r, thr = sc.skye_bins(counts, list(range(20)), passes=0)
+        self.assertEqual(flagged, {19})
+        self.assertAlmostEqual(r, 2.95)
+        self.assertAlmostEqual(thr, 2.95 + 3 * 2.95 ** 0.5)
+
+
+class TestBuildSkye(unittest.TestCase):
+    # four stars of skygroup 5 observed only in Q3 (260.22-349.50); star 99 has no skygroup
+    MAST = {1: (5, {3}), 2: (5, {3}), 3: (5, {3}), 4: (5, {3})}
+    # stars 1-3: one event each at 300.2 (P 400); star 4: 270.0 and 320.0 (P 50; 370.0 is after Q3)
+    TCES = [(1, 400.0, 300.2), (2, 400.0, 300.2), (3, 400.0, 300.2), (4, 50.0, 270.0), (99, 400.0, 300.2)]
+
+    def test_skye_py_origin(self):
+        # bins: 300.2 -> 168, 270.0 -> 138, 320.0 -> 188; rate bins: centres 261.0 .. 349.0 = bins 129 .. 217 (89)
+        # R 5 / 89, cutoff 0.767; the first pass drops all three bins, leaving R 0 and cutoff 0
+        skye, info, rows = sc.build_skye(self.TCES, self.MAST)
+        self.assertEqual(skye, {5: {138, 168, 188}})
+        self.assertEqual((info[5]["events"], info[5]["rate_bins"], info[5]["rate"], info[5]["threshold"]),
+                         (5, 89, 0.0, 0.0))
+        self.assertEqual([(r["bin"], r["start"], r["count"]) for r in rows],
+                         [(138, 269.5, 1), (168, 299.5, 3), (188, 319.5, 1)])
+
+    def test_v1_origin(self):
+        # bins: 300.2 -> 169, 270.0 -> 139, 320.0 -> 189; rate bins: centres 260.5 .. 349.5 = bins 129 .. 218 (90)
+        skye, info, _ = sc.build_skye(self.TCES, self.MAST, 131.0)
+        self.assertEqual(skye, {5: {139, 169, 189}})
+        self.assertEqual(info[5]["rate_bins"], 90)
+
+
+class TestSkyeComment(unittest.TestCase):
+    def test_skye_alone_and_with_other_flags(self):
+        self.assertTrue(sc.has_skye("INDIV_TRANS_SKYE"))
+        self.assertTrue(sc.has_skye("INDIV_TRANS_MARSHALL_SKYE---CENT_FEW_DIFFS"))
+        self.assertTrue(sc.has_skye("INDIV_TRANS_RUBBLE_SKYE_ZUMA_TRACKER---CENT_KIC_POS"))
+
+    def test_no_skye(self):
+        self.assertFalse(sc.has_skye("INDIV_TRANS_RUBBLE_ZUMA---SKYE_LIKE"))
+        self.assertFalse(sc.has_skye("ALL_TRANS_CHASES---CENT_FEW_DIFFS"))
+        self.assertFalse(sc.has_skye("NO_COMMENT"))
+        self.assertFalse(sc.has_skye(""))
+        self.assertFalse(sc.has_skye(None))
+
+
+class TestRobovetter(unittest.TestCase):
+    def test_parse_input(self):
+        lines = ["# a header line with many fields 1 2 3 4 5 6 7 8 9 10 11 12\n",
+                 "OBS 001026032-01 1026032 1 1 4 3 3 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 2 3\n",
+                 "OBS 001026032-02 1026032 2 2 10 9 7 1 0 0 0 0 0\n",
+                 "short line 1 2\n",
+                 "OBS x notanumber 1 1 4 3 3 0 0 0 1 0 0\n"]
+        self.assertEqual(sc.parse_rv_input(lines), {(1026032, 1): (4, 3, 3, 1), (1026032, 2): (10, 9, 7, 0)})
+
+    def test_tce_key(self):
+        self.assertEqual(sc.tce_key("001026032-01"), (1026032, 1))
+        self.assertEqual(sc.tce_key(" 010000009-12 "), (10000009, 12))
+        self.assertIsNone(sc.tce_key("junk"))
+        self.assertIsNone(sc.tce_key(""))
+
+    def test_parse_output(self):
+        lines = ["#1:TCE  2:Robovetter_Score  3:Disposition 8:Minor_Descriptive_Flags\n",
+                 "001026032-01 0.000 FP 1 0 0 0 INDIV_TRANS_MARSHALL_SKYE---CENT_FEW_DIFFS\n",
+                 "001026032-02 0.987 PC 0 0 0 0 \n",
+                 "\n"]
+        self.assertEqual(sc.parse_rv_output(lines),
+                         {(1026032, 1): "INDIV_TRANS_MARSHALL_SKYE---CENT_FEW_DIFFS", (1026032, 2): ""})
+
+    def test_confusion(self):
+        c = sc.confusion([(1, 1), (1, 0), (0, 1), (0, 0), (1, 1)])
+        self.assertEqual(c, {"tp": 2, "fp": 1, "fn": 1, "tn": 1, "recall": 0.6667, "precision": 0.6667})
+        self.assertEqual(sc.confusion([])["recall"], None)
+
+    def test_validation(self):
+        tce_rows = [{"rv_found": 1, "n_events": 3, "rv_nrealtrans": 3, "n_flagged": 1, "n_flagged_v1bins": 0,
+                     "rv_skye": 1},
+                    {"rv_found": 1, "n_events": 4, "rv_nrealtrans": 3, "n_flagged": 0, "n_flagged_v1bins": 0,
+                     "rv_skye": 0},
+                    {"rv_found": 0, "n_events": 2, "rv_nrealtrans": "", "n_flagged": 2, "n_flagged_v1bins": 2,
+                     "rv_skye": ""}]
+        rv_table = {(1, 1): (3, 3, 2, 1), (1, 2): (4, 3, 3, 0), (2, 1): (5, 5, 5, 1)}
+        rv_comments = {(1, 1): "INDIV_TRANS_SKYE", (1, 2): "NO_COMMENT", (3, 1): "INDIV_TRANS_RUBBLE_SKYE"}
+        v = sc.validation(tce_rows, rv_table, rv_comments)
+        self.assertEqual((v["rv_rows"], v["tces_with_skygroup"], v["tces_found_in_rv"], v["join_fraction"]),
+                         (3, 3, 2, 0.6667))
+        # (3, 1) carries a SKYE comment but is not in the input table, so 1 of 2
+        self.assertEqual((v["rv_skye_flag_1_all_periods"], v["comment_skye_tces"], v["comment_skye_with_flag_1"],
+                          v["comment_flag_fraction"], v["events_equal_nrealtrans"]), (2, 2, 1, 0.5, 0.5))
+        self.assertEqual(v["primary"], {"tp": 1, "fp": 0, "fn": 0, "tn": 1, "recall": 1.0, "precision": 1.0})
+        self.assertEqual(v["v1_bins"], {"tp": 0, "fp": 0, "fn": 1, "tn": 1, "recall": 0.0, "precision": None})
 
 
 class TestStats(unittest.TestCase):
@@ -114,18 +216,24 @@ class TestMast(unittest.TestCase):
 class TestKoiRow(unittest.TestCase):
     SP = {1: (100.0, 500.0)}
     MAST = {1: (66, {1})}
-    DR25 = {"K1": {"koi_pdisposition": "CANDIDATE", "koi_comment": "INDIV_TRANS_SKYE---X"}}
+    DR25 = {"K1": {"koi_pdisposition": "CANDIDATE", "koi_comment": "INDIV_TRANS_SKYE---X"},
+            "K5": {"koi_pdisposition": "FALSE POSITIVE", "koi_comment": "INDIV_TRANS_MARSHALL_SKYE---CENT_FEW_DIFFS"}}
 
     def test_fails(self):
-        # events 150 250 350 450 -> bins 19 119 219 319; Skye bins 119 and 219 -> good 2 < 3
-        r = sc.koi_row("K1", 1, "CANDIDATE", 100.0, 150.0, self.MAST, {66: {119, 219}}, self.DR25, self.SP)
+        # events 150 250 350 450 -> bins 18 118 218 318 (origin 131.5); bad bins 118 and 218 -> good 2 < 3
+        r = sc.koi_row("K1", 1, "CANDIDATE", 100.0, 150.0, self.MAST, {66: {118, 218}}, self.DR25, self.SP)
         self.assertEqual((r["n_events"], r["n_flagged"], r["good"], r["eligible"], r["would_fail"]),
                          (4, 2, 2, 1, 1))
         self.assertEqual(r["flagged_times"], "250.0000 350.0000")
         self.assertEqual((r["in_dr25"], r["dr25_pc"], r["dr25_skye"], r["never_dr25"]), (1, 1, 1, 0))
 
+    def test_skye_comment_with_other_flags(self):
+        # v1 missed this group: SKYE after MARSHALL in the INDIV_TRANS comment
+        r = sc.koi_row("K5", 1, "FALSE POSITIVE", 100.0, 150.0, self.MAST, {66: set()}, self.DR25, self.SP)
+        self.assertEqual((r["in_dr25"], r["dr25_pc"], r["dr25_skye"], r["never_dr25"]), (1, 0, 1, 0))
+
     def test_passes(self):
-        r = sc.koi_row("K2", 1, "CANDIDATE", 100.0, 150.0, self.MAST, {66: {119}}, self.DR25, self.SP)
+        r = sc.koi_row("K2", 1, "CANDIDATE", 100.0, 150.0, self.MAST, {66: {118}}, self.DR25, self.SP)
         self.assertEqual((r["good"], r["would_fail"]), (3, 0))
         self.assertEqual((r["in_dr25"], r["dr25_pc"], r["dr25_skye"], r["never_dr25"]), (0, 0, 0, 1))
 
@@ -139,8 +247,8 @@ class TestKoiRow(unittest.TestCase):
         self.assertEqual((r["status"], r["never_dr25"]), ("no_skygroup", 0))
 
     def test_group_stats(self):
-        rows = [sc.koi_row("K1", 1, "CANDIDATE", 100.0, 150.0, self.MAST, {66: {119, 219}}, self.DR25, self.SP),
-                sc.koi_row("K2", 1, "CANDIDATE", 100.0, 150.0, self.MAST, {66: {119}}, self.DR25, self.SP),
+        rows = [sc.koi_row("K1", 1, "CANDIDATE", 100.0, 150.0, self.MAST, {66: {118, 218}}, self.DR25, self.SP),
+                sc.koi_row("K2", 1, "CANDIDATE", 100.0, 150.0, self.MAST, {66: {118}}, self.DR25, self.SP),
                 sc.koi_row("K3", 1, "CANDIDATE", 300.0, 150.0, self.MAST, {66: set()}, self.DR25, self.SP)]
         self.assertEqual(sc.group_stats(rows, "never_dr25"),
                          {"n": 2, "with_flagged": 1, "flagged_fraction": 0.5, "eligible": 1, "fails": 0,
