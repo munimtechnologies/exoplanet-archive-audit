@@ -1,0 +1,25 @@
+Title: Transit Timing Observations From Kepler. IX. 
+       Catalog Of The Full Long-Cadence Data Set  
+Authors: Holczer T., Mazeh T., Nachmani G., Jontof-Hutter D., Ford E.B., 
+         Fabrycky D., Darin R., Kane M., Steffen J.H.
+Table: KOI transits: linear ephemerides, duration and depth
+================================================================================
+Byte-by-byte Description of file: apjsaa25b0t2_mrt.txt
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label   Explanations
+--------------------------------------------------------------------------------
+   1-  7 F7.2   ---     KOI     Kepler Object of Interest number
+   9- 19 F11.6  d       T0      Time of corrected transit center; BJD-2454900
+  21- 28 F8.6   d     e_T0      Uncertainty in T0 (1)
+  30- 41 F12.8  d       Period  Average interval between transits
+  43- 52 F10.8  d     e_Period  Uncertainty in Period (1)
+  54- 60 F7.4   h       Dur     Transit Duration; t4-t1
+  62- 66 I5     ppm     Depth   Transit Depth (2)
+  68- 73 F6.1   ---     SNR     Median single-transit signal-to-Noise
+  75- 79 F5.2   ---     SRatio  Scatter ratio (3)
+--------------------------------------------------------------------------------
+Note (1): A 9.999999 indicates a NULL value.
+Note (2): In units of out of transit intensity.
+Note (3): The ratio of the scatter of the residuals inside to 
+          outside the transit.
+--------------------------------------------------------------------------------

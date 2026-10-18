@@ -1,0 +1,231 @@
+{
+ "version": "0.1.0",
+ "run_at": "2026-10-18T10:49Z",
+ "cutouts": "https://raw.githubusercontent.com/munimtechnologies/exoplanet-archive-audit/main/results/2026-10-18-koi1209-events-0.1.0/cutouts.csv",
+ "cutout_rows": 1898,
+ "fits": [
+  {
+   "guess": 378.17,
+   "tc": 378.14,
+   "tc_lo": 378.138,
+   "tc_hi": 378.14,
+   "tc_err": 0.001,
+   "at_edge": false,
+   "depth_ppm": 4961.7,
+   "depth_err_ppm": 206.7,
+   "t14_h": 3.2,
+   "frac": 0.2,
+   "sigma_ppm": 393.3,
+   "n": 74,
+   "n_in": 5
+  },
+  {
+   "guess": 650.23,
+   "tc": 650.208,
+   "tc_lo": 650.208,
+   "tc_hi": 650.208,
+   "tc_err": 0.001,
+   "at_edge": false,
+   "depth_ppm": 6017.4,
+   "depth_err_ppm": 169.2,
+   "t14_h": 4.6,
+   "frac": 0.5,
+   "sigma_ppm": 283.5,
+   "n": 92,
+   "n_in": 9
+  },
+  {
+   "guess": 922.51,
+   "tc": 922.522,
+   "tc_lo": 922.52,
+   "tc_hi": 922.524,
+   "tc_err": 0.002,
+   "at_edge": false,
+   "depth_ppm": 4542.2,
+   "depth_err_ppm": 202.7,
+   "t14_h": 3.8,
+   "frac": 0.2,
+   "sigma_ppm": 422.5,
+   "n": 86,
+   "n_in": 6
+  },
+  {
+   "guess": 1194.96,
+   "tc": 1194.988,
+   "tc_lo": 1194.986,
+   "tc_hi": 1194.99,
+   "tc_err": 0.002,
+   "at_edge": false,
+   "depth_ppm": 6583.6,
+   "depth_err_ppm": 333.5,
+   "t14_h": 2.6,
+   "frac": 0.5,
+   "sigma_ppm": 373.8,
+   "n": 45,
+   "n_in": 3
+  },
+  {
+   "guess": 1466.47,
+   "tc": 1466.488,
+   "tc_lo": 1466.486,
+   "tc_hi": 1466.488,
+   "tc_err": 0.001,
+   "at_edge": false,
+   "depth_ppm": 6698.3,
+   "depth_err_ppm": 234.1,
+   "t14_h": 4.4,
+   "frac": 0.5,
+   "sigma_ppm": 384.7,
+   "n": 86,
+   "n_in": 8
+  }
+ ],
+ "linear_weighted": {
+  "P": 272.10947347740665,
+  "T0": 378.15122593320234,
+  "P_err": 0.00033169209572346216,
+  "T0_err": 0.0007978359729202852,
+  "n": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "oc": [
+   -0.0112259332023541,
+   -0.05269941060907968,
+   0.15182711198440302,
+   0.5083536345778157,
+   -0.10111984282889352
+  ],
+  "chi2": 83497.19449904817,
+  "dof": 3,
+  "max_abs_oc": 0.5083536345778157,
+  "max_abs_oc_sigma": 254.17681728890784
+ },
+ "linear_unweighted": {
+  "P": 272.1475999999998,
+  "T0": 378.1740000000002,
+  "P_err": 0.31622776601683794,
+  "T0_err": 0.7745966692414834,
+  "n": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "oc": [
+   -0.03400000000021919,
+   -0.11360000000001946,
+   0.05280000000027485,
+   0.37120000000049913,
+   -0.2763999999992848
+  ],
+  "chi2": 0.23103520000002353,
+  "dof": 3,
+  "max_abs_oc": 0.37120000000049913,
+  "max_abs_oc_sigma": 0.37120000000049913
+ },
+ "holczer": {
+  "t2": {
+   "url": "https://content.cld.iop.org/journals/0067-0049/225/1/9/revision1/apjsaa25b0t2_mrt.txt",
+   "bytes": 209451,
+   "sha256": "8cd04f512f91b0ac38159a19b378540ae4cd52edf3ba8ccf5ac1810a200f88ed",
+   "columns": [
+    "KOI",
+    "T0",
+    "e_T0",
+    "Period",
+    "e_Period",
+    "Dur",
+    "Depth",
+    "SNR",
+    "SRatio"
+   ],
+   "units": [
+    "---",
+    "d",
+    "d",
+    "d",
+    "d",
+    "h",
+    "ppm",
+    "---",
+    "---"
+   ],
+   "rows_for_koi": 1
+  },
+  "t3": {
+   "url": "https://content.cld.iop.org/journals/0067-0049/225/1/9/revision1/apjsaa25b0t3_mrt.txt",
+   "bytes": 28635521,
+   "sha256": "74c90c022b7e552a6862518d7a7de926981325f1cb07f43278a4a1b43cb593d5",
+   "columns": [
+    "KOI",
+    "n",
+    "tn",
+    "O-C",
+    "e_O-C",
+    "f_O-C",
+    "TDV",
+    "e_TDV",
+    "f_TDV",
+    "TPV",
+    "e_TPV",
+    "f_TPV",
+    "Out",
+    "Over"
+   ],
+   "units": [
+    "---",
+    "---",
+    "d",
+    "min",
+    "min",
+    "---",
+    "---",
+    "---",
+    "---",
+    "---",
+    "---",
+    "---",
+    "---",
+    "---"
+   ],
+   "rows_for_koi": 5
+  },
+  "compare": [
+   {
+    "column": "tn",
+    "holczer_bkjd": 378.1768,
+    "our_tc": 378.14,
+    "diff_d": -0.0368
+   },
+   {
+    "column": "tn",
+    "holczer_bkjd": 650.3219,
+    "our_tc": 650.208,
+    "diff_d": -0.1139
+   },
+   {
+    "column": "tn",
+    "holczer_bkjd": 922.467,
+    "our_tc": 922.522,
+    "diff_d": 0.055
+   },
+   {
+    "column": "tn",
+    "holczer_bkjd": 1194.6122,
+    "our_tc": 1194.988,
+    "diff_d": 0.3758
+   },
+   {
+    "column": "tn",
+    "holczer_bkjd": 1466.7573,
+    "our_tc": 1466.488,
+    "diff_d": -0.2693
+   }
+  ]
+ }
+}
