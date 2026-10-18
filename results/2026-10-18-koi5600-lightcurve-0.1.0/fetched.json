@@ -1,0 +1,24 @@
+{
+ "source": "https://raw.githubusercontent.com/munimtechnologies/exoplanet-archive-audit/main/",
+ "files": {
+  "kepler_alias.py": {
+   "bytes": 27730,
+   "sha256": "3cb894cad1ee3427f568c2b99aa8fb6cd1e216234fd8a781788b176d5a5a0434"
+  },
+  "test_kepler_alias.py": {
+   "bytes": 12223,
+   "sha256": "6da954372ae12a7d0d269f1331a307d5d132f05a104c1cd4a0b604b50b2fd859"
+  },
+  "thirds_lc.py": {
+   "bytes": 9747,
+   "sha256": "f2ce1e39deee66fd8bba2b2621dc3382143146c8f08d89ee1639a41376c94033",
+   "local": true
+  },
+  "test_thirds_lc.py": {
+   "bytes": 7095,
+   "sha256": "efe232d730319930e49d5251642383e8c1a59a531013dbccf84cb762de0f32d9",
+   "local": true
+  }
+ },
+ "version": "0.3.0"
+}
