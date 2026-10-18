@@ -1,0 +1,52 @@
+{
+ "version": "0.1.0",
+ "span_bkjd": [
+  131.5,
+  1591.0
+ ],
+ "p_min": 50.0,
+ "w_days": 0.5,
+ "koi_rows": 9564,
+ "kois_used": 2141,
+ "candidate_pairs": 2289,
+ "matches": 63,
+ "matches_by_geom": {
+  "near": 29,
+  "antipodal": 0,
+  "module": 26,
+  "far": 8
+ },
+ "matches_with_candidate_by_geom": {
+  "near": 1,
+  "antipodal": 0,
+  "module": 1,
+  "far": 7
+ },
+ "far_candidate_matches": 7,
+ "null": {
+  "shuffles": 1000,
+  "seed": 20261018,
+  "mean": 2.289,
+  "max": 9,
+  "p_ge_observed": 0.011988011988011988
+ },
+ "far_candidate_p_gt_200": 4,
+ "snr_median_far_candidates": 9.1,
+ "snr_median_other_candidates": 10.5,
+ "n_snr_far": 10,
+ "n_snr_other": 649,
+ "far_candidate": [
+  "K01299.01 (CONFIRMED, P=52.5008645, Lissauer P) ~ K00686.01 (CANDIDATE, P=52.513548727, Lissauer P) max_offset=0.4959 d sep=5.2556 deg",
+  "K06432.01 (FALSE POSITIVE, P=73.894163515, Lissauer F) ~ K05954.01 (CANDIDATE, P=73.908995, Lissauer S) max_offset=0.188 d sep=11.585 deg",
+  "K00211.01 (CANDIDATE, P=124.03589939, Lissauer P) ~ K05601.01 (FALSE POSITIVE, P=124.091252, Lissauer F) max_offset=0.4642 d sep=4.1969 deg",
+  "K07992.01 (CANDIDATE, P=277.13367, Lissauer P) ~ K08217.01 (CANDIDATE, P=277.25118, Lissauer P) max_offset=0.4324 d sep=6.5739 deg",
+  "K05660.01 (CANDIDATE, P=402.20969, Lissauer P) ~ K08259.01 (CANDIDATE, P=402.27493, Lissauer P) max_offset=0.3605 d sep=7.756 deg",
+  "K05935.01 (CANDIDATE, P=416.87893121, Lissauer S) ~ K05446.01 (CANDIDATE, P=416.9504, Lissauer R) max_offset=0.1187 d sep=7.2981 deg",
+  "K07040.01 (CANDIDATE, P=502.20642, Lissauer P) ~ K07932.01 (CANDIDATE, P=502.25648, Lissauer P) max_offset=0.3289 d sep=3.8547 deg"
+ ],
+ "sources": {
+  "koi": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+kepid%2Ckepoi_name%2Ckoi_disposition%2Ckoi_pdisposition%2Ckoi_period%2Ckoi_time0bk%2Ckoi_duration%2Ckoi_depth%2Ckoi_model_snr%2Ckoi_kepmag%2Cra%2Cdec%2Ckoi_fpflag_ec%2Ckoi_tce_delivname+from+cumulative&format=csv",
+  "xmatch": "https://raw.githubusercontent.com/munimtechnologies/exoplanet-archive-audit/main/results/2026-10-17-lissauer-xmatch-0.1.0/xmatch.csv",
+  "fetched_at": "2026-10-18T09:59:40Z"
+ }
+}
