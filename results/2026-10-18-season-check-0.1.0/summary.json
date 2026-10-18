@@ -1,0 +1,2472 @@
+{
+ "version": "0.1.0",
+ "season_check_sha256": "05bec0124314ffed7e69cc25a639c6b80ec20cf7f15762cdb42ecf302980057e",
+ "pair_events_version": "0.1.0",
+ "pair_events_sha256": "cdba9b453b799b32b13c5ad218bedc92bf95b614944e3df63213221e6dac3a72",
+ "run_at": "2026-10-18T11:47Z",
+ "offset_d": 1.2,
+ "control_dur_h": 12.0,
+ "controls": [
+  {
+   "kepid": 6359926,
+   "ra": 290.39505,
+   "dec": 41.78157,
+   "kepmag": 14.955,
+   "kois": 1,
+   "nearest_to": "K05269.01",
+   "sep_deg": 0.0309
+  },
+  {
+   "kepid": 6359320,
+   "ra": 290.21518,
+   "dec": 41.77597,
+   "kepmag": 15.808,
+   "kois": 3,
+   "nearest_to": "K05269.01",
+   "sep_deg": 0.1386
+  },
+  {
+   "kepid": 6438099,
+   "ra": 290.22067,
+   "dec": 41.868721,
+   "kepmag": 15.862,
+   "kois": 1,
+   "nearest_to": "K05269.01",
+   "sep_deg": 0.1771
+  },
+  {
+   "kepid": 6034945,
+   "ra": 289.38351,
+   "dec": 41.392689,
+   "kepmag": 14.63,
+   "kois": 1,
+   "nearest_to": "K05227.01",
+   "sep_deg": 0.0401
+  },
+  {
+   "kepid": 6035124,
+   "ra": 289.44452,
+   "dec": 41.31776,
+   "kepmag": 13.746,
+   "kois": 1,
+   "nearest_to": "K05227.01",
+   "sep_deg": 0.0882
+  },
+  {
+   "kepid": 6034379,
+   "ra": 289.18372,
+   "dec": 41.343376,
+   "kepmag": 13.931,
+   "kois": 1,
+   "nearest_to": "K05227.01",
+   "sep_deg": 0.1231
+  }
+ ],
+ "fractions": {
+  "candidate": {
+   "season": {
+    "dips": 4,
+    "cells": 6,
+    "fraction": 0.667,
+    "p_binom": 8.6e-05
+   },
+   "other": {
+    "dips": 1,
+    "cells": 26,
+    "fraction": 0.038,
+    "p_binom": 0.73648
+   }
+  },
+  "fp": {
+   "season": {
+    "dips": 1,
+    "cells": 11,
+    "fraction": 0.091,
+    "p_binom": 0.4312
+   },
+   "other": {
+    "dips": 0,
+    "cells": 37,
+    "fraction": 0.0,
+    "p_binom": 1.0
+   }
+  },
+  "koi": {
+   "season": {
+    "dips": 5,
+    "cells": 17,
+    "fraction": 0.294,
+    "p_binom": 0.001165
+   },
+   "other": {
+    "dips": 1,
+    "cells": 63,
+    "fraction": 0.016,
+    "p_binom": 0.960501
+   }
+  },
+  "control": {
+   "season": {
+    "dips": 3,
+    "cells": 21,
+    "fraction": 0.143,
+    "p_binom": 0.084918
+   },
+   "other": {
+    "dips": 6,
+    "cells": 68,
+    "fraction": 0.088,
+    "p_binom": 0.124206
+   }
+  }
+ },
+ "p3_control_test": false,
+ "own_events": {
+  "K05269.01": {
+   "events": 4,
+   "fitted": 1,
+   "dips": 1,
+   "times": [
+    260.1243,
+    631.6306,
+    1003.1369,
+    1374.6432
+   ]
+  },
+  "K05227.01": {
+   "events": 4,
+   "fitted": 1,
+   "dips": 1,
+   "times": [
+    259.8491,
+    631.414,
+    1002.9789,
+    1374.5439
+   ]
+  },
+  "K05421.01": {
+   "events": 4,
+   "fitted": 1,
+   "dips": 1,
+   "times": [
+    261.1884,
+    632.1015,
+    1003.0146,
+    1373.9276
+   ]
+  },
+  "K05462.01": {
+   "events": 4,
+   "fitted": 2,
+   "dips": 1,
+   "times": [
+    260.7045,
+    631.891,
+    1003.0775,
+    1374.2639
+   ]
+  },
+  "K08262.01": {
+   "events": 4,
+   "fitted": 2,
+   "dips": 1,
+   "times": [
+    261.1772,
+    632.1207,
+    1003.0643,
+    1374.0078
+   ]
+  }
+ },
+ "in_season_modules": {
+  "K05269.01": {
+   "3": [
+    17,
+    2,
+    58
+   ],
+   "7": [
+    17,
+    2,
+    58
+   ],
+   "11": [
+    17,
+    2,
+    58
+   ],
+   "15": [
+    17,
+    2,
+    58
+   ]
+  },
+  "K05227.01": {
+   "3": [
+    17,
+    2,
+    58
+   ],
+   "7": [
+    17,
+    2,
+    58
+   ],
+   "11": [
+    17,
+    2,
+    58
+   ],
+   "15": [
+    17,
+    2,
+    58
+   ]
+  },
+  "K05421.01": {
+   "3": [
+    13,
+    4,
+    44
+   ],
+   "7": [
+    13,
+    4,
+    44
+   ],
+   "11": [
+    13,
+    4,
+    44
+   ],
+   "15": [
+    13,
+    4,
+    44
+   ]
+  },
+  "K05462.01": {
+   "3": [
+    13,
+    4,
+    44
+   ],
+   "7": [
+    13,
+    4,
+    44
+   ],
+   "11": [
+    13,
+    4,
+    44
+   ],
+   "15": [
+    13,
+    4,
+    44
+   ]
+  },
+  "K08262.01": {
+   "3": [
+    17,
+    2,
+    58
+   ],
+   "7": [
+    17,
+    2,
+    58
+   ],
+   "11": [
+    17,
+    2,
+    58
+   ],
+   "15": [
+    17,
+    2,
+    58
+   ]
+  },
+  "C1": {
+   "3": [
+    17,
+    2,
+    58
+   ],
+   "7": [
+    17,
+    2,
+    58
+   ],
+   "11": [
+    17,
+    2,
+    58
+   ],
+   "15": [
+    17,
+    2,
+    58
+   ]
+  },
+  "C2": {
+   "7": [
+    17,
+    2,
+    58
+   ],
+   "11": [
+    17,
+    2,
+    58
+   ],
+   "15": [
+    17,
+    2,
+    58
+   ]
+  },
+  "C3": {
+   "3": [
+    17,
+    2,
+    58
+   ],
+   "7": [
+    17,
+    2,
+    58
+   ],
+   "11": [
+    17,
+    2,
+    58
+   ],
+   "15": [
+    17,
+    2,
+    58
+   ]
+  },
+  "C4": {
+   "3": [
+    17,
+    2,
+    58
+   ],
+   "7": [
+    17,
+    2,
+    58
+   ],
+   "11": [
+    17,
+    2,
+    58
+   ],
+   "15": [
+    17,
+    2,
+    58
+   ]
+  },
+  "C5": {
+   "3": [
+    17,
+    2,
+    58
+   ],
+   "7": [
+    17,
+    2,
+    58
+   ],
+   "11": [
+    17,
+    2,
+    58
+   ],
+   "15": [
+    17,
+    2,
+    58
+   ]
+  },
+  "C6": {
+   "3": [
+    17,
+    2,
+    58
+   ],
+   "7": [
+    17,
+    2,
+    58
+   ],
+   "11": [
+    17,
+    2,
+    58
+   ],
+   "15": [
+    17,
+    2,
+    58
+   ]
+  }
+ },
+ "errors": [],
+ "stars": [
+  {
+   "star": "K05269.01",
+   "group": "candidate",
+   "kepid": 6359929,
+   "dur_h": 8.854,
+   "points": 54091,
+   "null_n": 248,
+   "null_sigma_ppm": 207.8,
+   "null_p95_ppm": 335.3,
+   "quarters": [
+    {
+     "quarter": 1,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 131.51252,
+     "end": 164.984,
+     "file": "kplr006359929-2009166043257_llc.fits"
+    },
+    {
+     "quarter": 2,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 169.52039,
+     "end": 258.46763,
+     "file": "kplr006359929-2009259160929_llc.fits"
+    },
+    {
+     "quarter": 3,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 260.22484,
+     "end": 349.49548,
+     "file": "kplr006359929-2009350155506_llc.fits"
+    },
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 352.37651,
+     "end": 442.20284,
+     "file": "kplr006359929-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 443.49023,
+     "end": 538.1629,
+     "file": "kplr006359929-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 539.45024,
+     "end": 629.29659,
+     "file": "kplr006359929-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 630.17518,
+     "end": 719.54802,
+     "file": "kplr006359929-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 735.36315,
+     "end": 802.34467,
+     "file": "kplr006359929-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 808.51581,
+     "end": 905.9267,
+     "file": "kplr006359929-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 906.84622,
+     "end": 1000.26864,
+     "file": "kplr006359929-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1001.2085,
+     "end": 1098.32541,
+     "file": "kplr006359929-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1099.40834,
+     "end": 1182.0216,
+     "file": "kplr006359929-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1182.73679,
+     "end": 1273.057,
+     "file": "kplr006359929-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 1274.13999,
+     "end": 1371.32239,
+     "file": "kplr006359929-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1373.48823,
+     "end": 1471.13641,
+     "file": "kplr006359929-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1472.09673,
+     "end": 1557.95906,
+     "file": "kplr006359929-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1559.22598,
+     "end": 1591.0015,
+     "file": "kplr006359929-2013131215648_llc.fits"
+    }
+   ],
+   "masks": []
+  },
+  {
+   "star": "K05227.01",
+   "group": "candidate",
+   "kepid": 6034834,
+   "dur_h": 14.736,
+   "points": 52302,
+   "null_n": 255,
+   "null_sigma_ppm": 80.7,
+   "null_p95_ppm": 151.3,
+   "quarters": [
+    {
+     "quarter": 1,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 131.51261,
+     "end": 164.98407,
+     "file": "kplr006034834-2009166043257_llc.fits"
+    },
+    {
+     "quarter": 2,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 169.52046,
+     "end": 258.46758,
+     "file": "kplr006034834-2009259160929_llc.fits"
+    },
+    {
+     "quarter": 3,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 260.22478,
+     "end": 349.49541,
+     "file": "kplr006034834-2009350155506_llc.fits"
+    },
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 352.37645,
+     "end": 442.2029,
+     "file": "kplr006034834-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 443.49029,
+     "end": 538.16296,
+     "file": "kplr006034834-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 539.4503,
+     "end": 629.29654,
+     "file": "kplr006034834-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 630.17513,
+     "end": 719.54795,
+     "file": "kplr006034834-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 735.3631,
+     "end": 802.34472,
+     "file": "kplr006034834-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 808.51586,
+     "end": 905.92678,
+     "file": "kplr006034834-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 906.84629,
+     "end": 1000.26859,
+     "file": "kplr006034834-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1001.20845,
+     "end": 1098.32534,
+     "file": "kplr006034834-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1099.40828,
+     "end": 1182.02166,
+     "file": "kplr006034834-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1182.73685,
+     "end": 1273.05707,
+     "file": "kplr006034834-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 1274.14007,
+     "end": 1371.32234,
+     "file": "kplr006034834-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1373.48818,
+     "end": 1471.13634,
+     "file": "kplr006034834-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1472.09667,
+     "end": 1557.95912,
+     "file": "kplr006034834-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1559.22604,
+     "end": 1591.00159,
+     "file": "kplr006034834-2013131215648_llc.fits"
+    }
+   ],
+   "masks": []
+  },
+  {
+   "star": "K05421.01",
+   "group": "fp",
+   "kepid": 7751133,
+   "dur_h": 17.655,
+   "points": 55711,
+   "null_n": 251,
+   "null_sigma_ppm": 63.2,
+   "null_p95_ppm": 114.4,
+   "quarters": [
+    {
+     "quarter": 1,
+     "season": 3,
+     "module": 13,
+     "output": 2,
+     "channel": 42,
+     "start": 131.51237,
+     "end": 164.98382,
+     "file": "kplr007751133-2009166043257_llc.fits"
+    },
+    {
+     "quarter": 2,
+     "season": 0,
+     "module": 13,
+     "output": 3,
+     "channel": 43,
+     "start": 169.5202,
+     "end": 258.46759,
+     "file": "kplr007751133-2009259160929_llc.fits"
+    },
+    {
+     "quarter": 3,
+     "season": 1,
+     "module": 13,
+     "output": 4,
+     "channel": 44,
+     "start": 260.22482,
+     "end": 349.49565,
+     "file": "kplr007751133-2009350155506_llc.fits"
+    },
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 13,
+     "output": 1,
+     "channel": 41,
+     "start": 352.37669,
+     "end": 442.20287,
+     "file": "kplr007751133-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 13,
+     "output": 2,
+     "channel": 42,
+     "start": 443.49022,
+     "end": 538.16271,
+     "file": "kplr007751133-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 13,
+     "output": 3,
+     "channel": 43,
+     "start": 539.45004,
+     "end": 629.29654,
+     "file": "kplr007751133-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 13,
+     "output": 4,
+     "channel": 44,
+     "start": 630.17516,
+     "end": 719.54819,
+     "file": "kplr007751133-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 13,
+     "output": 1,
+     "channel": 41,
+     "start": 735.36333,
+     "end": 802.34473,
+     "file": "kplr007751133-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 13,
+     "output": 2,
+     "channel": 42,
+     "start": 808.51583,
+     "end": 905.92652,
+     "file": "kplr007751133-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 13,
+     "output": 3,
+     "channel": 43,
+     "start": 906.84603,
+     "end": 1000.26859,
+     "file": "kplr007751133-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 13,
+     "output": 4,
+     "channel": 44,
+     "start": 1001.20848,
+     "end": 1098.32558,
+     "file": "kplr007751133-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 13,
+     "output": 1,
+     "channel": 41,
+     "start": 1099.40852,
+     "end": 1182.02164,
+     "file": "kplr007751133-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 13,
+     "output": 2,
+     "channel": 42,
+     "start": 1182.7368,
+     "end": 1273.05682,
+     "file": "kplr007751133-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 13,
+     "output": 3,
+     "channel": 43,
+     "start": 1274.1398,
+     "end": 1371.32234,
+     "file": "kplr007751133-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 13,
+     "output": 4,
+     "channel": 44,
+     "start": 1373.48821,
+     "end": 1471.13658,
+     "file": "kplr007751133-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 13,
+     "output": 1,
+     "channel": 41,
+     "start": 1472.09691,
+     "end": 1557.95908,
+     "file": "kplr007751133-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 13,
+     "output": 2,
+     "channel": 42,
+     "start": 1559.22598,
+     "end": 1591.00141,
+     "file": "kplr007751133-2013131215648_llc.fits"
+    }
+   ],
+   "masks": []
+  },
+  {
+   "star": "K05462.01",
+   "group": "fp",
+   "kepid": 8025718,
+   "dur_h": 19.929,
+   "points": 55772,
+   "null_n": 249,
+   "null_sigma_ppm": 97.5,
+   "null_p95_ppm": 172.0,
+   "quarters": [
+    {
+     "quarter": 1,
+     "season": 3,
+     "module": 13,
+     "output": 2,
+     "channel": 42,
+     "start": 131.51237,
+     "end": 164.9838,
+     "file": "kplr008025718-2009166043257_llc.fits"
+    },
+    {
+     "quarter": 2,
+     "season": 0,
+     "module": 13,
+     "output": 3,
+     "channel": 43,
+     "start": 169.52018,
+     "end": 258.46754,
+     "file": "kplr008025718-2009259160929_llc.fits"
+    },
+    {
+     "quarter": 3,
+     "season": 1,
+     "module": 13,
+     "output": 4,
+     "channel": 44,
+     "start": 260.22478,
+     "end": 349.49566,
+     "file": "kplr008025718-2009350155506_llc.fits"
+    },
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 13,
+     "output": 1,
+     "channel": 41,
+     "start": 352.37671,
+     "end": 442.20291,
+     "file": "kplr008025718-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 13,
+     "output": 2,
+     "channel": 42,
+     "start": 443.49026,
+     "end": 538.16269,
+     "file": "kplr008025718-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 13,
+     "output": 3,
+     "channel": 43,
+     "start": 539.45002,
+     "end": 629.2965,
+     "file": "kplr008025718-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 13,
+     "output": 4,
+     "channel": 44,
+     "start": 630.17512,
+     "end": 719.54821,
+     "file": "kplr008025718-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 13,
+     "output": 1,
+     "channel": 41,
+     "start": 735.36335,
+     "end": 802.34477,
+     "file": "kplr008025718-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 13,
+     "output": 2,
+     "channel": 42,
+     "start": 808.51587,
+     "end": 905.9265,
+     "file": "kplr008025718-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 13,
+     "output": 3,
+     "channel": 43,
+     "start": 906.84601,
+     "end": 1000.26855,
+     "file": "kplr008025718-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 13,
+     "output": 4,
+     "channel": 44,
+     "start": 1001.20844,
+     "end": 1098.3256,
+     "file": "kplr008025718-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 13,
+     "output": 1,
+     "channel": 41,
+     "start": 1099.40854,
+     "end": 1182.02168,
+     "file": "kplr008025718-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 13,
+     "output": 2,
+     "channel": 42,
+     "start": 1182.73684,
+     "end": 1273.0568,
+     "file": "kplr008025718-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 13,
+     "output": 3,
+     "channel": 43,
+     "start": 1274.13979,
+     "end": 1371.3223,
+     "file": "kplr008025718-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 13,
+     "output": 4,
+     "channel": 44,
+     "start": 1373.48817,
+     "end": 1471.1366,
+     "file": "kplr008025718-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 13,
+     "output": 1,
+     "channel": 41,
+     "start": 1472.09693,
+     "end": 1557.95912,
+     "file": "kplr008025718-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 13,
+     "output": 2,
+     "channel": 42,
+     "start": 1559.22602,
+     "end": 1591.00144,
+     "file": "kplr008025718-2013131215648_llc.fits"
+    }
+   ],
+   "masks": []
+  },
+  {
+   "star": "K08262.01",
+   "group": "fp",
+   "kepid": 6195669,
+   "dur_h": 16.64,
+   "points": 55014,
+   "null_n": 255,
+   "null_sigma_ppm": 212.1,
+   "null_p95_ppm": 418.2,
+   "quarters": [
+    {
+     "quarter": 1,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 131.51263,
+     "end": 164.98407,
+     "file": "kplr006195669-2009166043257_llc.fits"
+    },
+    {
+     "quarter": 2,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 169.52045,
+     "end": 258.46753,
+     "file": "kplr006195669-2009259160929_llc.fits"
+    },
+    {
+     "quarter": 3,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 260.22474,
+     "end": 349.4954,
+     "file": "kplr006195669-2009350155506_llc.fits"
+    },
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 352.37645,
+     "end": 442.20295,
+     "file": "kplr006195669-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 443.49033,
+     "end": 538.16296,
+     "file": "kplr006195669-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 539.4503,
+     "end": 629.29649,
+     "file": "kplr006195669-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 630.17509,
+     "end": 719.54795,
+     "file": "kplr006195669-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 735.3631,
+     "end": 802.34476,
+     "file": "kplr006195669-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 808.51591,
+     "end": 905.92678,
+     "file": "kplr006195669-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 906.84629,
+     "end": 1000.26855,
+     "file": "kplr006195669-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1001.20841,
+     "end": 1098.32535,
+     "file": "kplr006195669-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1099.40828,
+     "end": 1182.0217,
+     "file": "kplr006195669-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1182.73689,
+     "end": 1273.05708,
+     "file": "kplr006195669-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 1274.14007,
+     "end": 1371.3223,
+     "file": "kplr006195669-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1373.48814,
+     "end": 1471.13634,
+     "file": "kplr006195669-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1472.09667,
+     "end": 1557.95916,
+     "file": "kplr006195669-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1559.22608,
+     "end": 1591.00163,
+     "file": "kplr006195669-2013131215648_llc.fits"
+    }
+   ],
+   "masks": []
+  },
+  {
+   "star": "C1",
+   "group": "control",
+   "kepid": 6359926,
+   "dur_h": 12.0,
+   "points": 53434,
+   "null_n": 247,
+   "null_sigma_ppm": 135.2,
+   "null_p95_ppm": 369.3,
+   "quarters": [
+    {
+     "quarter": 1,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 131.51251,
+     "end": 164.984,
+     "file": "kplr006359926-2009166043257_llc.fits"
+    },
+    {
+     "quarter": 2,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 169.52039,
+     "end": 258.46763,
+     "file": "kplr006359926-2009259160929_llc.fits"
+    },
+    {
+     "quarter": 3,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 260.22484,
+     "end": 349.49548,
+     "file": "kplr006359926-2009350155506_llc.fits"
+    },
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 352.37652,
+     "end": 442.20284,
+     "file": "kplr006359926-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 443.49023,
+     "end": 538.16289,
+     "file": "kplr006359926-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 539.45023,
+     "end": 629.29659,
+     "file": "kplr006359926-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 630.17518,
+     "end": 719.54802,
+     "file": "kplr006359926-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 735.36315,
+     "end": 802.34467,
+     "file": "kplr006359926-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 808.51581,
+     "end": 905.9267,
+     "file": "kplr006359926-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 906.84621,
+     "end": 1000.26864,
+     "file": "kplr006359926-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1001.2085,
+     "end": 1098.32541,
+     "file": "kplr006359926-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1099.40834,
+     "end": 1182.02161,
+     "file": "kplr006359926-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1182.73679,
+     "end": 1273.05699,
+     "file": "kplr006359926-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 1274.13999,
+     "end": 1371.32239,
+     "file": "kplr006359926-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1373.48823,
+     "end": 1471.13641,
+     "file": "kplr006359926-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1472.09673,
+     "end": 1557.95906,
+     "file": "kplr006359926-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1559.22598,
+     "end": 1591.0015,
+     "file": "kplr006359926-2013131215648_llc.fits"
+    }
+   ],
+   "masks": [
+    [
+     49.4746966,
+     166.142,
+     10.46
+    ]
+   ],
+   "ra": 290.39505,
+   "dec": 41.78157,
+   "kepmag": 14.955,
+   "nearest_to": "K05269.01",
+   "sep_deg": 0.0309
+  },
+  {
+   "star": "C2",
+   "group": "control",
+   "kepid": 6359320,
+   "dur_h": 12.0,
+   "points": 38031,
+   "null_n": 252,
+   "null_sigma_ppm": 223.2,
+   "null_p95_ppm": 596.8,
+   "quarters": [
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 352.37651,
+     "end": 442.20286,
+     "file": "kplr006359320-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 443.49024,
+     "end": 538.1629,
+     "file": "kplr006359320-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 539.45024,
+     "end": 629.29658,
+     "file": "kplr006359320-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 630.17517,
+     "end": 719.54801,
+     "file": "kplr006359320-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 735.36315,
+     "end": 802.34469,
+     "file": "kplr006359320-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 808.51582,
+     "end": 905.92671,
+     "file": "kplr006359320-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 906.84622,
+     "end": 1000.26863,
+     "file": "kplr006359320-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1001.20849,
+     "end": 1098.3254,
+     "file": "kplr006359320-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1099.40834,
+     "end": 1182.02162,
+     "file": "kplr006359320-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1182.73681,
+     "end": 1273.057,
+     "file": "kplr006359320-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 1274.14,
+     "end": 1371.32238,
+     "file": "kplr006359320-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1373.48822,
+     "end": 1471.1364,
+     "file": "kplr006359320-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1472.09673,
+     "end": 1557.95907,
+     "file": "kplr006359320-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1559.22599,
+     "end": 1591.00152,
+     "file": "kplr006359320-2013131215648_llc.fits"
+    }
+   ],
+   "masks": [
+    [
+     5.32667299,
+     357.12617,
+     3.4045
+    ],
+    [
+     8.1280933,
+     358.68367,
+     3.727
+    ],
+    [
+     2.83668931,
+     353.81531,
+     3.031
+    ]
+   ],
+   "ra": 290.21518,
+   "dec": 41.77597,
+   "kepmag": 15.808,
+   "nearest_to": "K05269.01",
+   "sep_deg": 0.1386
+  },
+  {
+   "star": "C3",
+   "group": "control",
+   "kepid": 6438099,
+   "dur_h": 12.0,
+   "points": 53100,
+   "null_n": 255,
+   "null_sigma_ppm": 579.3,
+   "null_p95_ppm": 983.6,
+   "quarters": [
+    {
+     "quarter": 1,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 131.51252,
+     "end": 164.984,
+     "file": "kplr006438099-2009166043257_llc.fits"
+    },
+    {
+     "quarter": 2,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 169.52038,
+     "end": 258.46761,
+     "file": "kplr006438099-2009259160929_llc.fits"
+    },
+    {
+     "quarter": 3,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 260.22482,
+     "end": 349.49548,
+     "file": "kplr006438099-2009350155506_llc.fits"
+    },
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 352.37652,
+     "end": 442.20286,
+     "file": "kplr006438099-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 443.49024,
+     "end": 538.16289,
+     "file": "kplr006438099-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 539.45023,
+     "end": 629.29657,
+     "file": "kplr006438099-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 630.17517,
+     "end": 719.54802,
+     "file": "kplr006438099-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 735.36315,
+     "end": 802.34469,
+     "file": "kplr006438099-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 808.51583,
+     "end": 905.9267,
+     "file": "kplr006438099-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 906.84621,
+     "end": 1000.26862,
+     "file": "kplr006438099-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1001.20849,
+     "end": 1098.32541,
+     "file": "kplr006438099-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1099.40835,
+     "end": 1182.02162,
+     "file": "kplr006438099-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1182.73681,
+     "end": 1273.057,
+     "file": "kplr006438099-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 1274.13999,
+     "end": 1371.32238,
+     "file": "kplr006438099-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1373.48822,
+     "end": 1471.13641,
+     "file": "kplr006438099-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1472.09674,
+     "end": 1557.95907,
+     "file": "kplr006438099-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1559.22599,
+     "end": 1591.00152,
+     "file": "kplr006438099-2013131215648_llc.fits"
+    }
+   ],
+   "masks": [
+    [
+     21.61313362,
+     137.02689,
+     1.52
+    ]
+   ],
+   "ra": 290.22067,
+   "dec": 41.868721,
+   "kepmag": 15.862,
+   "nearest_to": "K05269.01",
+   "sep_deg": 0.1771
+  },
+  {
+   "star": "C4",
+   "group": "control",
+   "kepid": 6034945,
+   "dur_h": 12.0,
+   "points": 50794,
+   "null_n": 251,
+   "null_sigma_ppm": 536.7,
+   "null_p95_ppm": 1013.9,
+   "quarters": [
+    {
+     "quarter": 1,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 131.5126,
+     "end": 164.98407,
+     "file": "kplr006034945-2009166043257_llc.fits"
+    },
+    {
+     "quarter": 2,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 169.52045,
+     "end": 258.46758,
+     "file": "kplr006034945-2009259160929_llc.fits"
+    },
+    {
+     "quarter": 3,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 260.22479,
+     "end": 349.49541,
+     "file": "kplr006034945-2009350155506_llc.fits"
+    },
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 352.37645,
+     "end": 442.2029,
+     "file": "kplr006034945-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 443.49029,
+     "end": 538.16296,
+     "file": "kplr006034945-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 539.4503,
+     "end": 629.29654,
+     "file": "kplr006034945-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 630.17513,
+     "end": 719.54795,
+     "file": "kplr006034945-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 735.3631,
+     "end": 802.34472,
+     "file": "kplr006034945-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 808.51586,
+     "end": 905.92677,
+     "file": "kplr006034945-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 906.84629,
+     "end": 1000.26859,
+     "file": "kplr006034945-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1001.20845,
+     "end": 1098.32535,
+     "file": "kplr006034945-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1099.40828,
+     "end": 1182.02166,
+     "file": "kplr006034945-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1182.73685,
+     "end": 1273.05707,
+     "file": "kplr006034945-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 1274.14006,
+     "end": 1371.32234,
+     "file": "kplr006034945-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1373.48818,
+     "end": 1471.13635,
+     "file": "kplr006034945-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1472.09667,
+     "end": 1557.95911,
+     "file": "kplr006034945-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1559.22604,
+     "end": 1591.00159,
+     "file": "kplr006034945-2013131215648_llc.fits"
+    }
+   ],
+   "masks": [
+    [
+     9.11500269,
+     133.97523,
+     4.558
+    ]
+   ],
+   "ra": 289.38351,
+   "dec": 41.392689,
+   "kepmag": 14.63,
+   "nearest_to": "K05227.01",
+   "sep_deg": 0.0401
+  },
+  {
+   "star": "C5",
+   "group": "control",
+   "kepid": 6035124,
+   "dur_h": 12.0,
+   "points": 51391,
+   "null_n": 250,
+   "null_sigma_ppm": 89.3,
+   "null_p95_ppm": 146.9,
+   "quarters": [
+    {
+     "quarter": 1,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 131.5126,
+     "end": 164.98407,
+     "file": "kplr006035124-2009166043257_llc.fits"
+    },
+    {
+     "quarter": 2,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 169.52046,
+     "end": 258.46758,
+     "file": "kplr006035124-2009259160929_llc.fits"
+    },
+    {
+     "quarter": 3,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 260.22479,
+     "end": 349.49541,
+     "file": "kplr006035124-2009350155506_llc.fits"
+    },
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 352.37645,
+     "end": 442.2029,
+     "file": "kplr006035124-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 443.49028,
+     "end": 538.16297,
+     "file": "kplr006035124-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 539.45031,
+     "end": 629.29654,
+     "file": "kplr006035124-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 630.17514,
+     "end": 719.54795,
+     "file": "kplr006035124-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 735.36309,
+     "end": 802.34471,
+     "file": "kplr006035124-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 808.51586,
+     "end": 905.92678,
+     "file": "kplr006035124-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 906.84629,
+     "end": 1000.2686,
+     "file": "kplr006035124-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1001.20846,
+     "end": 1098.32534,
+     "file": "kplr006035124-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1099.40828,
+     "end": 1182.02165,
+     "file": "kplr006035124-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1182.73684,
+     "end": 1273.05707,
+     "file": "kplr006035124-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 1274.14007,
+     "end": 1371.32235,
+     "file": "kplr006035124-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1373.48819,
+     "end": 1471.13634,
+     "file": "kplr006035124-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1472.09667,
+     "end": 1557.95911,
+     "file": "kplr006035124-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1559.22603,
+     "end": 1591.00159,
+     "file": "kplr006035124-2013131215648_llc.fits"
+    }
+   ],
+   "masks": [
+    [
+     3.85690686,
+     134.47405,
+     2.0808
+    ]
+   ],
+   "ra": 289.44452,
+   "dec": 41.31776,
+   "kepmag": 13.746,
+   "nearest_to": "K05227.01",
+   "sep_deg": 0.0882
+  },
+  {
+   "star": "C6",
+   "group": "control",
+   "kepid": 6034379,
+   "dur_h": 12.0,
+   "points": 50652,
+   "null_n": 260,
+   "null_sigma_ppm": 603.7,
+   "null_p95_ppm": 1433.8,
+   "quarters": [
+    {
+     "quarter": 2,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 169.52046,
+     "end": 258.46757,
+     "file": "kplr006034379-2009259160929_llc.fits"
+    },
+    {
+     "quarter": 3,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 260.22477,
+     "end": 349.4954,
+     "file": "kplr006034379-2009350155506_llc.fits"
+    },
+    {
+     "quarter": 4,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 352.37644,
+     "end": 442.20291,
+     "file": "kplr006034379-2010078095331_llc.fits"
+    },
+    {
+     "quarter": 5,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 443.4903,
+     "end": 538.16297,
+     "file": "kplr006034379-2010174085026_llc.fits"
+    },
+    {
+     "quarter": 6,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 539.45031,
+     "end": 629.29653,
+     "file": "kplr006034379-2010265121752_llc.fits"
+    },
+    {
+     "quarter": 7,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 630.17512,
+     "end": 719.54794,
+     "file": "kplr006034379-2010355172524_llc.fits"
+    },
+    {
+     "quarter": 8,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 735.36309,
+     "end": 802.34473,
+     "file": "kplr006034379-2011073133259_llc.fits"
+    },
+    {
+     "quarter": 9,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 808.51587,
+     "end": 905.92678,
+     "file": "kplr006034379-2011177032512_llc.fits"
+    },
+    {
+     "quarter": 10,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 906.8463,
+     "end": 1000.26858,
+     "file": "kplr006034379-2011271113734_llc.fits"
+    },
+    {
+     "quarter": 11,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1001.20844,
+     "end": 1098.32534,
+     "file": "kplr006034379-2012004120508_llc.fits"
+    },
+    {
+     "quarter": 12,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1099.40827,
+     "end": 1182.02167,
+     "file": "kplr006034379-2012088054726_llc.fits"
+    },
+    {
+     "quarter": 13,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1182.73686,
+     "end": 1273.05708,
+     "file": "kplr006034379-2012179063303_llc.fits"
+    },
+    {
+     "quarter": 14,
+     "season": 0,
+     "module": 7,
+     "output": 2,
+     "channel": 18,
+     "start": 1274.14008,
+     "end": 1371.32233,
+     "file": "kplr006034379-2012277125453_llc.fits"
+    },
+    {
+     "quarter": 15,
+     "season": 1,
+     "module": 17,
+     "output": 2,
+     "channel": 58,
+     "start": 1373.48817,
+     "end": 1471.13634,
+     "file": "kplr006034379-2013011073258_llc.fits"
+    },
+    {
+     "quarter": 16,
+     "season": 2,
+     "module": 19,
+     "output": 2,
+     "channel": 66,
+     "start": 1472.09666,
+     "end": 1557.95913,
+     "file": "kplr006034379-2013098041711_llc.fits"
+    },
+    {
+     "quarter": 17,
+     "season": 3,
+     "module": 9,
+     "output": 2,
+     "channel": 26,
+     "start": 1559.22605,
+     "end": 1591.0016,
+     "file": "kplr006034379-2013131215648_llc.fits"
+    }
+   ],
+   "masks": [
+    [
+     249.35154,
+     133.929,
+     13.76
+    ]
+   ],
+   "ra": 289.18372,
+   "dec": 41.343376,
+   "kepmag": 13.931,
+   "nearest_to": "K05227.01",
+   "sep_deg": 0.1231
+  }
+ ]
+}
