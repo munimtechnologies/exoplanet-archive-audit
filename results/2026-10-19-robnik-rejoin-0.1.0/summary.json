@@ -1,0 +1,76 @@
+{
+ "version": "0.1.0",
+ "robnik_rejoin_sha256": "167a85fd245a3bae493808c6edfce1e49adc9e96bdbe4deda350b1c2d2cd7373",
+ "run_at": "2026-10-19T10:43Z",
+ "gate_open": true,
+ "gate": {
+  "prereg_live": true,
+  "code_matches": true
+ },
+ "population": {
+  "crosscheck_sha256": "f3727b217c01743f154b8ff442b0f186266ab049169df7531dc51f663d03f627",
+  "rows": 640,
+  "counts": {
+   "main": [
+    20,
+    620
+   ],
+   "window_340_400": [
+    6,
+    77
+   ],
+   "in_dr25_only": [
+    4,
+    271
+   ]
+  },
+  "reproduced": true
+ },
+ "checks": {
+  "robnik_sha256": "151261a9522354db7de0ecc99556b19c8a824b68ebd2fac798d043ba281f8378",
+  "robnik_sha_ok": true,
+  "robnik_rows": 406,
+  "robnik_listed_names": 406,
+  "cumulative_sha256_ok": true,
+  "data_ok": true
+ },
+ "listed_by_cumulative_disposition": {
+  "CANDIDATE": 396,
+  "CONFIRMED": 10
+ },
+ "comparisons": {
+  "main": {
+   "n_fail": 20,
+   "fail_listed": 12,
+   "n_pass": 620,
+   "pass_listed": 297,
+   "fail_fraction": 0.6,
+   "pass_fraction": 0.4790322580645161,
+   "p_one_sided": 0.2010712928970349
+  },
+  "window_340_400": {
+   "n_fail": 6,
+   "fail_listed": 3,
+   "n_pass": 77,
+   "pass_listed": 43,
+   "fail_fraction": 0.5,
+   "pass_fraction": 0.5584415584415584,
+   "p_one_sided": 0.7596150309234818
+  },
+  "in_dr25_only": {
+   "n_fail": 4,
+   "fail_listed": 1,
+   "n_pass": 271,
+   "pass_listed": 62,
+   "fail_fraction": 0.25,
+   "pass_fraction": 0.22878228782287824,
+   "p_one_sided": 0.6491115368101199
+  }
+ },
+ "tests": {
+  "q1_enough_fails": true,
+  "q2_enrichment": false,
+  "q3_window_direction": false
+ },
+ "status": "done"
+}
