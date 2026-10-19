@@ -1,0 +1,566 @@
+{
+ "version": "0.1.0",
+ "skye_apply_sha256": "9e098dafb7929804e8cd384178717789d02ae6dc2c79530fa48fd8cc4761164f",
+ "run_at": "2026-10-19T07:25Z",
+ "params": {
+  "p_min": 45.0,
+  "bin0": 131.5,
+  "n_sigma": 3.0,
+  "passes": 5,
+  "window": 0.25,
+  "min_good": 3
+ },
+ "gate_open": true,
+ "gate": {
+  "prereg_live": true,
+  "code_matches": true
+ },
+ "light_curves": [
+  {
+   "file": "kplr009018021-2009166043257_llc.fits",
+   "quarter": 1,
+   "cadences": 1639,
+   "valid": 1624
+  },
+  {
+   "file": "kplr009018021-2009259160929_llc.fits",
+   "quarter": 2,
+   "cadences": 4354,
+   "valid": 4070
+  },
+  {
+   "file": "kplr009018021-2009350155506_llc.fits",
+   "quarter": 3,
+   "cadences": 4370,
+   "valid": 4134
+  },
+  {
+   "file": "kplr009018021-2010078095331_llc.fits",
+   "quarter": 4,
+   "cadences": 4397,
+   "valid": 4108
+  },
+  {
+   "file": "kplr009018021-2010174085026_llc.fits",
+   "quarter": 5,
+   "cadences": 4634,
+   "valid": 4486
+  },
+  {
+   "file": "kplr009018021-2010265121752_llc.fits",
+   "quarter": 6,
+   "cadences": 4398,
+   "valid": 4272
+  },
+  {
+   "file": "kplr009018021-2010355172524_llc.fits",
+   "quarter": 7,
+   "cadences": 4375,
+   "valid": 4226
+  },
+  {
+   "file": "kplr009018021-2011073133259_llc.fits",
+   "quarter": 8,
+   "cadences": 3279,
+   "valid": 3106
+  },
+  {
+   "file": "kplr009018021-2011177032512_llc.fits",
+   "quarter": 9,
+   "cadences": 4768,
+   "valid": 4610
+  },
+  {
+   "file": "kplr009018021-2011271113734_llc.fits",
+   "quarter": 10,
+   "cadences": 4573,
+   "valid": 4441
+  },
+  {
+   "file": "kplr009018021-2012004120508_llc.fits",
+   "quarter": 11,
+   "cadences": 4754,
+   "valid": 4473
+  },
+  {
+   "file": "kplr009018021-2012088054726_llc.fits",
+   "quarter": 12,
+   "cadences": 4044,
+   "valid": 3550
+  },
+  {
+   "file": "kplr009018021-2012179063303_llc.fits",
+   "quarter": 13,
+   "cadences": 4421,
+   "valid": 4244
+  },
+  {
+   "file": "kplr009018021-2012277125453_llc.fits",
+   "quarter": 14,
+   "cadences": 4757,
+   "valid": 4269
+  },
+  {
+   "file": "kplr009018021-2013011073258_llc.fits",
+   "quarter": 15,
+   "cadences": 4780,
+   "valid": 4366
+  },
+  {
+   "file": "kplr009018021-2013098041711_llc.fits",
+   "quarter": 16,
+   "cadences": 4203,
+   "valid": 3534
+  },
+  {
+   "file": "kplr009018021-2013131215648_llc.fits",
+   "quarter": 17,
+   "cadences": 1556,
+   "valid": 1285
+  },
+  {
+   "file": "kplr006359929-2009166043257_llc.fits",
+   "quarter": 1,
+   "cadences": 1639,
+   "valid": 1624
+  },
+  {
+   "file": "kplr006359929-2009259160929_llc.fits",
+   "quarter": 2,
+   "cadences": 4354,
+   "valid": 4070
+  },
+  {
+   "file": "kplr006359929-2009350155506_llc.fits",
+   "quarter": 3,
+   "cadences": 4370,
+   "valid": 4134
+  },
+  {
+   "file": "kplr006359929-2010078095331_llc.fits",
+   "quarter": 4,
+   "cadences": 4397,
+   "valid": 4108
+  },
+  {
+   "file": "kplr006359929-2010174085026_llc.fits",
+   "quarter": 5,
+   "cadences": 4634,
+   "valid": 4486
+  },
+  {
+   "file": "kplr006359929-2010265121752_llc.fits",
+   "quarter": 6,
+   "cadences": 4398,
+   "valid": 4272
+  },
+  {
+   "file": "kplr006359929-2010355172524_llc.fits",
+   "quarter": 7,
+   "cadences": 4375,
+   "valid": 4226
+  },
+  {
+   "file": "kplr006359929-2011073133259_llc.fits",
+   "quarter": 8,
+   "cadences": 3279,
+   "valid": 3106
+  },
+  {
+   "file": "kplr006359929-2011177032512_llc.fits",
+   "quarter": 9,
+   "cadences": 4768,
+   "valid": 4610
+  },
+  {
+   "file": "kplr006359929-2011271113734_llc.fits",
+   "quarter": 10,
+   "cadences": 4573,
+   "valid": 4441
+  },
+  {
+   "file": "kplr006359929-2012004120508_llc.fits",
+   "quarter": 11,
+   "cadences": 4754,
+   "valid": 4473
+  },
+  {
+   "file": "kplr006359929-2012088054726_llc.fits",
+   "quarter": 12,
+   "cadences": 4044,
+   "valid": 3550
+  },
+  {
+   "file": "kplr006359929-2012179063303_llc.fits",
+   "quarter": 13,
+   "cadences": 4421,
+   "valid": 4243
+  },
+  {
+   "file": "kplr006359929-2012277125453_llc.fits",
+   "quarter": 14,
+   "cadences": 4757,
+   "valid": 4269
+  },
+  {
+   "file": "kplr006359929-2013011073258_llc.fits",
+   "quarter": 15,
+   "cadences": 4780,
+   "valid": 4366
+  },
+  {
+   "file": "kplr006359929-2013098041711_llc.fits",
+   "quarter": 16,
+   "cadences": 4203,
+   "valid": 3534
+  },
+  {
+   "file": "kplr006359929-2013131215648_llc.fits",
+   "quarter": 17,
+   "cadences": 1556,
+   "valid": 1285
+  }
+ ],
+ "light_curve_error": "",
+ "valid_cadences": 128918,
+ "obs": {
+  "tce_skye_sha256": "08229984581673b321e066c460cf0946c0bd690a1fcc5b7897da6c599508d48d",
+  "skygroups_sha256": "df75339bd65499d711518182846b1d795299302a2ef61b6069655f5a5aaaf35e",
+  "run_variant": {
+   "tp": 3829,
+   "fp": 1364,
+   "fn": 446,
+   "tn": 8313,
+   "recall": 0.8957,
+   "precision": 0.7373,
+   "tces_compared": 13952,
+   "bad_bins": 1926,
+   "bin_events": 95965,
+   "events_equal_nitrans": 0.6833,
+   "events_equal_nrealtrans": 0.6441
+  },
+  "via_frozen_bins": {
+   "tp": 3829,
+   "fp": 1364,
+   "fn": 446,
+   "tn": 8313,
+   "recall": 0.8957,
+   "precision": 0.7373
+  },
+  "bad_bins": 1926,
+  "reproduced": true
+ },
+ "koi_skye_sha256": "a456401ba0cf460e0e1017308bb24d7393d7cacddd0cac7a1966d9fb06e81c53",
+ "checks": {
+  "koi_rows": 2257,
+  "koi_with_skygroup": 2257,
+  "events_match": 2257,
+  "valid_cadences": 128918,
+  "robnik_rows": 431,
+  "robnik_listed_names": 0,
+  "cumulative_sha256_ok": true
+ },
+ "groups": {
+  "dr25_pc": {
+   "n": 668,
+   "with_flagged": 311,
+   "flagged_fraction": 0.4656,
+   "eligible": 668,
+   "fails": 4,
+   "fail_fraction": 0.006
+  },
+  "dr25_skye": {
+   "n": 109,
+   "with_flagged": 101,
+   "flagged_fraction": 0.9266,
+   "eligible": 109,
+   "fails": 65,
+   "fail_fraction": 0.5963
+  },
+  "never_dr25": {
+   "n": 425,
+   "with_flagged": 66,
+   "flagged_fraction": 0.1553,
+   "eligible": 414,
+   "fails": 19,
+   "fail_fraction": 0.0459
+  }
+ },
+ "named": {
+  "K05269.01": {
+   "skygroup": 66,
+   "n_events": 3,
+   "n_kept": 3,
+   "n_flagged": 0,
+   "good": 3,
+   "would_fail": 0,
+   "v3_would_fail": 1,
+   "flagged_times": "",
+   "kept_times": "631.6306 1003.1369 1374.6432"
+  },
+  "K05227.01": {
+   "skygroup": 66,
+   "n_events": 3,
+   "n_kept": 3,
+   "n_flagged": 0,
+   "good": 3,
+   "would_fail": 0,
+   "v3_would_fail": 1,
+   "flagged_times": "",
+   "kept_times": "631.4140 1002.9789 1374.5439"
+  }
+ },
+ "changed_vs_v3": {
+  "dr25_pc": {
+   "v3_fail_now_pass": 3,
+   "v3_pass_now_fail": 0
+  },
+  "dr25_skye": {
+   "v3_fail_now_pass": 3,
+   "v3_pass_now_fail": 18
+  },
+  "never_dr25": {
+   "v3_fail_now_pass": 4,
+   "v3_pass_now_fail": 1
+  }
+ },
+ "tests": {
+  "a1_reproduced": true,
+  "a2_data": true,
+  "a3_named_fail": false,
+  "a4_census": true,
+  "a4_p": 0.000842,
+  "a5_pc_fail_fraction": true,
+  "a6_dr25_skye_flagged": true,
+  "robnik_data": false,
+  "q1_enough_fails": false,
+  "q2_enrichment": false,
+  "q3_window_direction": false
+ },
+ "robnik": {
+  "robnik_sha256": "151261a9522354db7de0ecc99556b19c8a824b68ebd2fac798d043ba281f8378",
+  "cumulative_sha256": "df551272c3e8a945fed88c23129328b0d070c224f6cf503048b5f88e88e89286",
+  "listed_by_cumulative_disposition": {},
+  "population": 640,
+  "main": {
+   "n_fail": 20,
+   "fail_listed": 0,
+   "n_pass": 620,
+   "pass_listed": 0,
+   "fail_fraction": 0.0,
+   "pass_fraction": 0.0,
+   "p_one_sided": 1.0
+  },
+  "window_340_400": {
+   "n_fail": 6,
+   "fail_listed": 0,
+   "n_pass": 77,
+   "pass_listed": 0,
+   "fail_fraction": 0.0,
+   "pass_fraction": 0.0,
+   "p_one_sided": 1.0
+  },
+  "in_dr25_only": {
+   "n_fail": 4,
+   "fail_listed": 0,
+   "n_pass": 271,
+   "pass_listed": 0,
+   "fail_fraction": 0.0,
+   "pass_fraction": 0.0,
+   "p_one_sided": 1.0
+  }
+ },
+ "leads": [
+  {
+   "kepoi_name": "K00682.01",
+   "period": "562.1725914",
+   "skygroup": 58,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "185.9685",
+   "kept_times": "185.9685 748.1411 1310.3137"
+  },
+  {
+   "kepoi_name": "K04426.01",
+   "period": "369.13236",
+   "skygroup": 58,
+   "n_kept": 4,
+   "n_flagged": 4,
+   "good": 0,
+   "flagged_times": "235.5195 604.6519 973.7842 1342.9166",
+   "kept_times": "235.5195 604.6519 973.7842 1342.9166"
+  },
+  {
+   "kepoi_name": "K05291.01",
+   "period": "525.560452",
+   "skygroup": 66,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "1491.4546",
+   "kept_times": "440.3337 965.8941 1491.4546"
+  },
+  {
+   "kepoi_name": "K05228.01",
+   "period": "546.53309",
+   "skygroup": 66,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "880.5916",
+   "kept_times": "334.0585 880.5916 1427.1247"
+  },
+  {
+   "kepoi_name": "K05237.01",
+   "period": "380.39474",
+   "skygroup": 66,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "882.6279",
+   "kept_times": "502.2332 882.6279 1263.0227"
+  },
+  {
+   "kepoi_name": "K05649.01",
+   "period": "426.942225",
+   "skygroup": 22,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "912.3239",
+   "kept_times": "485.3817 912.3239 1339.2662"
+  },
+  {
+   "kepoi_name": "K05408.01",
+   "period": "415.748785",
+   "skygroup": 60,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "1341.5972",
+   "kept_times": "510.0996 925.8484 1341.5972"
+  },
+  {
+   "kepoi_name": "K05423.01",
+   "period": "366.55705",
+   "skygroup": 58,
+   "n_kept": 3,
+   "n_flagged": 2,
+   "good": 1,
+   "flagged_times": "604.6972 971.2543",
+   "kept_times": "604.6972 971.2543 1337.8114"
+  },
+  {
+   "kepoi_name": "K05434.01",
+   "period": "581.87357",
+   "skygroup": 58,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "971.7397",
+   "kept_times": "389.8661 971.7397 1553.6132"
+  },
+  {
+   "kepoi_name": "K05570.01",
+   "period": "574.65297",
+   "skygroup": 42,
+   "n_kept": 3,
+   "n_flagged": 2,
+   "good": 1,
+   "flagged_times": "939.9476 1514.6005",
+   "kept_times": "365.2946 939.9476 1514.6005"
+  },
+  {
+   "kepoi_name": "K05578.01",
+   "period": "388.048463",
+   "skygroup": 28,
+   "n_kept": 3,
+   "n_flagged": 2,
+   "good": 1,
+   "flagged_times": "683.8838 1459.9807",
+   "kept_times": "295.8353 683.8838 1459.9807"
+  },
+  {
+   "kepoi_name": "K05467.01",
+   "period": "502.8356901",
+   "skygroup": 58,
+   "n_kept": 3,
+   "n_flagged": 2,
+   "good": 1,
+   "flagged_times": "234.1811 737.0167",
+   "kept_times": "234.1811 737.0167 1239.8524"
+  },
+  {
+   "kepoi_name": "K05618.01",
+   "period": "318.49078",
+   "skygroup": 55,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "485.4950",
+   "kept_times": "485.4950 1122.4765 1440.9673"
+  },
+  {
+   "kepoi_name": "K05380.01",
+   "period": "369.93355",
+   "skygroup": 62,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "915.1491",
+   "kept_times": "545.2156 915.1491 1285.0827"
+  },
+  {
+   "kepoi_name": "K05385.01",
+   "period": "331.70918",
+   "skygroup": 60,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "644.3245",
+   "kept_times": "644.3245 976.0337 1307.7428"
+  },
+  {
+   "kepoi_name": "K05398.01",
+   "period": "551.22396",
+   "skygroup": 58,
+   "n_kept": 3,
+   "n_flagged": 3,
+   "good": 0,
+   "flagged_times": "185.7811 737.0051 1288.2290",
+   "kept_times": "185.7811 737.0051 1288.2290"
+  },
+  {
+   "kepoi_name": "K05973.01",
+   "period": "419.93373",
+   "skygroup": 4,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "1231.7988",
+   "kept_times": "391.9313 811.8650 1231.7988"
+  },
+  {
+   "kepoi_name": "K07136.01",
+   "period": "441.17369",
+   "skygroup": 43,
+   "n_kept": 3,
+   "n_flagged": 1,
+   "good": 2,
+   "flagged_times": "1256.3566",
+   "kept_times": "374.0092 815.1829 1256.3566"
+  },
+  {
+   "kepoi_name": "K07592.01",
+   "period": "381.97977",
+   "skygroup": 42,
+   "n_kept": 3,
+   "n_flagged": 2,
+   "good": 1,
+   "flagged_times": "545.1603 1309.1198",
+   "kept_times": "545.1603 927.1400 1309.1198"
+  }
+ ],
+ "status": "done"
+}
