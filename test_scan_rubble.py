@@ -1,4 +1,4 @@
-# Apache-2.0. Tests for scan_rubble 0.1.0 (pure functions only; no network). Made with AI agents, MV2 of Munim, Inc.
+# Apache-2.0. Tests for scan_rubble 0.2.0 (pure functions only; no network). Made with AI agents, MV2 of Munim, Inc.
 import math
 import unittest
 
@@ -84,12 +84,18 @@ class Counts(unittest.TestCase):
         self.assertEqual(names[-1], "resid_2_0.75")
 
 
-def row(pn, nrealt, ngoodt, iflags, nreal, fails):
-    r = {"pn": pn, "nrealt": nrealt, "ngoodt": ngoodt, "iflags": iflags}
+def row(pn, nrealt, ngoodt, iflags, nreal, fails, duration=2.4):
+    r = {"pn": pn, "nrealt": nrealt, "ngoodt": ngoodt, "iflags": iflags, "duration": duration}
     r.update({"nreal_" + s: n for s, n in zip(sr.SOURCES, nreal)})
     r.update({"fail_" + v: 0 for v in sr.variant_names()})
     r.update(fails)
     return r
+
+
+def rows(n, truth, pred, duration=2.4):
+    """n scored rows with DR25's Rubble flag = truth and init_2_0.75 flagging = pred."""
+    return [row(1, 5, 5, [1 if truth else 0] + [0] * 5, (5, 5, 5, 5),
+                {"fail_init_2_0.75": 1 if pred else 0}, duration) for _ in range(n)]
 
 
 class Score(unittest.TestCase):
@@ -116,6 +122,121 @@ class Score(unittest.TestCase):
         self.assertEqual(v["all"], {"tp": 0, "fp": 0, "fn": 1, "tn": 1})
         self.assertEqual(v["rubble_only"], {"n": 1, "exact": 0, "within1": 1})
 
+    def test_confusion_one_of_each(self):
+        rs = rows(1, True, True) + rows(1, False, True) + rows(1, True, False) + rows(1, False, False)
+        self.assertEqual(sr.confusion(rs, "init_2_0.75"), {"tp": 1, "fp": 1, "fn": 1, "tn": 1})
+        self.assertEqual(sr.confusion(rs, "init_2_0.5"), {"tp": 0, "fp": 0, "fn": 2, "tn": 2})
+
+
+class HalfHour(unittest.TestCase):
+    def test_multiples(self):
+        for d in (0.5, 1.5, 2.0, 3.5, 10.5, 3.000001):  # 2 * 3.000001 = 6.000002, within 1e-5
+            self.assertTrue(sr.is_half_hour(d), d)
+
+    def test_non_multiples(self):
+        for d in (1.560969547, 2.49, 3.0001, 0.0, -1.0):  # 2 * 3.0001 = 6.0002, off by 2e-4
+            self.assertFalse(sr.is_half_hour(d), d)
+
+
+def prow(duration, nreal_init, nreal_white):
+    return row(1, 5, 5, [0] * 6, (nreal_init, nreal_white, 5, 5), {}, duration)
+
+
+class P1(unittest.TestCase):
+    def table_rows(self, a, b, c, d, skipped=0):
+        return ([prow(3.0, 10, 0)] * a + [prow(1.5, 10, 12)] * b + [prow(2.4, 10, 0)] * c
+                + [prow(2.4, 10, 12)] * d + [prow(3.0, 0, 0)] * skipped)
+
+    def test_table(self):
+        t = sr.p1_table(self.table_rows(6, 1, 0, 93, skipped=2))
+        self.assertEqual(t, {"a": 6, "b": 1, "c": 0, "d": 93, "skipped": 2})
+
+    def test_holds(self):
+        p = sr.decide_p1(self.table_rows(6, 1, 0, 93, skipped=2))  # n 100, half 7, off 1: 1 * 50 <= 100
+        self.assertEqual((p["status"], p["n"], p["half_hour"], p["off_diagonal"]), ("holds", 100, 7, 1))
+
+    def test_boundary_holds(self):
+        p = sr.decide_p1(self.table_rows(5, 1, 1, 93))  # n 100, half 6, off 2: 2 * 50 = 100 <= 100
+        self.assertEqual(p["status"], "holds")
+
+    def test_fails(self):
+        p = sr.decide_p1(self.table_rows(6, 2, 1, 91))  # n 100, half 8, off 3: 150 > 100
+        self.assertEqual((p["status"], p["off_diagonal"]), ("fails", 3))
+
+    def test_underpowered(self):
+        p = sr.decide_p1(self.table_rows(4, 0, 0, 96))  # half 4 < 5, even with no off-diagonal TCE
+        self.assertEqual((p["status"], p["half_hour"]), ("underpowered", 4))
+
+    def test_dev_values_would_hold(self):
+        p = sr.decide_p1(self.table_rows(8, 0, 0, 117))  # the development scan's 8 / 8 and 0 / 117
+        self.assertEqual((p["status"], p["n"]), ("holds", 125))
+
+
+class P2(unittest.TestCase):
+    def rs(self, tp, fp, fn, tn):
+        return rows(tp, True, True) + rows(fp, False, True) + rows(fn, True, False) + rows(tn, False, False)
+
+    def test_holds(self):
+        p = sr.decide_p2(self.rs(20, 6, 1, 10))  # 200 >= 189; 100 <= 104
+        self.assertEqual((p["status"], p["flagged"], p["predicted"]), ("holds", 21, 26))
+        self.assertEqual(p["confusion"], {"tp": 20, "fp": 6, "fn": 1, "tn": 10})
+
+    def test_precision_too_high_fails(self):
+        p = sr.decide_p2(self.rs(20, 4, 1, 10))  # 100 <= 96 is false
+        self.assertEqual((p["status"], p["recall_ok"], p["precision_ok"]), ("fails", True, False))
+
+    def test_recall_too_low_fails(self):
+        p = sr.decide_p2(self.rs(18, 6, 3, 0))  # 180 >= 189 is false; 90 <= 96
+        self.assertEqual((p["status"], p["recall_ok"], p["precision_ok"]), ("fails", False, True))
+
+    def test_boundaries(self):
+        self.assertEqual(sr.decide_p2(self.rs(18, 5, 2, 0))["status"], "holds")  # 180 >= 180; 90 <= 92
+        self.assertEqual(sr.decide_p2(self.rs(18, 4, 2, 0))["status"], "fails")  # 90 <= 88 is false
+
+    def test_underpowered(self):
+        p = sr.decide_p2(self.rs(18, 6, 1, 0))  # tp + fn = 19 < 20
+        self.assertEqual(p["status"], "underpowered")
+
+    def test_dev_values_would_hold(self):
+        p = sr.decide_p2(self.rs(66, 28, 0, 31))  # 660 >= 594; 330 <= 376
+        self.assertEqual((p["status"], p["n"]), ("holds", 125))
+
+
+class Gate(unittest.TestCase):
+    NOTE = "# Rubble reserve pre-registration (P1, P2)\n"
+
+    def sample(self, dev=(1, 2, 3), res=(4, 5), seed=sr.SEED):
+        return {"seed": seed, "development": list(dev), "reserve_never_downloaded": list(res)}
+
+    def test_ok(self):
+        self.assertEqual(sr.check_gate(self.sample(), [1, 2, 3], [4, 5], self.NOTE), (True, []))
+
+    def test_seed(self):
+        ok, why = sr.check_gate(self.sample(seed=1), [1, 2, 3], [4, 5], self.NOTE)
+        self.assertEqual((ok, why), (False, ["published seed differs"]))
+
+    def test_reserve_differs(self):
+        ok, why = sr.check_gate(self.sample(res=(4, 6)), [1, 2, 3], [4, 5], self.NOTE)
+        self.assertEqual((ok, why), (False, ["published reserve list differs"]))
+
+    def test_development_differs(self):
+        ok, why = sr.check_gate(self.sample(dev=(1, 2)), [1, 2, 3], [4, 5], self.NOTE)
+        self.assertEqual((ok, why), (False, ["published development list differs"]))
+
+    def test_note_missing(self):
+        ok, why = sr.check_gate(self.sample(), [1, 2, 3], [4, 5], "")
+        self.assertFalse(ok)
+        self.assertEqual(len(why), 1)
+        self.assertTrue(why[0].startswith("note lacks"))
+
+    def test_sample_missing(self):
+        ok, why = sr.check_gate(None, [1, 2, 3], [4, 5], self.NOTE)
+        self.assertEqual((ok, why), (False, ["published sample is not a JSON object"]))
+
+    def test_overlap(self):
+        ok, why = sr.check_gate(self.sample(dev=(1, 2), res=(2, 3)), [1, 2], [2, 3], self.NOTE)
+        self.assertEqual((ok, why), (False, ["development and reserve overlap"]))
+
 
 class Sample(unittest.TestCase):
     def test_split(self):
@@ -136,6 +257,9 @@ class Sample(unittest.TestCase):
         self.assertIn(6922244, sr.LOOKED_UP)
         self.assertIn(11442793, sr.LOOKED_UP)
 
+    def test_defaults_unchanged_from_0_1_0(self):
+        self.assertEqual((sr.SEED, sr.N_DEV, sr.N_RESERVE, len(sr.LOOKED_UP)), (20261019, 60, 200, 8))
+
 
 class Parsing(unittest.TestCase):
     def line(self):
@@ -152,6 +276,11 @@ class Parsing(unittest.TestCase):
         self.assertEqual(r["iflags"], [1, 0, 0, 0, 0, 0])
         self.assertAlmostEqual(r["epoch"], 134.52)
         self.assertAlmostEqual(r["duration"], 2.5)
+
+    def test_base_row_columns(self):
+        b = sr.base_row(sr.parse_rv_line(self.line()))
+        self.assertEqual(len(b), 16)
+        self.assertEqual((b["half_hour"], b["white_cadences"], b["status"]), (1, "", ""))  # 2.5 h is 5 x 0.5 h
 
     def test_header_and_comment_lines_skipped(self):
         self.assertIsNone(sr.parse_rv_line("\\name = Kepler DR25 Robovetter Input File"))
