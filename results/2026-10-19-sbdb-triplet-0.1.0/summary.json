@@ -1,0 +1,95 @@
+{
+ "version": "0.1.0",
+ "api": "https://ssd-api.jpl.nasa.gov/sbdb_query.api",
+ "fields": [
+  "spkid",
+  "pdes",
+  "full_name",
+  "class",
+  "neo",
+  "H",
+  "diameter",
+  "albedo",
+  "diameter_sigma"
+ ],
+ "cdata": "{\"AND\":[\"diameter|DF\",\"albedo|DF\",\"H|DF\"]}",
+ "started_utc": "2026-10-19T16:22:22Z",
+ "gate": true,
+ "pages": [
+  {
+   "offset": 0,
+   "rows": 20000,
+   "bytes": 1719888,
+   "sha256": "3876c2aef9db0eb447ceab6baab139b0334ff729b328bfd13c6b8eb6cd7428cd"
+  },
+  {
+   "offset": 20000,
+   "rows": 20000,
+   "bytes": 1650071,
+   "sha256": "d728b17381725d9f379a8a6ba5fa2d16272c058bd22b48bc68f95d6715a51c81"
+  },
+  {
+   "offset": 40000,
+   "rows": 20000,
+   "bytes": 1629745,
+   "sha256": "f492237f56dde6e3cb9e9acf169bfd54fdf9f09501440f55604b8847ce1cb9d0"
+  },
+  {
+   "offset": 60000,
+   "rows": 20000,
+   "bytes": 1648356,
+   "sha256": "1961437841cfa7121dc575838cd1deba50e254d65cf52671191e646da6c53132"
+  },
+  {
+   "offset": 80000,
+   "rows": 20000,
+   "bytes": 1647572,
+   "sha256": "4ecd3850c7e9a8a3c01ea5d0fb5f71425f3fef81ca12bc3e31c2cedde3a97c9e"
+  },
+  {
+   "offset": 100000,
+   "rows": 20000,
+   "bytes": 1647862,
+   "sha256": "6c6016b75eaf7396e0a0b15d0416a7eac56948640b268af938d876733ddae78c"
+  },
+  {
+   "offset": 120000,
+   "rows": 18086,
+   "bytes": 1498729,
+   "sha256": "e32c0bf484b1e68ad80af9f280092646f93f0bd9f92c759e0ec142d73fbe6e6b"
+  }
+ ],
+ "checks": {
+  "fields_as_requested": true,
+  "count_stable": true,
+  "rows_equal_count": true,
+  "no_duplicate_spkid": true,
+  "sorted_by_spkid": true
+ },
+ "api_count": 138086,
+ "rows": 138086,
+ "status_counts": {
+  "excluded_probe": 3,
+  "ok": 138083
+ },
+ "decisions": {
+  "P1": {
+   "n_scored": 138083,
+   "n_shifted": 133163,
+   "decision": "holds"
+  },
+  "P2": {
+   "n_shifted": 133163,
+   "n_positive": 116925,
+   "decision": "holds"
+  },
+  "P3": {
+   "n_faint": 118573,
+   "n_bright": 763,
+   "median_faint_e4": 2705,
+   "median_bright_e4": 781,
+   "decision": "holds"
+  }
+ },
+ "finished_utc": "2026-10-19T16:22:37Z"
+}

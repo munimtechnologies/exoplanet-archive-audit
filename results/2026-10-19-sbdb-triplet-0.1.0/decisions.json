@@ -1,0 +1,19 @@
+{
+ "P1": {
+  "n_scored": 138083,
+  "n_shifted": 133163,
+  "decision": "holds"
+ },
+ "P2": {
+  "n_shifted": 133163,
+  "n_positive": 116925,
+  "decision": "holds"
+ },
+ "P3": {
+  "n_faint": 118573,
+  "n_bright": 763,
+  "median_faint_e4": 2705,
+  "median_bright_e4": 781,
+  "decision": "holds"
+ }
+}
