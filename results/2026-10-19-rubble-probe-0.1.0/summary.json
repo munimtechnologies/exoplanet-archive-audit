@@ -1,0 +1,36 @@
+{
+ "tool": "probe_rubble",
+ "version": "0.1.0",
+ "status": "done",
+ "started": "2026-10-19T08:24:13Z",
+ "robovetter_input": {
+  "url": "https://raw.githubusercontent.com/nasa/kepler-robovetter/master/kplr_dr25_obs_robovetter_input.tar.gz",
+  "sha256": "3d6689deb2fc76babdd9935f803f0395d5b73dfa4a7b2ac73aed53a731c49655",
+  "member": "kplr_dr25_obs_robovetter_input.txt",
+  "member_bytes": 46576123,
+  "rows": 32534
+ },
+ "obs_rows": 32534,
+ "iflag_any": [
+  13939,
+  5571,
+  7953,
+  19194,
+  14911,
+  3553
+ ],
+ "selfcheck": {
+  "valid_cadences": 129595,
+  "expected": 128918,
+  "ok": false
+ },
+ "event_rows": 1444,
+ "dvt_fetched": {
+  "006359929": "<HTTPError 404: 'Not Found'>",
+  "006034834": "<HTTPError 404: 'Not Found'>",
+  "011446443": "listing:kplr011446443-20160128150956_dvt.fits",
+  "011442793": "listing:kplr011442793-20160128150956_dvt.fits",
+  "006922244": "listing:kplr006922244-20160128150956_dvt.fits"
+ },
+ "finished": "2026-10-19T08:28:38Z"
+}

@@ -1,0 +1,1615 @@
+{
+ "dvt": {
+  "006359929": {
+   "kic": 6359929,
+   "input_tces": [],
+   "error": "<HTTPError 404: 'Not Found'>"
+  },
+  "006034834": {
+   "kic": 6034834,
+   "input_tces": [],
+   "error": "<HTTPError 404: 'Not Found'>"
+  },
+  "011446443": {
+   "kic": 11446443,
+   "input_tces": [
+    [
+     1,
+     492,
+     433,
+     431,
+     0
+    ]
+   ],
+   "fetched": "listing:kplr011446443-20160128150956_dvt.fits",
+   "structure": {
+    "file": "kplr011446443-20160128150956_dvt.fits",
+    "bytes": 17752320,
+    "extensions": [
+     {
+      "index": 0,
+      "name": "PRIMARY",
+      "type": "PrimaryHDU",
+      "NUMTCES": 1,
+      "DATA_REL": 25,
+      "KEPLERID": 11446443
+     },
+     {
+      "index": 1,
+      "name": "TCE_1",
+      "type": "BinTableHDU",
+      "TPERIOD": 2.4706134886993274,
+      "TEPOCH": 132.64572565896583,
+      "TDUR": 1.7967840397626829,
+      "TDEPTH": 14221.187134733214,
+      "TSNR": 6930.3349609375,
+      "NTRANS": 432,
+      "MAXMES": 6468.0400390625,
+      "MAXSES": 544.1701049804688,
+      "KEPLERID": 11446443,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PHASE",
+       "LC_INIT",
+       "LC_INIT_ERR",
+       "LC_WHITE",
+       "LC_DETREND",
+       "MODEL_INIT",
+       "MODEL_WHITE"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51230819186458,
+      "time_max": 1591.001624025841,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PHASE": 71427,
+       "LC_INIT": 51399,
+       "LC_INIT_ERR": 51399,
+       "LC_WHITE": 51399,
+       "LC_DETREND": 51399,
+       "MODEL_INIT": 71427,
+       "MODEL_WHITE": 54376
+      }
+     },
+     {
+      "index": 2,
+      "name": "Statistics",
+      "type": "BinTableHDU",
+      "KEPLERID": 11446443,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PDCSAP_FLUX",
+       "PDCSAP_FLUX_ERR",
+       "RESIDUAL_LC",
+       "DEWEIGHTS",
+       "QUALITY",
+       "SES_CORR_1_5",
+       "SES_CORR_2_0",
+       "SES_CORR_2_5",
+       "SES_CORR_3_0",
+       "SES_CORR_3_5",
+       "SES_CORR_4_5",
+       "SES_CORR_5_0",
+       "SES_CORR_6_0",
+       "SES_CORR_7_5",
+       "SES_CORR_9_0",
+       "SES_CORR_10_5",
+       "SES_CORR_12_0",
+       "SES_CORR_12_5",
+       "SES_CORR_15_0",
+       "SES_NORM_1_5",
+       "SES_NORM_2_0",
+       "SES_NORM_2_5",
+       "SES_NORM_3_0",
+       "SES_NORM_3_5",
+       "SES_NORM_4_5",
+       "SES_NORM_5_0",
+       "SES_NORM_6_0",
+       "SES_NORM_7_5",
+       "SES_NORM_9_0",
+       "SES_NORM_10_5",
+       "SES_NORM_12_0",
+       "SES_NORM_12_5",
+       "SES_NORM_15_0",
+       "CDPP_1_5",
+       "CDPP_2_0",
+       "CDPP_2_5",
+       "CDPP_3_0",
+       "CDPP_3_5",
+       "CDPP_4_5",
+       "CDPP_5_0",
+       "CDPP_6_0",
+       "CDPP_7_5",
+       "CDPP_9_0",
+       "CDPP_10_5",
+       "CDPP_12_0",
+       "CDPP_12_5",
+       "CDPP_15_0"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51230819186458,
+      "time_max": 1591.001624025841,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PDCSAP_FLUX": 51501,
+       "PDCSAP_FLUX_ERR": 51501,
+       "RESIDUAL_LC": 46284,
+       "DEWEIGHTS": 71427,
+       "QUALITY": 71427,
+       "SES_CORR_1_5": 46284,
+       "SES_CORR_2_0": 46284,
+       "SES_CORR_2_5": 46284,
+       "SES_CORR_3_0": 46284,
+       "SES_CORR_3_5": 46284,
+       "SES_CORR_4_5": 46284,
+       "SES_CORR_5_0": 46284,
+       "SES_CORR_6_0": 46284,
+       "SES_CORR_7_5": 46284,
+       "SES_CORR_9_0": 46284,
+       "SES_CORR_10_5": 46284,
+       "SES_CORR_12_0": 46284,
+       "SES_CORR_12_5": 46284,
+       "SES_CORR_15_0": 46284,
+       "SES_NORM_1_5": 46284,
+       "SES_NORM_2_0": 46284,
+       "SES_NORM_2_5": 46284,
+       "SES_NORM_3_0": 46284,
+       "SES_NORM_3_5": 46284,
+       "SES_NORM_4_5": 46284,
+       "SES_NORM_5_0": 46284,
+       "SES_NORM_6_0": 46284,
+       "SES_NORM_7_5": 46284,
+       "SES_NORM_9_0": 46284,
+       "SES_NORM_10_5": 46284,
+       "SES_NORM_12_0": 46284,
+       "SES_NORM_12_5": 46284,
+       "SES_NORM_15_0": 46284,
+       "CDPP_1_5": 46284,
+       "CDPP_2_0": 46284,
+       "CDPP_2_5": 46284,
+       "CDPP_3_0": 46284,
+       "CDPP_3_5": 46284,
+       "CDPP_4_5": 46284,
+       "CDPP_5_0": 46284,
+       "CDPP_6_0": 46284,
+       "CDPP_7_5": 46284,
+       "CDPP_9_0": 46284,
+       "CDPP_10_5": 46284,
+       "CDPP_12_0": 46284,
+       "CDPP_12_5": 46284,
+       "CDPP_15_0": 46284
+      }
+     }
+    ]
+   },
+   "tce_extensions": [
+    "TCE_1"
+   ],
+   "per_tce": [
+    {
+     "pn": 1,
+     "ext": "TCE_1",
+     "events_in_span": 591,
+     "good_by_source": {
+      "llc": 421,
+      "dvt_lc_init": 429,
+      "dvt_lc_white": 429,
+      "dvt_lc_detrend": 429
+     },
+     "input": {
+      "ntrans": 492,
+      "nrealt": 433,
+      "ngoodt": 431,
+      "period": 2.470613489,
+      "epoch": 132.6457257,
+      "duration": 1.79678404
+     },
+     "iflags": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ]
+    }
+   ]
+  },
+  "011442793": {
+   "kic": 11442793,
+   "input_tces": [
+    [
+     1,
+     3,
+     3,
+     3,
+     0
+    ],
+    [
+     2,
+     6,
+     6,
+     5,
+     0
+    ],
+    [
+     3,
+     19,
+     16,
+     14,
+     0
+    ],
+    [
+     4,
+     13,
+     12,
+     9,
+     0
+    ],
+    [
+     5,
+     8,
+     7,
+     7,
+     0
+    ],
+    [
+     6,
+     174,
+     155,
+     134,
+     1
+    ],
+    [
+     7,
+     140,
+     106,
+     89,
+     1
+    ]
+   ],
+   "fetched": "listing:kplr011442793-20160128150956_dvt.fits",
+   "structure": {
+    "file": "kplr011442793-20160128150956_dvt.fits",
+    "bytes": 36673920,
+    "extensions": [
+     {
+      "index": 0,
+      "name": "PRIMARY",
+      "type": "PrimaryHDU",
+      "NUMTCES": 7,
+      "DATA_REL": 25,
+      "KEPLERID": 11442793
+     },
+     {
+      "index": 1,
+      "name": "TCE_1",
+      "type": "BinTableHDU",
+      "TPERIOD": 331.60330501583013,
+      "TEPOCH": 140.47950479789674,
+      "TDUR": 14.48560542856336,
+      "TDEPTH": 8353.320969312083,
+      "TSNR": 233.32931518554688,
+      "NTRANS": 3,
+      "MAXMES": 249.13999938964844,
+      "MAXSES": 183.0514678955078,
+      "KEPLERID": 11442793,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PHASE",
+       "LC_INIT",
+       "LC_INIT_ERR",
+       "LC_WHITE",
+       "LC_DETREND",
+       "MODEL_INIT",
+       "MODEL_WHITE"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51243945879833,
+      "time_max": 1591.0017813735394,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PHASE": 71427,
+       "LC_INIT": 51409,
+       "LC_INIT_ERR": 51409,
+       "LC_WHITE": 51409,
+       "LC_DETREND": 51409,
+       "MODEL_INIT": 71427,
+       "MODEL_WHITE": 54376
+      }
+     },
+     {
+      "index": 2,
+      "name": "TCE_2",
+      "type": "BinTableHDU",
+      "TPERIOD": 210.59347226619533,
+      "TEPOCH": 147.09924335208245,
+      "TDUR": 12.057850830565727,
+      "TDEPTH": 4164.311046911516,
+      "TSNR": 121.78409576416016,
+      "NTRANS": 6,
+      "MAXMES": 101.80441284179688,
+      "MAXSES": 74.07315826416016,
+      "KEPLERID": 11442793,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PHASE",
+       "LC_INIT",
+       "LC_INIT_ERR",
+       "LC_WHITE",
+       "LC_DETREND",
+       "MODEL_INIT",
+       "MODEL_WHITE"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51243945879833,
+      "time_max": 1591.0017813735394,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PHASE": 71427,
+       "LC_INIT": 51143,
+       "LC_INIT_ERR": 51143,
+       "LC_WHITE": 51143,
+       "LC_DETREND": 51143,
+       "MODEL_INIT": 71427,
+       "MODEL_WHITE": 54376
+      }
+     },
+     {
+      "index": 3,
+      "name": "TCE_3",
+      "type": "BinTableHDU",
+      "TPERIOD": 59.73691823162304,
+      "TEPOCH": 158.96239358925592,
+      "TDUR": 8.536935680997027,
+      "TDEPTH": 563.1822502264562,
+      "TSNR": 30.215967178344727,
+      "NTRANS": 16,
+      "MAXMES": 29.07821273803711,
+      "MAXSES": 9.602684020996094,
+      "KEPLERID": 11442793,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PHASE",
+       "LC_INIT",
+       "LC_INIT_ERR",
+       "LC_WHITE",
+       "LC_DETREND",
+       "MODEL_INIT",
+       "MODEL_WHITE"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51243945879833,
+      "time_max": 1591.0017813735394,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PHASE": 71427,
+       "LC_INIT": 50699,
+       "LC_INIT_ERR": 50699,
+       "LC_WHITE": 50699,
+       "LC_DETREND": 50699,
+       "MODEL_INIT": 71427,
+       "MODEL_WHITE": 54376
+      }
+     },
+     {
+      "index": 4,
+      "name": "TCE_4",
+      "type": "BinTableHDU",
+      "TPERIOD": 91.93949550887574,
+      "TEPOCH": 134.30652064470672,
+      "TDUR": 10.027603058936148,
+      "TDEPTH": 507.7653347538493,
+      "TSNR": 25.114826202392578,
+      "NTRANS": 12,
+      "MAXMES": 24.92107582092285,
+      "MAXSES": 9.047233581542969,
+      "KEPLERID": 11442793,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PHASE",
+       "LC_INIT",
+       "LC_INIT_ERR",
+       "LC_WHITE",
+       "LC_DETREND",
+       "MODEL_INIT",
+       "MODEL_WHITE"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51243945879833,
+      "time_max": 1591.0017813735394,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PHASE": 71427,
+       "LC_INIT": 49855,
+       "LC_INIT_ERR": 49855,
+       "LC_WHITE": 49855,
+       "LC_DETREND": 49855,
+       "MODEL_INIT": 71427,
+       "MODEL_WHITE": 54376
+      }
+     },
+     {
+      "index": 5,
+      "name": "TCE_5",
+      "type": "BinTableHDU",
+      "TPERIOD": 124.91493799867037,
+      "TEPOCH": 254.7039758091251,
+      "TDUR": 11.737933995799711,
+      "TDEPTH": 519.5267316898677,
+      "TSNR": 18.902320861816406,
+      "NTRANS": 7,
+      "MAXMES": 18.204784393310547,
+      "MAXSES": 9.988666534423828,
+      "KEPLERID": 11442793,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PHASE",
+       "LC_INIT",
+       "LC_INIT_ERR",
+       "LC_WHITE",
+       "LC_DETREND",
+       "MODEL_INIT",
+       "MODEL_WHITE"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51243945879833,
+      "time_max": 1591.0017813735394,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PHASE": 71427,
+       "LC_INIT": 49113,
+       "LC_INIT_ERR": 49113,
+       "LC_WHITE": 49113,
+       "LC_DETREND": 49113,
+       "MODEL_INIT": 71427,
+       "MODEL_WHITE": 54376
+      }
+     },
+     {
+      "index": 6,
+      "name": "TCE_6",
+      "type": "BinTableHDU",
+      "TPERIOD": 7.008208324493084,
+      "TEPOCH": 137.67483066592598,
+      "TDUR": 4.417382311926476,
+      "TDEPTH": 116.30400178523499,
+      "TSNR": 16.6104736328125,
+      "NTRANS": 154,
+      "MAXMES": 14.816139221191406,
+      "MAXSES": 4.745032787322998,
+      "KEPLERID": 11442793,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PHASE",
+       "LC_INIT",
+       "LC_INIT_ERR",
+       "LC_WHITE",
+       "LC_DETREND",
+       "MODEL_INIT",
+       "MODEL_WHITE"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51243945879833,
+      "time_max": 1591.0017813735394,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PHASE": 71427,
+       "LC_INIT": 48693,
+       "LC_INIT_ERR": 48693,
+       "LC_WHITE": 48693,
+       "LC_DETREND": 48693,
+       "MODEL_INIT": 71427,
+       "MODEL_WHITE": 54376
+      }
+     },
+     {
+      "index": 7,
+      "name": "TCE_7",
+      "type": "BinTableHDU",
+      "TPERIOD": 8.719799234574785,
+      "TEPOCH": 139.5209641811884,
+      "TDUR": 4.809288306476987,
+      "TDEPTH": 143.0632266936021,
+      "TSNR": 16.704326629638672,
+      "NTRANS": 111,
+      "MAXMES": 14.123186111450195,
+      "MAXSES": 3.9980711936950684,
+      "KEPLERID": 11442793,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PHASE",
+       "LC_INIT",
+       "LC_INIT_ERR",
+       "LC_WHITE",
+       "LC_DETREND",
+       "MODEL_INIT",
+       "MODEL_WHITE"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51243945879833,
+      "time_max": 1591.0017813735394,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PHASE": 71427,
+       "LC_INIT": 44501,
+       "LC_INIT_ERR": 44501,
+       "LC_WHITE": 44501,
+       "LC_DETREND": 44501,
+       "MODEL_INIT": 71427,
+       "MODEL_WHITE": 54376
+      }
+     },
+     {
+      "index": 8,
+      "name": "Statistics",
+      "type": "BinTableHDU",
+      "KEPLERID": 11442793,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PDCSAP_FLUX",
+       "PDCSAP_FLUX_ERR",
+       "RESIDUAL_LC",
+       "DEWEIGHTS",
+       "QUALITY",
+       "SES_CORR_1_5",
+       "SES_CORR_2_0",
+       "SES_CORR_2_5",
+       "SES_CORR_3_0",
+       "SES_CORR_3_5",
+       "SES_CORR_4_5",
+       "SES_CORR_5_0",
+       "SES_CORR_6_0",
+       "SES_CORR_7_5",
+       "SES_CORR_9_0",
+       "SES_CORR_10_5",
+       "SES_CORR_12_0",
+       "SES_CORR_12_5",
+       "SES_CORR_15_0",
+       "SES_NORM_1_5",
+       "SES_NORM_2_0",
+       "SES_NORM_2_5",
+       "SES_NORM_3_0",
+       "SES_NORM_3_5",
+       "SES_NORM_4_5",
+       "SES_NORM_5_0",
+       "SES_NORM_6_0",
+       "SES_NORM_7_5",
+       "SES_NORM_9_0",
+       "SES_NORM_10_5",
+       "SES_NORM_12_0",
+       "SES_NORM_12_5",
+       "SES_NORM_15_0",
+       "CDPP_1_5",
+       "CDPP_2_0",
+       "CDPP_2_5",
+       "CDPP_3_0",
+       "CDPP_3_5",
+       "CDPP_4_5",
+       "CDPP_5_0",
+       "CDPP_6_0",
+       "CDPP_7_5",
+       "CDPP_9_0",
+       "CDPP_10_5",
+       "CDPP_12_0",
+       "CDPP_12_5",
+       "CDPP_15_0"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51243945879833,
+      "time_max": 1591.0017813735394,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PDCSAP_FLUX": 51503,
+       "PDCSAP_FLUX_ERR": 51503,
+       "RESIDUAL_LC": 41399,
+       "DEWEIGHTS": 71427,
+       "QUALITY": 71427,
+       "SES_CORR_1_5": 41399,
+       "SES_CORR_2_0": 41399,
+       "SES_CORR_2_5": 41399,
+       "SES_CORR_3_0": 41399,
+       "SES_CORR_3_5": 41399,
+       "SES_CORR_4_5": 41399,
+       "SES_CORR_5_0": 41399,
+       "SES_CORR_6_0": 41399,
+       "SES_CORR_7_5": 41399,
+       "SES_CORR_9_0": 41399,
+       "SES_CORR_10_5": 41399,
+       "SES_CORR_12_0": 41399,
+       "SES_CORR_12_5": 41399,
+       "SES_CORR_15_0": 41399,
+       "SES_NORM_1_5": 41399,
+       "SES_NORM_2_0": 41399,
+       "SES_NORM_2_5": 41399,
+       "SES_NORM_3_0": 41399,
+       "SES_NORM_3_5": 41399,
+       "SES_NORM_4_5": 41399,
+       "SES_NORM_5_0": 41399,
+       "SES_NORM_6_0": 41399,
+       "SES_NORM_7_5": 41399,
+       "SES_NORM_9_0": 41399,
+       "SES_NORM_10_5": 41399,
+       "SES_NORM_12_0": 41399,
+       "SES_NORM_12_5": 41399,
+       "SES_NORM_15_0": 41399,
+       "CDPP_1_5": 41399,
+       "CDPP_2_0": 41399,
+       "CDPP_2_5": 41399,
+       "CDPP_3_0": 41399,
+       "CDPP_3_5": 41399,
+       "CDPP_4_5": 41399,
+       "CDPP_5_0": 41399,
+       "CDPP_6_0": 41399,
+       "CDPP_7_5": 41399,
+       "CDPP_9_0": 41399,
+       "CDPP_10_5": 41399,
+       "CDPP_12_0": 41399,
+       "CDPP_12_5": 41399,
+       "CDPP_15_0": 41399
+      }
+     }
+    ]
+   },
+   "tce_extensions": [
+    "TCE_1",
+    "TCE_2",
+    "TCE_3",
+    "TCE_4",
+    "TCE_5",
+    "TCE_6",
+    "TCE_7"
+   ],
+   "per_tce": [
+    {
+     "pn": 1,
+     "ext": "TCE_1",
+     "events_in_span": 5,
+     "good_by_source": {
+      "llc": 3,
+      "dvt_lc_init": 3,
+      "dvt_lc_white": 3,
+      "dvt_lc_detrend": 3
+     },
+     "input": {
+      "ntrans": 3,
+      "nrealt": 3,
+      "ngoodt": 3,
+      "period": 331.603305,
+      "epoch": 140.4795048,
+      "duration": 14.48560543
+     },
+     "iflags": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "pn": 2,
+     "ext": "TCE_2",
+     "events_in_span": 7,
+     "good_by_source": {
+      "llc": 5,
+      "dvt_lc_init": 6,
+      "dvt_lc_white": 6,
+      "dvt_lc_detrend": 6
+     },
+     "input": {
+      "ntrans": 6,
+      "nrealt": 6,
+      "ngoodt": 5,
+      "period": 210.5934723,
+      "epoch": 147.0992434,
+      "duration": 12.05785083
+     },
+     "iflags": [
+      0,
+      0,
+      1,
+      0,
+      1,
+      0
+     ]
+    },
+    {
+     "pn": 3,
+     "ext": "TCE_3",
+     "events_in_span": 24,
+     "good_by_source": {
+      "llc": 16,
+      "dvt_lc_init": 16,
+      "dvt_lc_white": 16,
+      "dvt_lc_detrend": 16
+     },
+     "input": {
+      "ntrans": 19,
+      "nrealt": 16,
+      "ngoodt": 14,
+      "period": 59.73691823,
+      "epoch": 158.9623936,
+      "duration": 8.536935681
+     },
+     "iflags": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ]
+    },
+    {
+     "pn": 4,
+     "ext": "TCE_4",
+     "events_in_span": 16,
+     "good_by_source": {
+      "llc": 12,
+      "dvt_lc_init": 12,
+      "dvt_lc_white": 12,
+      "dvt_lc_detrend": 12
+     },
+     "input": {
+      "ntrans": 13,
+      "nrealt": 12,
+      "ngoodt": 9,
+      "period": 91.93949551,
+      "epoch": 134.3065206,
+      "duration": 10.02760306
+     },
+     "iflags": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ]
+    },
+    {
+     "pn": 5,
+     "ext": "TCE_5",
+     "events_in_span": 11,
+     "good_by_source": {
+      "llc": 5,
+      "dvt_lc_init": 5,
+      "dvt_lc_white": 5,
+      "dvt_lc_detrend": 5
+     },
+     "input": {
+      "ntrans": 8,
+      "nrealt": 7,
+      "ngoodt": 7,
+      "period": 124.914938,
+      "epoch": 254.7039758,
+      "duration": 11.737934
+     },
+     "iflags": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "pn": 6,
+     "ext": "TCE_6",
+     "events_in_span": 208,
+     "good_by_source": {
+      "llc": 152,
+      "dvt_lc_init": 149,
+      "dvt_lc_white": 149,
+      "dvt_lc_detrend": 149
+     },
+     "input": {
+      "ntrans": 174,
+      "nrealt": 155,
+      "ngoodt": 134,
+      "period": 7.008208324,
+      "epoch": 137.6748307,
+      "duration": 4.417382312
+     },
+     "iflags": [
+      1,
+      0,
+      0,
+      1,
+      1,
+      0
+     ]
+    },
+    {
+     "pn": 7,
+     "ext": "TCE_7",
+     "events_in_span": 167,
+     "good_by_source": {
+      "llc": 117,
+      "dvt_lc_init": 98,
+      "dvt_lc_white": 98,
+      "dvt_lc_detrend": 98
+     },
+     "input": {
+      "ntrans": 140,
+      "nrealt": 106,
+      "ngoodt": 89,
+      "period": 8.719799235,
+      "epoch": 139.5209642,
+      "duration": 4.809288306
+     },
+     "iflags": [
+      1,
+      0,
+      0,
+      1,
+      1,
+      0
+     ]
+    }
+   ]
+  },
+  "006922244": {
+   "kic": 6922244,
+   "input_tces": [
+    [
+     1,
+     415,
+     384,
+     370,
+     0
+    ]
+   ],
+   "fetched": "listing:kplr006922244-20160128150956_dvt.fits",
+   "structure": {
+    "file": "kplr006922244-20160128150956_dvt.fits",
+    "bytes": 17752320,
+    "extensions": [
+     {
+      "index": 0,
+      "name": "PRIMARY",
+      "type": "PrimaryHDU",
+      "NUMTCES": 1,
+      "DATA_REL": 25,
+      "KEPLERID": 6922244
+     },
+     {
+      "index": 1,
+      "name": "TCE_1",
+      "type": "BinTableHDU",
+      "TPERIOD": 3.5224983579938507,
+      "TEPOCH": 131.68695728168456,
+      "TDUR": 3.2710611934817826,
+      "TDEPTH": 9139.882093200178,
+      "TSNR": 1687.0467529296875,
+      "NTRANS": 384,
+      "MAXMES": 1725.5823974609375,
+      "MAXSES": 130.83831787109375,
+      "KEPLERID": 6922244,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PHASE",
+       "LC_INIT",
+       "LC_INIT_ERR",
+       "LC_WHITE",
+       "LC_DETREND",
+       "MODEL_INIT",
+       "MODEL_WHITE"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51304557267576,
+      "time_max": 1591.0021750788364,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PHASE": 71427,
+       "LC_INIT": 64433,
+       "LC_INIT_ERR": 64433,
+       "LC_WHITE": 64433,
+       "LC_DETREND": 64433,
+       "MODEL_INIT": 71427,
+       "MODEL_WHITE": 68464
+      }
+     },
+     {
+      "index": 2,
+      "name": "Statistics",
+      "type": "BinTableHDU",
+      "KEPLERID": 6922244,
+      "columns": [
+       "TIME",
+       "TIMECORR",
+       "CADENCENO",
+       "PDCSAP_FLUX",
+       "PDCSAP_FLUX_ERR",
+       "RESIDUAL_LC",
+       "DEWEIGHTS",
+       "QUALITY",
+       "SES_CORR_1_5",
+       "SES_CORR_2_0",
+       "SES_CORR_2_5",
+       "SES_CORR_3_0",
+       "SES_CORR_3_5",
+       "SES_CORR_4_5",
+       "SES_CORR_5_0",
+       "SES_CORR_6_0",
+       "SES_CORR_7_5",
+       "SES_CORR_9_0",
+       "SES_CORR_10_5",
+       "SES_CORR_12_0",
+       "SES_CORR_12_5",
+       "SES_CORR_15_0",
+       "SES_NORM_1_5",
+       "SES_NORM_2_0",
+       "SES_NORM_2_5",
+       "SES_NORM_3_0",
+       "SES_NORM_3_5",
+       "SES_NORM_4_5",
+       "SES_NORM_5_0",
+       "SES_NORM_6_0",
+       "SES_NORM_7_5",
+       "SES_NORM_9_0",
+       "SES_NORM_10_5",
+       "SES_NORM_12_0",
+       "SES_NORM_12_5",
+       "SES_NORM_15_0",
+       "CDPP_1_5",
+       "CDPP_2_0",
+       "CDPP_2_5",
+       "CDPP_3_0",
+       "CDPP_3_5",
+       "CDPP_4_5",
+       "CDPP_5_0",
+       "CDPP_6_0",
+       "CDPP_7_5",
+       "CDPP_9_0",
+       "CDPP_10_5",
+       "CDPP_12_0",
+       "CDPP_12_5",
+       "CDPP_15_0"
+      ],
+      "rows": 71427,
+      "time_finite": 71427,
+      "time_min": 131.51304557267576,
+      "time_max": 1591.0021750788364,
+      "finite": {
+       "TIMECORR": 71427,
+       "CADENCENO": 71427,
+       "PDCSAP_FLUX": 64794,
+       "PDCSAP_FLUX_ERR": 64794,
+       "RESIDUAL_LC": 56511,
+       "DEWEIGHTS": 71427,
+       "QUALITY": 71427,
+       "SES_CORR_1_5": 56511,
+       "SES_CORR_2_0": 56511,
+       "SES_CORR_2_5": 56511,
+       "SES_CORR_3_0": 56511,
+       "SES_CORR_3_5": 56511,
+       "SES_CORR_4_5": 56511,
+       "SES_CORR_5_0": 56511,
+       "SES_CORR_6_0": 56511,
+       "SES_CORR_7_5": 56511,
+       "SES_CORR_9_0": 56511,
+       "SES_CORR_10_5": 56511,
+       "SES_CORR_12_0": 56511,
+       "SES_CORR_12_5": 56511,
+       "SES_CORR_15_0": 56511,
+       "SES_NORM_1_5": 56511,
+       "SES_NORM_2_0": 56511,
+       "SES_NORM_2_5": 56511,
+       "SES_NORM_3_0": 56511,
+       "SES_NORM_3_5": 56511,
+       "SES_NORM_4_5": 56511,
+       "SES_NORM_5_0": 56511,
+       "SES_NORM_6_0": 56511,
+       "SES_NORM_7_5": 56511,
+       "SES_NORM_9_0": 56511,
+       "SES_NORM_10_5": 56511,
+       "SES_NORM_12_0": 56511,
+       "SES_NORM_12_5": 56511,
+       "SES_NORM_15_0": 56511,
+       "CDPP_1_5": 56511,
+       "CDPP_2_0": 56511,
+       "CDPP_2_5": 56511,
+       "CDPP_3_0": 56511,
+       "CDPP_3_5": 56511,
+       "CDPP_4_5": 56511,
+       "CDPP_5_0": 56511,
+       "CDPP_6_0": 56511,
+       "CDPP_7_5": 56511,
+       "CDPP_9_0": 56511,
+       "CDPP_10_5": 56511,
+       "CDPP_12_0": 56511,
+       "CDPP_12_5": 56511,
+       "CDPP_15_0": 56511
+      }
+     }
+    ]
+   },
+   "tce_extensions": [
+    "TCE_1"
+   ],
+   "per_tce": [
+    {
+     "pn": 1,
+     "ext": "TCE_1",
+     "events_in_span": 415,
+     "good_by_source": {
+      "llc": 382,
+      "dvt_lc_init": 380,
+      "dvt_lc_white": 380,
+      "dvt_lc_detrend": 380
+     },
+     "input": {
+      "ntrans": 415,
+      "nrealt": 384,
+      "ngoodt": 370,
+      "period": 3.522498358,
+      "epoch": 131.6869573,
+      "duration": 3.271061193
+     },
+     "iflags": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ]
+    }
+   ]
+  }
+ },
+ "lc_files": {
+  "009018021": [
+   {
+    "file": "kplr009018021-2009166043257_llc.fits",
+    "quarter": 1,
+    "cadences": 1639,
+    "valid": 1624
+   },
+   {
+    "file": "kplr009018021-2009259160929_llc.fits",
+    "quarter": 2,
+    "cadences": 4354,
+    "valid": 4070
+   },
+   {
+    "file": "kplr009018021-2009350155506_llc.fits",
+    "quarter": 3,
+    "cadences": 4370,
+    "valid": 4134
+   },
+   {
+    "file": "kplr009018021-2010078095331_llc.fits",
+    "quarter": 4,
+    "cadences": 4397,
+    "valid": 4108
+   },
+   {
+    "file": "kplr009018021-2010174085026_llc.fits",
+    "quarter": 5,
+    "cadences": 4634,
+    "valid": 4486
+   },
+   {
+    "file": "kplr009018021-2010265121752_llc.fits",
+    "quarter": 6,
+    "cadences": 4398,
+    "valid": 4272
+   },
+   {
+    "file": "kplr009018021-2010355172524_llc.fits",
+    "quarter": 7,
+    "cadences": 4375,
+    "valid": 4226
+   },
+   {
+    "file": "kplr009018021-2011073133259_llc.fits",
+    "quarter": 8,
+    "cadences": 3279,
+    "valid": 3106
+   },
+   {
+    "file": "kplr009018021-2011177032512_llc.fits",
+    "quarter": 9,
+    "cadences": 4768,
+    "valid": 4610
+   },
+   {
+    "file": "kplr009018021-2011271113734_llc.fits",
+    "quarter": 10,
+    "cadences": 4573,
+    "valid": 4441
+   },
+   {
+    "file": "kplr009018021-2012004120508_llc.fits",
+    "quarter": 11,
+    "cadences": 4754,
+    "valid": 4473
+   },
+   {
+    "file": "kplr009018021-2012088054726_llc.fits",
+    "quarter": 12,
+    "cadences": 4044,
+    "valid": 3550
+   },
+   {
+    "file": "kplr009018021-2012179063303_llc.fits",
+    "quarter": 13,
+    "cadences": 4421,
+    "valid": 4244
+   },
+   {
+    "file": "kplr009018021-2012277125453_llc.fits",
+    "quarter": 14,
+    "cadences": 4757,
+    "valid": 4269
+   },
+   {
+    "file": "kplr009018021-2013011073258_llc.fits",
+    "quarter": 15,
+    "cadences": 4780,
+    "valid": 4366
+   },
+   {
+    "file": "kplr009018021-2013098041711_llc.fits",
+    "quarter": 16,
+    "cadences": 4203,
+    "valid": 3534
+   },
+   {
+    "file": "kplr009018021-2013131215648_llc.fits",
+    "quarter": 17,
+    "cadences": 1556,
+    "valid": 1285
+   }
+  ],
+  "006359929": [
+   {
+    "file": "kplr006359929-2009166043257_llc.fits",
+    "quarter": 1,
+    "cadences": 1639,
+    "valid": 1624
+   },
+   {
+    "file": "kplr006359929-2009259160929_llc.fits",
+    "quarter": 2,
+    "cadences": 4354,
+    "valid": 4070
+   },
+   {
+    "file": "kplr006359929-2009350155506_llc.fits",
+    "quarter": 3,
+    "cadences": 4370,
+    "valid": 4134
+   },
+   {
+    "file": "kplr006359929-2010078095331_llc.fits",
+    "quarter": 4,
+    "cadences": 4397,
+    "valid": 4108
+   },
+   {
+    "file": "kplr006359929-2010174085026_llc.fits",
+    "quarter": 5,
+    "cadences": 4634,
+    "valid": 4486
+   },
+   {
+    "file": "kplr006359929-2010265121752_llc.fits",
+    "quarter": 6,
+    "cadences": 4398,
+    "valid": 4272
+   },
+   {
+    "file": "kplr006359929-2010355172524_llc.fits",
+    "quarter": 7,
+    "cadences": 4375,
+    "valid": 4226
+   },
+   {
+    "file": "kplr006359929-2011073133259_llc.fits",
+    "quarter": 8,
+    "cadences": 3279,
+    "valid": 3106
+   },
+   {
+    "file": "kplr006359929-2011177032512_llc.fits",
+    "quarter": 9,
+    "cadences": 4768,
+    "valid": 4610
+   },
+   {
+    "file": "kplr006359929-2011271113734_llc.fits",
+    "quarter": 10,
+    "cadences": 4573,
+    "valid": 4441
+   },
+   {
+    "file": "kplr006359929-2012004120508_llc.fits",
+    "quarter": 11,
+    "cadences": 4754,
+    "valid": 4473
+   },
+   {
+    "file": "kplr006359929-2012088054726_llc.fits",
+    "quarter": 12,
+    "cadences": 4044,
+    "valid": 3550
+   },
+   {
+    "file": "kplr006359929-2012179063303_llc.fits",
+    "quarter": 13,
+    "cadences": 4421,
+    "valid": 4243
+   },
+   {
+    "file": "kplr006359929-2012277125453_llc.fits",
+    "quarter": 14,
+    "cadences": 4757,
+    "valid": 4269
+   },
+   {
+    "file": "kplr006359929-2013011073258_llc.fits",
+    "quarter": 15,
+    "cadences": 4780,
+    "valid": 4366
+   },
+   {
+    "file": "kplr006359929-2013098041711_llc.fits",
+    "quarter": 16,
+    "cadences": 4203,
+    "valid": 3534
+   },
+   {
+    "file": "kplr006359929-2013131215648_llc.fits",
+    "quarter": 17,
+    "cadences": 1556,
+    "valid": 1285
+   }
+  ],
+  "011446443": [
+   {
+    "file": "kplr011446443-2009166043257_llc.fits",
+    "quarter": 1,
+    "cadences": 1639,
+    "valid": 1624
+   },
+   {
+    "file": "kplr011446443-2009259160929_llc.fits",
+    "quarter": 2,
+    "cadences": 4354,
+    "valid": 4070
+   },
+   {
+    "file": "kplr011446443-2009350155506_llc.fits",
+    "quarter": 3,
+    "cadences": 4370,
+    "valid": 4134
+   },
+   {
+    "file": "kplr011446443-2010078095331_llc.fits",
+    "error": "<HTTPError 404: 'Not Found'>"
+   },
+   {
+    "file": "kplr011446443-2010174085026_llc.fits",
+    "quarter": 5,
+    "cadences": 4634,
+    "valid": 4486
+   },
+   {
+    "file": "kplr011446443-2010265121752_llc.fits",
+    "quarter": 6,
+    "cadences": 4398,
+    "valid": 4272
+   },
+   {
+    "file": "kplr011446443-2010355172524_llc.fits",
+    "quarter": 7,
+    "cadences": 4375,
+    "valid": 4226
+   },
+   {
+    "file": "kplr011446443-2011073133259_llc.fits",
+    "error": "<HTTPError 404: 'Not Found'>"
+   },
+   {
+    "file": "kplr011446443-2011177032512_llc.fits",
+    "quarter": 9,
+    "cadences": 4768,
+    "valid": 4608
+   },
+   {
+    "file": "kplr011446443-2011271113734_llc.fits",
+    "quarter": 10,
+    "cadences": 4573,
+    "valid": 4441
+   },
+   {
+    "file": "kplr011446443-2012004120508_llc.fits",
+    "quarter": 11,
+    "cadences": 4754,
+    "valid": 4473
+   },
+   {
+    "file": "kplr011446443-2012088054726_llc.fits",
+    "error": "<HTTPError 404: 'Not Found'>"
+   },
+   {
+    "file": "kplr011446443-2012179063303_llc.fits",
+    "quarter": 13,
+    "cadences": 4421,
+    "valid": 4241
+   },
+   {
+    "file": "kplr011446443-2012277125453_llc.fits",
+    "quarter": 14,
+    "cadences": 4757,
+    "valid": 4268
+   },
+   {
+    "file": "kplr011446443-2013011073258_llc.fits",
+    "quarter": 15,
+    "cadences": 4780,
+    "valid": 4366
+   },
+   {
+    "file": "kplr011446443-2013098041711_llc.fits",
+    "error": "<HTTPError 404: 'Not Found'>"
+   },
+   {
+    "file": "kplr011446443-2013131215648_llc.fits",
+    "quarter": 17,
+    "cadences": 1556,
+    "valid": 1284
+   }
+  ],
+  "011442793": [
+   {
+    "file": "kplr011442793-2009166043257_llc.fits",
+    "quarter": 1,
+    "cadences": 1639,
+    "valid": 1624
+   },
+   {
+    "file": "kplr011442793-2009259160929_llc.fits",
+    "quarter": 2,
+    "cadences": 4354,
+    "valid": 4070
+   },
+   {
+    "file": "kplr011442793-2009350155506_llc.fits",
+    "quarter": 3,
+    "cadences": 4370,
+    "valid": 4134
+   },
+   {
+    "file": "kplr011442793-2010078095331_llc.fits",
+    "error": "<HTTPError 404: 'Not Found'>"
+   },
+   {
+    "file": "kplr011442793-2010174085026_llc.fits",
+    "quarter": 5,
+    "cadences": 4634,
+    "valid": 4486
+   },
+   {
+    "file": "kplr011442793-2010265121752_llc.fits",
+    "quarter": 6,
+    "cadences": 4398,
+    "valid": 4272
+   },
+   {
+    "file": "kplr011442793-2010355172524_llc.fits",
+    "quarter": 7,
+    "cadences": 4375,
+    "valid": 4226
+   },
+   {
+    "file": "kplr011442793-2011073133259_llc.fits",
+    "error": "<HTTPError 404: 'Not Found'>"
+   },
+   {
+    "file": "kplr011442793-2011177032512_llc.fits",
+    "quarter": 9,
+    "cadences": 4768,
+    "valid": 4608
+   },
+   {
+    "file": "kplr011442793-2011271113734_llc.fits",
+    "quarter": 10,
+    "cadences": 4573,
+    "valid": 4441
+   },
+   {
+    "file": "kplr011442793-2012004120508_llc.fits",
+    "quarter": 11,
+    "cadences": 4754,
+    "valid": 4473
+   },
+   {
+    "file": "kplr011442793-2012088054726_llc.fits",
+    "error": "<HTTPError 404: 'Not Found'>"
+   },
+   {
+    "file": "kplr011442793-2012179063303_llc.fits",
+    "quarter": 13,
+    "cadences": 4421,
+    "valid": 4241
+   },
+   {
+    "file": "kplr011442793-2012277125453_llc.fits",
+    "quarter": 14,
+    "cadences": 4757,
+    "valid": 4270
+   },
+   {
+    "file": "kplr011442793-2013011073258_llc.fits",
+    "quarter": 15,
+    "cadences": 4780,
+    "valid": 4366
+   },
+   {
+    "file": "kplr011442793-2013098041711_llc.fits",
+    "error": "<HTTPError 404: 'Not Found'>"
+   },
+   {
+    "file": "kplr011442793-2013131215648_llc.fits",
+    "quarter": 17,
+    "cadences": 1556,
+    "valid": 1284
+   }
+  ],
+  "006922244": [
+   {
+    "file": "kplr006922244-2009166043257_llc.fits",
+    "quarter": 1,
+    "cadences": 1639,
+    "valid": 1624
+   },
+   {
+    "file": "kplr006922244-2009259160929_llc.fits",
+    "quarter": 2,
+    "cadences": 4354,
+    "valid": 4070
+   },
+   {
+    "file": "kplr006922244-2009350155506_llc.fits",
+    "quarter": 3,
+    "cadences": 4370,
+    "valid": 4134
+   },
+   {
+    "file": "kplr006922244-2010078095331_llc.fits",
+    "quarter": 4,
+    "cadences": 4397,
+    "valid": 4108
+   },
+   {
+    "file": "kplr006922244-2010174085026_llc.fits",
+    "quarter": 5,
+    "cadences": 4634,
+    "valid": 4486
+   },
+   {
+    "file": "kplr006922244-2010265121752_llc.fits",
+    "quarter": 6,
+    "cadences": 4398,
+    "valid": 4272
+   },
+   {
+    "file": "kplr006922244-2010355172524_llc.fits",
+    "quarter": 7,
+    "cadences": 4375,
+    "valid": 4226
+   },
+   {
+    "file": "kplr006922244-2011073133259_llc.fits",
+    "quarter": 8,
+    "cadences": 3279,
+    "valid": 3106
+   },
+   {
+    "file": "kplr006922244-2011177032512_llc.fits",
+    "quarter": 9,
+    "cadences": 4768,
+    "valid": 4608
+   },
+   {
+    "file": "kplr006922244-2011271113734_llc.fits",
+    "quarter": 10,
+    "cadences": 4573,
+    "valid": 4441
+   },
+   {
+    "file": "kplr006922244-2012004120508_llc.fits",
+    "quarter": 11,
+    "cadences": 4754,
+    "valid": 4473
+   },
+   {
+    "file": "kplr006922244-2012088054726_llc.fits",
+    "quarter": 12,
+    "cadences": 4044,
+    "valid": 3550
+   },
+   {
+    "file": "kplr006922244-2012179063303_llc.fits",
+    "quarter": 13,
+    "cadences": 4421,
+    "valid": 4243
+   },
+   {
+    "file": "kplr006922244-2012277125453_llc.fits",
+    "quarter": 14,
+    "cadences": 4757,
+    "valid": 4269
+   },
+   {
+    "file": "kplr006922244-2013011073258_llc.fits",
+    "quarter": 15,
+    "cadences": 4780,
+    "valid": 4366
+   },
+   {
+    "file": "kplr006922244-2013098041711_llc.fits",
+    "quarter": 16,
+    "cadences": 4203,
+    "valid": 3534
+   },
+   {
+    "file": "kplr006922244-2013131215648_llc.fits",
+    "quarter": 17,
+    "cadences": 1556,
+    "valid": 1284
+   }
+  ]
+ }
+}
