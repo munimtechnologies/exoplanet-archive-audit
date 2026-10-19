@@ -1,0 +1,75 @@
+{
+ "version": "0.1.0",
+ "started_utc": "2026-10-19T21:41:57Z",
+ "gate": true,
+ "seen_rows": 340,
+ "pages": [
+  {
+   "offset": 0,
+   "rows": 20000,
+   "bytes": 1719888
+  },
+  {
+   "offset": 20000,
+   "rows": 20000,
+   "bytes": 1650071
+  },
+  {
+   "offset": 40000,
+   "rows": 20000,
+   "bytes": 1629745
+  },
+  {
+   "offset": 60000,
+   "rows": 20000,
+   "bytes": 1648356
+  },
+  {
+   "offset": 80000,
+   "rows": 20000,
+   "bytes": 1647572
+  },
+  {
+   "offset": 100000,
+   "rows": 20000,
+   "bytes": 1647862
+  },
+  {
+   "offset": 120000,
+   "rows": 18086,
+   "bytes": 1498729
+  }
+ ],
+ "checks": {
+  "count_stable": true,
+  "rows_equal_count": true,
+  "no_duplicate_spkid": true
+ },
+ "api_count": 138086,
+ "bulk_status": {
+  "excluded_probe": 3,
+  "ok": 138083
+ },
+ "pool": 137743,
+ "sample": 1500,
+ "decisions": {
+  "S1": {
+   "n_fetched": 1500,
+   "n_neowise": 1497,
+   "decision": "holds"
+  },
+  "S2": {
+   "n_fetched": 1500,
+   "n_same_ref": 1469,
+   "decision": "holds"
+  },
+  "S3": {
+   "n_neowise": 1497,
+   "n_other_sources": 3,
+   "median_neowise_e4": 2653,
+   "median_other_e4": 116,
+   "decision": "underpowered"
+  }
+ },
+ "finished_utc": "2026-10-19T22:12:38Z"
+}

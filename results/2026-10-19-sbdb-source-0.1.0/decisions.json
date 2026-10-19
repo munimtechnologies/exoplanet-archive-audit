@@ -1,0 +1,19 @@
+{
+ "S1": {
+  "n_fetched": 1500,
+  "n_neowise": 1497,
+  "decision": "holds"
+ },
+ "S2": {
+  "n_fetched": 1500,
+  "n_same_ref": 1469,
+  "decision": "holds"
+ },
+ "S3": {
+  "n_neowise": 1497,
+  "n_other_sources": 3,
+  "median_neowise_e4": 2653,
+  "median_other_e4": 116,
+  "decision": "underpowered"
+ }
+}

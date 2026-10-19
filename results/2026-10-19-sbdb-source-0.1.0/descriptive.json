@@ -1,0 +1,63 @@
+{
+ "status": {
+  "fetched": 1500
+ },
+ "d_class": {
+  "neowise": 1497,
+  "iras": 2,
+  "other": 1
+ },
+ "d_ref": {
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[mainbelt] (http://adsabs.harvard.edu/abs/2014ApJ...791..121M)": 34,
+  "IRAS-A-FPA-3-RDR-IMPS-V6.0": 2,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[mainbelt] (http://adsabs.harvard.edu/abs/2012ApJ...759L...8M)": 72,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[mainbelt] (http://adsabs.harvard.edu/abs/2011ApJ...741...68M)": 1292,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[mainbelt] (http://adsabs.harvard.edu/abs/2015ApJ...814..117N)": 15,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[mainbelt] (http://adsabs.harvard.edu/abs/2016AJ....152...63N)": 30,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[jupiter_trojans] (http://adsabs.harvard.edu/abs/2012ApJ...759...49G)": 8,
+  "Earth, Moon, and Planets, v. 89, Issue 1, p. 117-134 (2002)": 1,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[neos] (http://adsabs.harvard.edu/abs/2016AJ....152...63N)": 2,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[mainbelt] (http://adsabs.harvard.edu/abs/2017AJ....154..168M)": 13,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[jupiter_trojans] (http://adsabs.harvard.edu/abs/2011ApJ...742...40G)": 14,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[hildas] (http://adsabs.harvard.edu/abs/2012ApJ...744..197G)": 8,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[neos] (http://adsabs.harvard.edu/abs/2015ApJ...814..117N)": 3,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[neos] (http://adsabs.harvard.edu/abs/2011ApJ...743..156M)": 1,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[neos] (http://adsabs.harvard.edu/abs/2014ApJ...784..110M)": 3,
+  "urn:nasa:pds:neowise_diameters_albedos::2.0[neos] (http://adsabs.harvard.edu/abs/2017AJ....154..168M)": 2
+ },
+ "h_ref_year": {
+  "2026": 150,
+  "None": 734,
+  "2025": 422,
+  "2024": 169,
+  "2023": 15,
+  "2022": 7,
+  "2021": 1,
+  "2018": 1,
+  "1901": 1
+ },
+ "by_class_dh_quantiles_e4": {
+  "iras": {
+   "5": -486,
+   "25": -486,
+   "50": -486,
+   "75": 116,
+   "95": 116
+  },
+  "neowise": {
+   "5": -1714,
+   "25": 1308,
+   "50": 2653,
+   "75": 3824,
+   "95": 6491
+  },
+  "other": {
+   "5": 4650,
+   "25": 4650,
+   "50": 4650,
+   "75": 4650,
+   "95": 4650
+  }
+ },
+ "detail_value_mismatch": 0
+}
