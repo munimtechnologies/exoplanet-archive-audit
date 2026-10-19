@@ -1,0 +1,38 @@
+{
+ "tool": "scan_rubble",
+ "version": "0.2.0",
+ "mode": "reserve",
+ "stars": 200,
+ "scored_tces": 361,
+ "p1": {
+  "status": "holds",
+  "table": {
+   "a": 18,
+   "b": 0,
+   "c": 0,
+   "d": 343,
+   "skipped": 0
+  },
+  "n": 361,
+  "half_hour": 18,
+  "off_diagonal": 0,
+  "rule": "powered if half_hour >= 5; holds if off_diagonal * 50 <= n"
+ },
+ "p2": {
+  "status": "holds",
+  "variant": "init_2_0.75",
+  "confusion": {
+   "tp": 133,
+   "fp": 125,
+   "fn": 0,
+   "tn": 103
+  },
+  "n": 361,
+  "flagged": 133,
+  "predicted": 258,
+  "recall_ok": true,
+  "precision_ok": true,
+  "rule": "powered if tp + fn >= 20; holds if 10 tp >= 9 (tp + fn) and 5 tp <= 4 (tp + fp)"
+ },
+ "pre_registration": "findings/2026-10-19-rubble-reserve-prereg.md"
+}
