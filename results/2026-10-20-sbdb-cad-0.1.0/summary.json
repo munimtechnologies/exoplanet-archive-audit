@@ -1,0 +1,108 @@
+{
+ "cad": {
+  "api_count": 12685,
+  "bytes": 2210563,
+  "fields_as_requested": true,
+  "rows_equal_count": true,
+  "rows_read": 12685,
+  "sha256": "d8fdc6a69d1ee29a10b1b4d6abc55f8910f7aa88e464ec474d113eacd488623c"
+ },
+ "cad_api": "https://ssd-api.jpl.nasa.gov/cad.api",
+ "cad_fields": [
+  "des",
+  "orbit_id",
+  "jd",
+  "cd",
+  "dist",
+  "dist_min",
+  "dist_max",
+  "v_rel",
+  "v_inf",
+  "t_sigma_f",
+  "h"
+ ],
+ "cad_query": "https://ssd-api.jpl.nasa.gov/cad.api?date-min=2024-01-01&date-max=2028-01-01&dist-max=0.2&nea=true&sort=date",
+ "checks": {
+  "cad_all_in_window": true,
+  "cad_fields_as_requested": true,
+  "cad_rows_equal_count": true,
+  "join_matched_at_least_99pct": true,
+  "neo_probe_rows_found": true,
+  "sbdb_count_stable": true,
+  "sbdb_fields_as_requested": true,
+  "sbdb_no_duplicate_pdes": true,
+  "sbdb_rows_equal_count": true,
+  "sbdb_sorted_no_duplicates": true
+ },
+ "decisions": {
+  "G1": {
+   "decision": "holds",
+   "n_differ": 0,
+   "n_matched": 12684
+  },
+  "G2": {
+   "decision": "holds",
+   "n_eligible": 2866,
+   "n_flagged": 0
+  },
+  "G3": {
+   "decision": "holds",
+   "n_rows": 12685,
+   "n_violation": 0
+  }
+ },
+ "finished_utc": "2026-10-20T04:55:44Z",
+ "flagged_rows_listed": {
+  "g1": 0,
+  "g2": 0,
+  "g3": 0
+ },
+ "g2_rows": 2866,
+ "gate": true,
+ "sbdb": {
+  "api_count": 42787,
+  "count_stable": true,
+  "duplicate_pdes": 0,
+  "pages": [
+   {
+    "bytes": 1977556,
+    "offset": 0,
+    "rows": 20000,
+    "sha256": "47834857db9efbf5a18ef3b08a2b37e8f951950454d657cdb8a163f08c2274e8"
+   },
+   {
+    "bytes": 1949617,
+    "offset": 20000,
+    "rows": 20000,
+    "sha256": "97305da6bfad368c14f65ed38ce63c371525d3b80829e40ef6846d82bed52be2"
+   },
+   {
+    "bytes": 274434,
+    "offset": 40000,
+    "rows": 2787,
+    "sha256": "61717412ed310e2a512a6f595d308a6e161940a5da73c28f082423cfc93ecf50"
+   }
+  ],
+  "probe_rows_found": 4,
+  "rows_equal_count": true,
+  "rows_read": 42787,
+  "sorted_by_spkid_no_duplicates": true
+ },
+ "sbdb_api": "https://ssd-api.jpl.nasa.gov/sbdb_query.api",
+ "sbdb_fields": [
+  "spkid",
+  "pdes",
+  "orbit_id",
+  "epoch",
+  "moid",
+  "condition_code",
+  "data_arc",
+  "n_obs_used",
+  "last_obs",
+  "soln_date"
+ ],
+ "seen_rows": 340,
+ "started_utc": "2026-10-20T04:55:36Z",
+ "tol_au": "0.001",
+ "version": "0.1.0"
+}

@@ -1,0 +1,17 @@
+{
+ "G1": {
+  "decision": "holds",
+  "n_differ": 0,
+  "n_matched": 12684
+ },
+ "G2": {
+  "decision": "holds",
+  "n_eligible": 2866,
+  "n_flagged": 0
+ },
+ "G3": {
+  "decision": "holds",
+  "n_rows": 12685,
+  "n_violation": 0
+ }
+}

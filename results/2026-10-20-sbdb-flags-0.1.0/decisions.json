@@ -1,0 +1,17 @@
+{
+ "F1": {
+  "decision": "holds",
+  "n_decidable": 1575084,
+  "n_mismatch": 0
+ },
+ "F2": {
+  "decision": "fails",
+  "n_decidable": 42619,
+  "n_mismatch": 50
+ },
+ "F3": {
+  "decision": "holds",
+  "n_decidable": 1572241,
+  "n_inconsistent": 0
+ }
+}
