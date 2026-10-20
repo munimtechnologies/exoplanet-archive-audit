@@ -1,0 +1,70 @@
+{
+ "version": "0.1.0",
+ "started_utc": "2026-10-20T05:13:18Z",
+ "gate": true,
+ "seen_rows": 1840,
+ "pages": [
+  {
+   "offset": 0,
+   "rows": 20000,
+   "bytes": 1719888
+  },
+  {
+   "offset": 20000,
+   "rows": 20000,
+   "bytes": 1650071
+  },
+  {
+   "offset": 40000,
+   "rows": 20000,
+   "bytes": 1629745
+  },
+  {
+   "offset": 60000,
+   "rows": 20000,
+   "bytes": 1648356
+  },
+  {
+   "offset": 80000,
+   "rows": 20000,
+   "bytes": 1647572
+  },
+  {
+   "offset": 100000,
+   "rows": 20000,
+   "bytes": 1647862
+  },
+  {
+   "offset": 120000,
+   "rows": 18086,
+   "bytes": 1498729
+  }
+ ],
+ "checks": {
+  "count_stable": true,
+  "rows_equal_count": true,
+  "no_duplicate_spkid": true
+ },
+ "api_count": 138086,
+ "bulk_status": {
+  "excluded_probe": 3,
+  "ok": 138083
+ },
+ "pool": 136240,
+ "sample": 4000,
+ "decisions": {
+  "M1": {
+   "n_neowise": 3979,
+   "n_mixed": 98,
+   "decision": "holds"
+  },
+  "M2": {
+   "n_mixed": 98,
+   "neg_mixed": 51,
+   "n_same": 3881,
+   "neg_same": 468,
+   "decision": "holds"
+  }
+ },
+ "finished_utc": "2026-10-20T06:41:00Z"
+}

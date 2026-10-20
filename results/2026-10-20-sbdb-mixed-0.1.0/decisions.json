@@ -1,0 +1,14 @@
+{
+ "M1": {
+  "n_neowise": 3979,
+  "n_mixed": 98,
+  "decision": "holds"
+ },
+ "M2": {
+  "n_mixed": 98,
+  "neg_mixed": 51,
+  "n_same": 3881,
+  "neg_same": 468,
+  "decision": "holds"
+ }
+}
