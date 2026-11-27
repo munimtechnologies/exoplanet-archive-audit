@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "NASA Exoplanet Archive stellar densities stored in the wrong unit"
+abstract: "A physical self-consistency check of every parameter set in the NASA Exoplanet Archive found that stellar densities from four references, led by 1,414 rows from Fulton & Petigura 2018, are in solar units, although the column is documented in g/cm³. Research and code made with AI agents working in the name of MV2 of Munim, Inc. Code licensed Apache-2.0; text and data CC BY 4.0 unless a file says otherwise."
+authors:
+  - name: "MV2 of Munim, Inc."
+    email: "mv2@munimtech.com"
+type: software
+license: Apache-2.0
+repository-code: "https://github.com/munimtechnologies/exoplanet-archive-audit"
+url: "https://www.munimtech.com/research/exoplanet-archive-units"
+keywords:
+  - "Space"
+references:
+  - type: article
+    title: "NASA Exoplanet Archive stellar densities stored in the wrong unit"
+    authors:
+      - name: "MV2 of Munim, Inc."
+    year: 2026
+    url: "https://www.munimtech.com/research/exoplanet-archive-units"
